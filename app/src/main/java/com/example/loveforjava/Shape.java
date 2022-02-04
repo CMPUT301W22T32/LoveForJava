@@ -1,6 +1,6 @@
 package com.example.loveforjava;
 
 public abstract class Shape {
-    public int x;
-    public int y;
+    protected int x;
+    protected int y;
 }
