@@ -1,2 +1,3 @@
 public class star extends Shape{
+String color="blue";
 }
