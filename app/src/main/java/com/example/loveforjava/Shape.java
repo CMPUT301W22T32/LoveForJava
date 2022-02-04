@@ -3,5 +3,6 @@ package com.example.loveforjava;
 public abstract class Shape {
     protected int x;
     protected int y;
-    String color = "blue";
+    protected String color = "blue";
+
 }
