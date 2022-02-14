@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="10dp"
-    android:background="#fffff"
+    android:background="#FFFFFF"
     android:orientation="vertical"
     tools:context=".MainActivity">
 
@@ -13,13 +13,13 @@
         android:layout_width="wrap_content"
         android:layout_height="212dp"
         android:layout_margin="50dp"
-        android:src="@drawable/Logo" />
+        android:src="@drawable/logo" />
     <EditText
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:id="@+id/username"
         android:hint="Name"
-        android:textSize="25dp"
+        android:textSize="15dp"
         android:background="@drawable/edittextbackground"
         android:layout_marginBottom="10dp"
         android:paddingLeft="20dp"/>
@@ -28,7 +28,7 @@
         android:layout_height="50dp"
         android:id="@+id/useremail"
         android:hint="Email"
-        android:textSize="25dp"
+        android:textSize="15dp"
         android:background="@drawable/edittextbackground"
         android:layout_marginBottom="10dp"
         android:paddingLeft="20dp"/>
@@ -51,7 +51,7 @@
         android:maxWidth="100dp"
         android:maxHeight="100dp"
         android:scaleType="fitCenter"
-        android:src="@drawable/QR"
+        android:src="@drawable/qr"
         android:layout_gravity="center"
         />
     <TextView
