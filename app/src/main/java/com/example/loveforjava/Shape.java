@@ -1,7 +1,7 @@
 package com.example.loveforjava;
 
 public abstract class Shape {
-    public int x;
-    public int y;
-    public String color = "blue";
+    protected int x;
+    protected int y;
+    protected String color = "$PUT_YOUR_CHOICE_OF_COLOR";
 }
