@@ -13,7 +13,7 @@
         android:layout_width="wrap_content"
         android:layout_height="212dp"
         android:layout_margin="50dp"
-        android:src="@drawable/logo" />
+        android:src="@drawable/logo"/>
     <EditText
         android:layout_width="match_parent"
         android:layout_height="50dp"
@@ -41,7 +41,7 @@
         android:text="Login"
         android:textSize="20dp"
         android:backgroundTint="#3772FF"
-        android:layout_marginBottom="30dp" />
+        android:layout_marginBottom="30dp"/>
 
     <ImageButton
         android:id="@+id/qr_button"
