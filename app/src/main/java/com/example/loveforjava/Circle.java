@@ -1,5 +1,5 @@
 package com.example.loveforjava;
 
-public abstract class Circle extends Shape{
+public abstract class Circle extends Shape {
 
 }
