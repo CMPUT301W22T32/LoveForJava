@@ -1,4 +1,7 @@
 package com.example.loveforjava;
 
-public abstract class Square extends Shape {
+public class Square extends Shape{
+    private int x;
+    private int y;
 }
+
