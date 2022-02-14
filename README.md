@@ -39,6 +39,7 @@ save qr code to user profile(4 high)
 
 2.User Interface Mockups and Storyboard Sequences:
 <img width="870" alt="Screen_Shot_2022-02-14_at_3 43 56_PM" src="https://user-images.githubusercontent.com/91228828/153959663-8b76a673-f648-495b-b810-fa09bd0d4f40.png">
+
 **Login screen only occurs on first launch, after initial login the first screen will be the scan screen 
 
 storyboard:
