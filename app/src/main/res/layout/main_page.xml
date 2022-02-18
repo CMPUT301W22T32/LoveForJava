@@ -4,12 +4,18 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".Player">
 
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/viewPager"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:id="@+id/container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </androidx.viewpager.widget.ViewPager>
 
     <ImageButton
         android:id="@+id/userprofile"
@@ -19,15 +25,7 @@
         android:clickable="true"
         android:focusable="true"
         android:layout_marginLeft="10sp"/>
-    <ImageButton
-        android:id="@+id/flash"
-        android:layout_width="35sp"
-        android:layout_height="35sp"
-        android:background="@drawable/ic_action_flash"
-        android:clickable="true"
-        android:focusable="true"
-        android:layout_marginLeft="370sp"
-        android:layout_marginTop="3dp"/>
+
     <EditText
         android:layout_width="310sp"
         android:layout_height="30dp"
@@ -48,6 +46,15 @@
         android:focusable="true"
         android:layout_marginLeft="154sp"
         android:layout_marginTop="590sp"/>
+    <ImageButton
+        android:id="@+id/flash"
+        android:layout_width="35sp"
+        android:layout_height="35sp"
+        android:background="@drawable/ic_action_flash"
+        android:clickable="true"
+        android:focusable="true"
+        android:layout_marginLeft="250sp"
+        android:layout_marginTop="630sp"/>
     <LinearLayout
         android:layout_gravity="bottom|center_horizontal"
         android:layout_width="match_parent"
@@ -81,8 +88,5 @@
             android:layout_marginLeft="85sp"
             android:layout_marginTop="5sp"/>
     </LinearLayout>
-    <RelativeLayout
-        android:id="@+id/container"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+
 </FrameLayout>

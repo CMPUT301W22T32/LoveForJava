@@ -6,6 +6,7 @@
         <entry key="app/src/main/res/drawable-anydpi/ic_action_people.xml" value="0.325" />
         <entry key="app/src/main/res/drawable-anydpi/ic_action_snap.xml" value="0.325" />
         <entry key="app/src/main/res/drawable/edittextbackground.xml" value="0.25277777777777777" />
+        <entry key="app/src/main/res/layout/activity_login.xml" value="0.19635416666666666" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.28717948717948716" />
         <entry key="app/src/main/res/layout/login_page.xml" value="0.28717948717948716" />
         <entry key="app/src/main/res/layout/main_page.xml" value="0.35208333333333336" />
