@@ -1,12 +1,92 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="10dp"
-    android:background="#FFFFFF"
-    android:orientation="vertical"
-    tools:context=".MainActivity">
+    tools:context=".Player">
 
-</LinearLayout>
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/viewPager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:id="@+id/container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </androidx.viewpager.widget.ViewPager>
+
+    <ImageButton
+        android:id="@+id/userprofile"
+        android:layout_width="40sp"
+        android:layout_height="40sp"
+        android:background="@drawable/ic_action_userprofile"
+        android:clickable="true"
+        android:focusable="true"
+        android:layout_marginLeft="10sp"/>
+
+    <EditText
+        android:layout_width="310sp"
+        android:layout_height="30dp"
+        android:id="@+id/username"
+        android:hint="Search Friends"
+        android:textSize="12dp"
+        android:background="@drawable/edittextbackground"
+        android:drawableLeft="@drawable/ic_action_search"
+        android:paddingLeft="10dp"
+        android:layout_marginLeft="55dp"
+        android:layout_marginTop="5dp"/>
+    <ImageButton
+        android:id="@+id/snap"
+        android:layout_width="100sp"
+        android:layout_height="100sp"
+        android:background="@drawable/ic_action_snap"
+        android:clickable="true"
+        android:focusable="true"
+        android:layout_marginLeft="154sp"
+        android:layout_marginTop="590sp"/>
+    <ImageButton
+        android:id="@+id/flash"
+        android:layout_width="35sp"
+        android:layout_height="35sp"
+        android:background="@drawable/ic_action_flash"
+        android:clickable="true"
+        android:focusable="true"
+        android:layout_marginLeft="250sp"
+        android:layout_marginTop="630sp"/>
+    <LinearLayout
+        android:layout_gravity="bottom|center_horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="0sp">
+        <ImageButton
+            android:id="@+id/location"
+            android:layout_width="45sp"
+            android:layout_height="45sp"
+            android:background="@drawable/ic_action_location"
+            android:clickable="true"
+            android:focusable="true"
+            android:layout_marginLeft="50sp"
+            android:layout_marginTop="5sp"/>
+        <ImageButton
+            android:id="@+id/qr"
+            android:layout_width="55sp"
+            android:layout_height="55sp"
+            android:background="@drawable/ic_action_qr"
+            android:clickable="true"
+            android:focusable="true"
+            android:layout_marginLeft="82sp"/>
+        <ImageButton
+
+            android:id="@+id/story"
+            android:layout_width="45sp"
+            android:layout_height="45sp"
+            android:background="@drawable/ic_action_people"
+            android:clickable="true"
+            android:focusable="true"
+            android:layout_marginLeft="85sp"
+            android:layout_marginTop="5sp"/>
+    </LinearLayout>
+
+</FrameLayout>
