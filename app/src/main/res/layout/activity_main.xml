@@ -1,72 +1,95 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="10dp"
-    android:background="#FFFFFF"
-    android:orientation="vertical"
-    tools:context=".MainActivity">
+    tools:context=".Player">
 
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="212dp"
-        android:layout_margin="50dp"
-        android:src="@drawable/logo"/>
-
-    <EditText
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/viewPager"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:id="@+id/username"
-        android:hint="Username"
-        android:textSize="16dp"
-        android:background="@drawable/edittextbackground"
-        android:drawableLeft="@drawable/ic_action_username"
-        android:layout_marginBottom="10dp"
-        android:paddingLeft="20dp"/>
+        android:layout_height="match_parent">
 
-    <EditText
+        <RelativeLayout
+            android:id="@+id/container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </androidx.viewpager.widget.ViewPager>
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:id="@+id/useremail"
-        android:hint="Email"
-        android:textSize="16dp"
-        android:background="@drawable/edittextbackground"
-        android:drawableLeft="@drawable/ic_action_email"
-        android:layout_marginBottom="10dp"
-        android:paddingLeft="20dp"/>
+        android:layout_height="40dp"
+        android:layout_weight="1">
+        <ImageButton
+            android:id="@+id/userprofile"
+            android:layout_width="40sp"
+            android:layout_height="40sp"
+            android:background="@drawable/ic_action_userprofile"
+            android:clickable="true"
+            android:focusable="true" android:layout_gravity="center_vertical"/>
 
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:id="@+id/signin"
-        android:text="Login"
-        android:textSize="20dp"
-        android:backgroundTint="#3772FF"
-        android:layout_marginBottom="30dp"/>
+        <EditText
+            android:layout_width="310sp"
+            android:layout_height="30dp"
+            android:id="@+id/username"
+            android:hint="Search Friends"
+            android:textSize="12dp"
+            android:background="@drawable/edittextbackground"
+            android:drawableLeft="@drawable/ic_action_search"
+            android:paddingLeft="10dp"
+            android:layout_gravity="center_vertical" />
+    </LinearLayout>
 
     <ImageButton
-        android:id="@+id/qr_button"
-        android:layout_width="wrap_content"
-        android:layout_height="110dp"
-        android:layout_marginLeft="3dp"
-        android:adjustViewBounds="true"
-        android:backgroundTint="@color/white"
-        android:maxWidth="100dp"
-        android:maxHeight="100dp"
-        android:scaleType="fitCenter"
-        android:src="@drawable/qr"
-        android:layout_gravity="center" />
-    
-    <TextView
+        android:id="@+id/snap"
+        android:layout_width="100sp"
+        android:layout_height="100sp"
+        android:background="@drawable/ic_action_snap"
+        android:clickable="true"
+        android:focusable="true"
+        android:layout_marginLeft="154sp"
+        android:layout_marginTop="590sp"/>
+    <ImageButton
+        android:id="@+id/flash"
+        android:layout_width="35sp"
+        android:layout_height="35sp"
+        android:background="@drawable/ic_action_flash"
+        android:clickable="true"
+        android:focusable="true"
+        android:layout_marginLeft="250sp"
+        android:layout_marginTop="630sp"/>
+    <LinearLayout
+        android:layout_gravity="bottom|center_horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Sign in With QR Code"
-        android:textColor="@color/blue_crayola"
-        android:textSize="15dp"
-        android:textStyle="bold"
-        android:gravity="center_horizontal"
-        android:layout_marginTop="-15dp"/>
+        android:layout_marginBottom="0sp">
+        <ImageButton
+            android:id="@+id/location"
+            android:layout_width="45sp"
+            android:layout_height="45sp"
+            android:background="@drawable/ic_action_location"
+            android:clickable="true"
+            android:focusable="true"
+            android:layout_marginLeft="50sp"
+            android:layout_marginTop="5sp"/>
+        <ImageButton
+            android:id="@+id/qr"
+            android:layout_width="55sp"
+            android:layout_height="55sp"
+            android:background="@drawable/ic_action_qr"
+            android:clickable="true"
+            android:focusable="true"
+            android:layout_marginLeft="82sp"/>
+        <ImageButton
 
-</LinearLayout>
+            android:id="@+id/story"
+            android:layout_width="45sp"
+            android:layout_height="45sp"
+            android:background="@drawable/ic_action_people"
+            android:clickable="true"
+            android:focusable="true"
+            android:layout_marginLeft="85sp"
+            android:layout_marginTop="5sp"/>
+    </LinearLayout>
+
+</FrameLayout>
