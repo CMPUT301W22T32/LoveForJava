@@ -3,6 +3,7 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/jaspe/CMPUT_301/LoveForJava/app/src/main/res/layout/activity_main.xml" value="0.20416666666666666" />
         <entry key="app/src/main/res/drawable/edittextbackground.xml" value="0.25277777777777777" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.28717948717948716" />
         <entry key="app/src/main/res/layout/login_page.xml" value="0.28717948717948716" />
@@ -11,5 +12,5 @@
     </option>
   </component>
   <component name="ExternalStorageConfigurationManager" enabled="true" />
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" project-jdk-name="11" project-jdk-type="JavaSDK" />
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="11" project-jdk-type="JavaSDK" />
 </project>
