@@ -41,30 +41,6 @@ public class LoginActivity extends AppCompatActivity {
         mEmail = findViewById(R.id.useremail);
         musername = findViewById(R.id.username);
         loginBtn = findViewById(R.id.login_button);
-
-
-        APIMain APIServer = new APIMain();
-        /*APIServer.getPlayerInfo("3ou2WaY8MwpJbeesN0UO", new ResponseCallback() {
-            @Override
-            public void onResponse(Map<String, Object> response) {
-                Log.i("login", response +"");
-                Log.i("login", response.get("success")+"");
-                Map<String, Object> data = (Map<String, Object>) response.get("data");
-                mEmail.setText(data.get("email")+"");
-            }
-        });*/
-
-        APIServer.createPlayer("Jon", "jon@jasper.j", new ResponseCallback() {
-            @Override
-            public void onResponse(Map<String, Object> response) {
-                Log.i("New player success:", response.get("success")+"");
-                Log.i("new id", response.get("user_id")+"");
-            }
-        });
-
-
-
-
         mAuth = FirebaseAuth.getInstance();
 
         loginBtn.setOnClickListener(new View.OnClickListener() {
