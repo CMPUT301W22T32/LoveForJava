@@ -32,7 +32,7 @@
             android:layout_width="310sp"
             android:layout_height="30dp"
             android:id="@+id/username"
-            android:hint="Search Friends"
+            android:hint="Global Search"
             android:textSize="12dp"
             android:background="@drawable/edittextbackground"
             android:drawableLeft="@drawable/ic_action_search"
@@ -80,9 +80,10 @@
             android:clickable="true"
             android:focusable="true"
             android:layout_marginLeft="82sp"/>
+
         <ImageButton
 
-            android:id="@+id/story"
+            android:id="@+id/rank"
             android:layout_width="45sp"
             android:layout_height="45sp"
             android:background="@drawable/ic_action_people"

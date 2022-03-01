@@ -121,7 +121,7 @@ public class APIMain {
     }
 
     public void addQRCode(QRcode qr_code, String user_id, ResponseCallback responseCallback){
-        // TODO: make this into a map object so that we can store the code(or nickname) along with the score
+        // TODO: make this into a activity_map.xml object so that we can store the code(or nickname) along with the score
         Map<String, Object> res = new HashMap<>();
         String id = qr_code.getCode_id();
         players.document(user_id).update("scanned_codes", FieldValue.arrayUnion(id));
