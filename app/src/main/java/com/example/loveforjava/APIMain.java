@@ -31,13 +31,13 @@ public class APIMain {
         db = FirebaseFirestore.getInstance();
         Log.i("db", db+"");
         players = db.collection("players");
-        codes = db.collection("codes");
+        codes = db.collection("QR_codes");
         comments = db.collection("comments");
         //images = db.collection("images");
     }
 
     public void createPlayer(String name, String email, ResponseCallback responseCallback){
-        // TODO: possibly make this a rereviable class like how QR code is set up
+        // TODO: possibly make this a retreviable class like how QR code is set up
         Map<String, Object> res = new HashMap<>();
         Map<String, Object> data = new HashMap<>();
         data.put("name", name);
@@ -50,7 +50,7 @@ public class APIMain {
                     public void onSuccess(DocumentReference documentReference) {
                         Log.d(TAG, "DocumentSnapshot written with ID: " + documentReference.getId());
                         res.put("success", true);
-                        res.put("user_id", documentReference.getId());
+                        res.put("user_id", documentReference.getId()); // String
                         responseCallback.onResponse(res);
                     }
                 })
