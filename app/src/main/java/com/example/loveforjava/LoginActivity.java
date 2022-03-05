@@ -1,6 +1,7 @@
 package com.example.loveforjava;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.PatternMatcher;
 import android.util.Log;
@@ -15,70 +16,112 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Map;
 
 public class LoginActivity extends AppCompatActivity {
 
     //initialize
     private EditText mEmail, musername;
-    private Button loginBtn;
+    private Button signUpBtn;
 
-    //Firebase Authentication
-    private FirebaseAuth mAuth;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
 
-        mEmail = findViewById(R.id.useremail);
-        musername = findViewById(R.id.username);
-        loginBtn = findViewById(R.id.login_button);
-        mAuth = FirebaseAuth.getInstance();
-
-
-        loginBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                LoginUser();
-            }
-        });
-    }
-    private void LoginUser(){
-        String email = mEmail.getText().toString();
-        String name = musername.getText().toString();
-
-        //Checks if it follows the pattern of email addresses
-        if (!email.isEmpty() && Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-            if (!name.isEmpty()){
-                mAuth.createUserWithEmailAndPassword(email, name)
-                        .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                            @Override
-                            public void onComplete(@NonNull Task<AuthResult> task) {
-                                Toast.makeText(LoginActivity.this, "Login Successfully!", Toast.LENGTH_SHORT).show();
-                                startActivity(new Intent(LoginActivity.this, MainActivity.class));
-                                finish();
-                            }
-                        }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(LoginActivity.this, "Login Error", Toast.LENGTH_SHORT).show();
-                    }
-                });
-            } else {
-                musername.setError("Empty Fields Are not Allowed");
-            }
-        } else if (email.isEmpty()){
-            mEmail.setError("Empty Fields Are not Allowed");
+        // https://stackoverflow.com/questions/13910156/how-to-check-the-sharedpreferences-string-is-empty-or-null-android
+        SharedPreferences sharedPreferences = this.getSharedPreferences("Login", MODE_PRIVATE);
+        String userID = sharedPreferences.getString("USERID", null);
+        if(userID != null) {
+            Intent intent = new Intent(this, MainActivity.class);
+            intent.putExtra("USERID", userID);
+            startActivity(intent);
         } else {
-            mEmail.setError("Please Enter Correct Email");
+            setContentView(R.layout.activity_login);
+            mEmail = findViewById(R.id.useremail);
+            musername = findViewById(R.id.username);
+            signUpBtn = findViewById(R.id.login_button);
+
+            signUpBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    signUp();
+                }
+            });
         }
+    }
+
+    private void signUp() {
+        String name = musername.getText().toString();
+        String email = mEmail.getText().toString();
+
+        // Checks if the information are all valid, gives prompt to reenter if they are not
+        ArrayList<Boolean> validInfo = infoValidation(name, email);
+
+        if(validInfo.get(0) && validInfo.get(1)) {
+            APIMain APIServer = new APIMain();
+            APIServer.createPlayer(name, email, new ResponseCallback() {
+                @Override
+                public void onResponse(Map<String, Object> response) {
+                    if( (Boolean) response.get("success")) {
+                        String userID = (String) response.get("user_id");
+                        saveUserIdLocally(userID);
+                    } else
+                        cannotCreateAccount();
+                }
+            });
+        }
+    }
+
+    private ArrayList<Boolean> infoValidation(String name, String email) {
+        boolean validUserName = false;
+        boolean validEmail = false;
+        ArrayList <Boolean> validInfo = new ArrayList<Boolean>();
+
+        // Checks if userName and email are not empty then set boolean values to true
+        if(!name.isEmpty())
+            validUserName = true;
+        if(!email.isEmpty())
+            validEmail = true;
+
+        // Prompts error to user if userName and email are empty OR email is not a valid email address
+        if(!validUserName)
+            musername.setError("Empty Fields Are not Allowed");
+
+        if(!validEmail)
+            mEmail.setError("Empty Fields Are not Allowed");
+        else {
+            if(!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+                validEmail = false;
+                mEmail.setError("Please Enter A Valid Email");
+            }
+        }
+
+        validInfo.add(validUserName);
+        validInfo.add(validEmail);
+
+        return validInfo;
+    }
+
+    public void cannotCreateAccount() {
+        Toast toast = Toast.makeText(this, "Couldn't create account", Toast.LENGTH_SHORT);
+        toast.show();
+    }
+
+
+    private void saveUserIdLocally(String userID) {
+        SharedPreferences sharedPreferences = this.getSharedPreferences("Login", MODE_PRIVATE);
+        SharedPreferences.Editor Ed = sharedPreferences.edit();
+        Ed.putString("USERID", userID);
+        Ed.commit();
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.putExtra("USERID", userID);
+        startActivity(intent);
     }
 }

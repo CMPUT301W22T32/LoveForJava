@@ -14,7 +14,7 @@ import java.util.Map;
  * @see <a href="http://d.android.com/tools/testing">Testing documentation</a>
  */
 public class ExampleUnitTest {
-    @Test
+    /*@Test
     public void createPlayerTest() {
         APIMain APIServer = new APIMain();
         APIServer.createPlayer("jasper", "jleng1@ualberta.ca", new ResponseCallback() {
@@ -30,7 +30,7 @@ public class ExampleUnitTest {
                 });
             }
         });
-    }
+    }*/
 
     /*@Test
     public void getPlayerInfoTest() {
