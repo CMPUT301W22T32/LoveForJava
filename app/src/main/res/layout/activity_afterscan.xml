@@ -29,7 +29,7 @@
             android:id="@+id/qrCode"
             android:layout_width="120dp"
             android:layout_height="120dp"
-            android:src="@drawable/qr"
+            android:src="@drawable/ic_action_qr"
             app:civ_border_color="@color/gray"
             app:civ_border_width="2dp" />
 
