@@ -1,5 +1,6 @@
 package com.example.loveforjava;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -30,18 +31,32 @@ public class LoginActivity extends AppCompatActivity {
     //initialize
     private EditText mEmail, musername;
     private Button signUpBtn;
+    private APIMain APIServer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        APIServer = new APIMain();
 
         // https://stackoverflow.com/questions/13910156/how-to-check-the-sharedpreferences-string-is-empty-or-null-android
         SharedPreferences sharedPreferences = this.getSharedPreferences("Login", MODE_PRIVATE);
         String userID = sharedPreferences.getString("USERID", null);
         if(userID != null) {
-            Intent intent = new Intent(this, MainActivity.class);
-            intent.putExtra("USERID", userID);
-            startActivity(intent);
+            Context context = this;
+            APIServer.getPlayerInfo(userID, new ResponseCallback() {
+                @Override
+                public void onResponse(Map<String, Object> response) {
+                    if( (Boolean) response.get("success")) {
+                        Player player = (Player) response.get("Player_obj");
+                        player.printPlayer();
+                        Intent intent = new Intent(context, MainActivity.class);
+                        intent.putExtra("PLAYER", player);
+                        startActivity(intent);
+                    }
+
+                }
+            });
+
         } else {
             setContentView(R.layout.activity_login);
             mEmail = findViewById(R.id.useremail);
@@ -65,7 +80,6 @@ public class LoginActivity extends AppCompatActivity {
         ArrayList<Boolean> validInfo = infoValidation(name, email);
 
         if(validInfo.get(0) && validInfo.get(1)) {
-            APIMain APIServer = new APIMain();
             APIServer.createPlayer(name, email, new ResponseCallback() {
                 @Override
                 public void onResponse(Map<String, Object> response) {
