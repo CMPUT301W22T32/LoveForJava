@@ -52,7 +52,8 @@
             android:layout_height="100sp"
             android:background="@drawable/ic_action_snap"
             android:clickable="true"
-            android:focusable="true"/>
+            android:focusable="true"
+            android:onClick="update"/>
     </LinearLayout>
 
     <LinearLayout

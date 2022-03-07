@@ -17,13 +17,17 @@ public class ExampleUnitTest {
     /*@Test
     public void createPlayerTest() {
         APIMain APIServer = new APIMain();
-        Map<String, Object>  res = APIServer.createPlayer("jasper", "jleng1@ualberta.ca");
-        assertEquals(true, res.get("success"));
-        String id  =(String) res.get("user_id");
-        APIServer.getPlayerInfo(id, new ResponseCallback() {
+        APIServer.createPlayer("jasper", "jleng1@ualberta.ca", new ResponseCallback() {
             @Override
-            public void onResponse(Map<String, Object> response) {
-                assertEquals(true, response.get("success"));
+            public void onResponse(Map<String, Object> res) {
+                assertEquals(true, res.get("success"));
+                String id  =(String) res.get("user_id");
+                APIServer.getPlayerInfo(id, new ResponseCallback() {
+                    @Override
+                    public void onResponse(Map<String, Object> response) {
+                        assertEquals(true, response.get("success"));
+                    }
+                });
             }
         });
     }*/

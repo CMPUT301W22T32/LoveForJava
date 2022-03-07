@@ -31,26 +31,22 @@ public class APIMain {
         db = FirebaseFirestore.getInstance();
         Log.i("db", db+"");
         players = db.collection("players");
-        codes = db.collection("codes");
+        codes = db.collection("QR_codes");
         comments = db.collection("comments");
         //images = db.collection("images");
     }
 
     public void createPlayer(String name, String email, ResponseCallback responseCallback){
-        // TODO: possibly make this a rereviable class like how QR code is set up
+        // NOTE: inside the db the userId will always be stored as null, that because we store this locally
         Map<String, Object> res = new HashMap<>();
-        Map<String, Object> data = new HashMap<>();
-        data.put("name", name);
-        data.put("email", email);
-        data.put("scanned_codes", Arrays.asList());
-        final String[] id = new String[1];
-        players.add(data)
+        Player player = new Player(name, email);
+        players.add(player)
                 .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                     @Override
                     public void onSuccess(DocumentReference documentReference) {
                         Log.d(TAG, "DocumentSnapshot written with ID: " + documentReference.getId());
                         res.put("success", true);
-                        res.put("user_id", documentReference.getId());
+                        res.put("user_id", documentReference.getId()); // type: String
                         responseCallback.onResponse(res);
                     }
                 })
@@ -59,30 +55,27 @@ public class APIMain {
                     public void onFailure(@NonNull Exception e) {
                         Log.w(TAG, "Error adding document", e);
                         res.put("success", false);
-                        res.put("err", "Data could not be fetched!" + e);
+                        res.put("err", "" + e);
                         responseCallback.onResponse(res);
                     }
                 });
     }
 
     public void getPlayerInfo(String user_id, ResponseCallback responseCallback){
-        // TODO: possibly make this a rereviable class like how QR code is set up
         Map<String, Object> res = new HashMap<>();
         players.document(user_id).get()
                 .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                     @Override
                     public void onSuccess(DocumentSnapshot documentSnapshot) {
-                        Log.i("hereh","here");
-                        //DocumentSnapshot document = task.getResult();
                         if (documentSnapshot.exists()) {
-                            Log.i(TAG, "DocumentSnapshot data: " + documentSnapshot.getData().get("email"));
                             res.put("success", true);
-                            res.put("data", documentSnapshot.getData());
+                            Player player = documentSnapshot.toObject(Player.class);
+                            player.setUserId(documentSnapshot.getId());
+                            res.put("Player_obj", player); // type: Player
                         } else {
                             Log.d(TAG, "No such document");
                             res.put("success", false);
                             res.put("err", "No such document");
-                            //responseCallback.onResponse(res);
                         }
                         responseCallback.onResponse(res);
                     }
@@ -92,15 +85,15 @@ public class APIMain {
                     public void onFailure(@NonNull Exception e) {
                         Log.i(TAG, "Data could not be fetched!" + e);
                         res.put("success", false);
-                        res.put("err", "Data could not be fetched:" + e);
+                        res.put("err", "" + e);
                         responseCallback.onResponse(res);
                     }
                 });
     }
 
-    public void updatePlayerInfo(String user_id, Map<String, Object> data, ResponseCallback responseCallback){
+    public void updatePlayerInfo(Player player, ResponseCallback responseCallback){
         Map<String, Object> res = new HashMap<>();
-        players.document(user_id).set(data, SetOptions.merge())
+        players.document(player.getUserId()).set(player)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
@@ -114,45 +107,40 @@ public class APIMain {
                     public void onFailure(@NonNull Exception e) {
                         Log.w(TAG, "Error writing document", e);
                         res.put("success", false);
-                        res.put("err", "Data could not be updated:" + e);
+                        res.put("err", ":" + e);
                         responseCallback.onResponse(res);
                     }
                 });
     }
 
-    public void addQRCode(QRcode qr_code, String user_id, ResponseCallback responseCallback){
+    public void addQRCode(QRcode qr_code, Player player, ResponseCallback responseCallback){
         // TODO: make this into a map object so that we can store the code(or nickname) along with the score
         Map<String, Object> res = new HashMap<>();
-        String id = qr_code.getCode_id();
-        players.document(user_id).update("scanned_codes", FieldValue.arrayUnion(id));
-        codes.document(id).get()
-                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                        DocumentSnapshot doc = task.getResult();
-                        if (doc.exists()) {
-                            Log.i("Document data:", "document exists");
-                        } else {
-                            codes.document().set(qr_code);
-                            codes.document().update("seen_by", user_id); // eventually this will be nickname
-                        }
-                        if(task.isSuccessful()){
-                            res.put("success", true);
-                        }else{
-                            res.put("success", false);
-                        }
-                        responseCallback.onResponse(res);
-                    }
-                });
-    }
+        String id = qr_code.getCodeId();
+        // if code already scanned
+        if(!player.addQR(qr_code.getNickName(), id)){
+            res.put("success", false);
+            res.put("err", "QR code already scanned: "+qr_code.getNickName());
+            responseCallback.onResponse(res);
+            return;
+        }
+        qr_code.addSeenBy(player.getUserName());
+        players.document(player.getUserId()).set(player)
+                .addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.w(TAG, "Error writing document", e);
+                res.put("success", false);
+                res.put("err", "" + e);
+                responseCallback.onResponse(res);
+            }
+        });
 
-    public void delQRCode(String hased_code, String user_id, ResponseCallback responseCallback){
-        Map<String, Object> res = new HashMap<>();
-        players.document(user_id).update("scanned_codes", FieldValue.arrayRemove(hased_code))
+        codes.document(id).set(qr_code)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
-                        Log.d(TAG, "QRcode succesuffly removed");
+                        Log.d(TAG, "QR code info succesuffly updated");
                         res.put("success", true);
                         responseCallback.onResponse(res);
                     }
@@ -160,16 +148,57 @@ public class APIMain {
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        Log.w(TAG, "Error removing document", e);
+                        Log.w(TAG, "Error updating document", e);
                         res.put("success", false);
-                        res.put("err", "Data could not be deleted:" + e);
+                        res.put("err", "" + e);
                         responseCallback.onResponse(res);
                     }
                 });
-        // TODO: remove player from QR code "seen by list"
     }
 
-    public void getQRcode(String code_id, ResponseCallback responseCallback){
+    public void delQRCode(QRcode qr_code, Player player, ResponseCallback responseCallback){
+        Map<String, Object> res = new HashMap<>();
+        String id = qr_code.getCodeId();
+        // if code already scanned
+        if(!player.remQR(qr_code.getNickName())){
+            res.put("success", false);
+            res.put("err", "QR code '"+qr_code.getNickName()+"' does not exist");
+            responseCallback.onResponse(res);
+            return;
+        }
+        player.printPlayer();
+        players.document(player.getUserId()).set(player)
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w(TAG, "Error writing document", e);
+                        res.put("success", false);
+                        res.put("err", "" + e);
+                        responseCallback.onResponse(res);
+                    }
+                });
+        qr_code.remSeenBy(player.getUserName());
+        codes.document(id).set(qr_code)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d(TAG, "QR code info succesuffly updated");
+                        res.put("success", true);
+                        responseCallback.onResponse(res);
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w(TAG, "Error updating document", e);
+                        res.put("success", false);
+                        res.put("err", "" + e);
+                        responseCallback.onResponse(res);
+                    }
+                });
+    }
+
+    public void getQRcode(String code_id, String nickName, ResponseCallback responseCallback){
         Map<String, Object> res = new HashMap<>();
         codes.document(code_id).get()
                 .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
@@ -177,7 +206,9 @@ public class APIMain {
                     public void onSuccess(DocumentSnapshot documentSnapshot) {
                         if (documentSnapshot.exists()) {
                             res.put("success", true);
-                            res.put("QRcode_obj", documentSnapshot.toObject(QRcode.class));
+                            QRcode code = documentSnapshot.toObject(QRcode.class);
+                            code.setNickName(nickName);
+                            res.put("QRcode_obj", code);
                         } else {
                             Log.d(TAG, "No such document");
                             res.put("success", false);
@@ -191,7 +222,7 @@ public class APIMain {
                     public void onFailure(@NonNull Exception e) {
                         Log.i(TAG, "Data could not be fetched!" + e);
                         res.put("success", false);
-                        res.put("err", "Data could not be fetched:" + e);
+                        res.put("err", "" + e);
                         responseCallback.onResponse(res);
                     }
                 });
