@@ -26,19 +26,32 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Map;
 
+/**
+ * This is the Login Screen which is only shown once on the first time the user starts the app
+ * This screen will no longer be shown after the user has logged in or signed up
+ */
 public class LoginActivity extends AppCompatActivity {
-
     //initialize
     private EditText mEmail, musername;
     private Button signUpBtn;
     private APIMain APIServer;
 
+    /**
+     * This method checks whether a user ID is saved locally
+     * It launches the main screen if there is a user ID
+     * It launches the login screen if there is no user ID
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         APIServer = new APIMain();
 
-        // https://stackoverflow.com/questions/13910156/how-to-check-the-sharedpreferences-string-is-empty-or-null-android
+        /*
+        * WEBSITE : https://stackoverflow.com
+        * SOLUTION : https://stackoverflow.com/a/13910268
+        * AUTHOR : https://stackoverflow.com/users/1369222/anup-cowkur
+        * */
         SharedPreferences sharedPreferences = this.getSharedPreferences("Login", MODE_PRIVATE);
         String userID = sharedPreferences.getString("USERID", null);
         if(userID != null) {
@@ -72,6 +85,10 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * This method is responsible to query username and email into the database
+     * It also retrieves the userID from the database and save it locally
+     */
     private void signUp() {
         String name = musername.getText().toString();
         String email = mEmail.getText().toString();
@@ -79,6 +96,7 @@ public class LoginActivity extends AppCompatActivity {
         // Checks if the information are all valid, gives prompt to reenter if they are not
         ArrayList<Boolean> validInfo = infoValidation(name, email);
 
+        // Sends only valid account information to the database
         if(validInfo.get(0) && validInfo.get(1)) {
             APIServer.createPlayer(name, email, new ResponseCallback() {
                 @Override
@@ -93,6 +111,13 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * This method checks whether the username and email inputs are valid
+     * It returns an ArrayList of 2 Boolean values in corresponds to the validity of the username and email
+     * @param name
+     * @param email
+     * @return validInfo
+     */
     private ArrayList<Boolean> infoValidation(String name, String email) {
         boolean validUserName = false;
         boolean validEmail = false;
@@ -123,12 +148,18 @@ public class LoginActivity extends AppCompatActivity {
         return validInfo;
     }
 
+    /**
+     * This method will prompt an error when an account couldn't be created on the database
+     */
     public void cannotCreateAccount() {
         Toast toast = Toast.makeText(this, "Couldn't create account", Toast.LENGTH_SHORT);
         toast.show();
     }
 
-
+    /**
+     * This method is responsible to save the user ID locally
+     * @param userID
+     */
     private void saveUserIdLocally(String userID) {
         SharedPreferences sharedPreferences = this.getSharedPreferences("Login", MODE_PRIVATE);
         SharedPreferences.Editor Ed = sharedPreferences.edit();

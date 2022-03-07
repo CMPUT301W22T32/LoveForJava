@@ -36,15 +36,6 @@
         android:drawableLeft="@drawable/ic_action_email"
         android:layout_marginBottom="10dp"
         android:paddingLeft="20dp"/>
-    <Switch
-        android:id="@+id/active"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:text="Remember me"
-        android:gravity="end"
-        android:layout_marginTop="1dp"
-        android:textColor="@color/black"/>
 
     <Button
         android:id="@+id/login_button"
