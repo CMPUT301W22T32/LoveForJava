@@ -3,6 +3,7 @@
     package="com.example.loveforjava">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.CAMERA"/>
 
     <application
         android:allowBackup="true"
@@ -13,6 +14,7 @@
         android:theme="@style/Theme.LoveForJava">
         <activity android:name=".Map_Activity"></activity>
         <activity android:name=".Rank_Activity"></activity>
+        <activity android:name=".CodeScanner_activity"></activity>
 
         <activity
             android:name=".LoginActivity"
@@ -27,3 +29,4 @@
     </application>
 
 </manifest>
+

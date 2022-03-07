@@ -43,6 +43,19 @@ public class MainActivity extends AppCompatActivity {
 
         );
 
+        /**
+         * set listener for QR_Button
+         */
+        ImageButton QR_Button= findViewById(R.id.qr);
+        QR_Button.setOnClickListener(new View.OnClickListener() {
+                                           @Override
+                                           public void onClick(View view) {
+                                               openCodeScanner_activity();
+                                           }
+                                       }
+
+        );
+
     }
 
     /**
@@ -54,10 +67,18 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-     * open openMap Activity
+     * open openRank Activity
      */
     public void openRank_Activity(){
         Intent intent = new Intent(this, Rank_Activity.class);
+        startActivity(intent);
+    }
+
+    /**
+     * open CodeScanner_activity
+     */
+    public void openCodeScanner_activity(){
+        Intent intent = new Intent(this, CodeScanner_activity.class);
         startActivity(intent);
     }
 
