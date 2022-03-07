@@ -79,10 +79,10 @@
     </LinearLayout>
 
     <ListView
-        android:layout_marginTop="10dp"
         android:layout_width="match_parent"
         android:layout_height="330dp"
-        tools:listitem="@layout/list_of_comments"/>
+        android:layout_marginTop="10dp"
+        tools:listitem="@layout/list_of_comments" />
 
     <LinearLayout
         android:layout_width="wrap_content"

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_gravity="bottom|center_horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="0sp">
+        <ImageButton
+            android:id="@+id/location"
+            android:layout_width="55sp"
+            android:layout_height="55sp"
+            android:background="@drawable/ic_action_location"
+            android:clickable="true"
+            android:focusable="true"
+            android:layout_marginLeft="50sp"/>
+        <ImageButton
+            android:id="@+id/qr"
+            android:layout_width="45sp"
+            android:layout_height="45sp"
+            android:background="@drawable/ic_action_qr"
+            android:clickable="true"
+            android:focusable="true"
+            android:layout_marginLeft="82sp"
+            android:layout_marginTop="5sp"/>
+        <ImageButton
+
+            android:id="@+id/story"
+            android:layout_width="45sp"
+            android:layout_height="45sp"
+            android:background="@drawable/ic_action_people"
+            android:clickable="true"
+            android:focusable="true"
+            android:layout_marginLeft="85sp"
+            android:layout_marginTop="5sp"/>
+    </LinearLayout>
+
+</FrameLayout>

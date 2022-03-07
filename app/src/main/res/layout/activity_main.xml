@@ -46,13 +46,14 @@
         android:gravity="center_horizontal"
         android:layout_gravity="bottom"
         android:layout_marginBottom="56dp">
+
         <ImageButton
             android:id="@+id/snap"
             android:layout_width="100sp"
-            android:layout_height="100sp"
+            android:layout_height="match_parent"
             android:background="@drawable/ic_action_snap"
             android:clickable="true"
-            android:focusable="true"/>
+            android:focusable="true" />
     </LinearLayout>
 
     <LinearLayout
