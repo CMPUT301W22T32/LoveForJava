@@ -11,11 +11,11 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.SetOptions;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -223,6 +223,56 @@ public class APIMain {
                         Log.i(TAG, "Data could not be fetched!" + e);
                         res.put("success", false);
                         res.put("err", "" + e);
+                        responseCallback.onResponse(res);
+                    }
+                });
+    }
+    
+    public void createComment(String code_id, String userName, String body, ResponseCallback responseCallback){
+        Map<String, Object> res = new HashMap<>();
+        Map<String, String> data = new HashMap<>();
+        data.put("user_name", userName);
+        data.put("body", body);
+        data.put("code_id", code_id);
+        comments.add(data)
+                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                    @Override
+                    public void onSuccess(DocumentReference documentReference) {
+                        Log.d(TAG, "DocumentSnapshot written with ID: " + documentReference.getId());
+                        res.put("success", true);
+                        responseCallback.onResponse(res);
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w(TAG, "Error adding document", e);
+                        res.put("success", false);
+                        res.put("err", "" + e);
+                        responseCallback.onResponse(res);
+                    }
+                });
+    }
+
+    public void getComments(String code_id, ResponseCallback responseCallback){
+        Map<String, Object> res = new HashMap<>();
+        ArrayList<Map<String, Object>> data = new ArrayList<>();
+        comments.whereEqualTo("code_id", code_id).get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if(task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                Log.i(TAG, document.getId() + " => " + document.getData());
+                                data.add(document.getData());
+                            }
+                            res.put("success", true);
+                            res.put("data", data); // type: ArrayList<Map<String, Object>>
+                        } else {
+                            Log.d(TAG, "Error getting documents: ", task.getException());
+                            res.put("success", false);
+                            res.put("err", "" + task.getException());
+                        }
                         responseCallback.onResponse(res);
                     }
                 });
