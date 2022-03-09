@@ -20,21 +20,14 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:layout_weight="1">
-        <ImageButton
-            android:id="@+id/userprofile"
-            android:layout_width="40sp"
-            android:layout_height="40sp"
-            android:background="@drawable/ic_action_userprofile"
-            android:clickable="true"
-            android:focusable="true" android:layout_gravity="center_vertical"/>
-
+        android:layout_weight="1"
+        android:layout_marginTop="2dp">
         <EditText
-            android:layout_width="310sp"
-            android:layout_height="30dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:id="@+id/username"
             android:hint="Search Friends"
-            android:textSize="12dp"
+            android:textSize="15dp"
             android:background="@drawable/edittextbackground"
             android:drawableLeft="@drawable/ic_action_search"
             android:paddingLeft="10dp"
@@ -42,52 +35,56 @@
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="90dp"
-        android:gravity="center_horizontal"
-        android:layout_gravity="bottom"
-        android:layout_marginBottom="56dp">
-
+        android:layout_height="140dp"
+        android:layout_marginTop="140dp"
+        android:gravity="center">
         <ImageButton
-            android:id="@+id/snap"
-            android:layout_width="100sp"
-            android:layout_height="match_parent"
-            android:background="@drawable/ic_action_snap"
-            android:clickable="true"
-            android:focusable="true" />
+            android:layout_width="140dp"
+            android:layout_height="140dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/ic_baseline_person_24"
+            android:background="@drawable/edittextbackground"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="140dp"
+        android:layout_marginTop="320dp"
+        android:gravity="center">
+        <ImageButton
+            android:layout_width="140dp"
+            android:layout_height="140dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/ic_baseline_map_24"
+            android:background="@drawable/edittextbackground"
+            android:gravity="center_horizontal"
+            android:layout_marginHorizontal="20dp"/>
+        <ImageButton
+            android:layout_width="140dp"
+            android:layout_height="140dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/ic_baseline_group_24"
+            android:background="@drawable/edittextbackground"
+            android:gravity="center_horizontal"
+            android:layout_marginHorizontal="20dp"/>
     </LinearLayout>
 
     <LinearLayout
-        android:layout_gravity="bottom|center_horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="0sp">
-        <ImageButton
-            android:id="@+id/location"
-            android:layout_width="45sp"
-            android:layout_height="45sp"
-            android:background="@drawable/ic_action_location"
-            android:clickable="true"
-            android:focusable="true"
-            android:layout_marginLeft="50sp"
-            android:layout_marginTop="5sp"/>
-        <ImageButton
-            android:id="@+id/qr"
-            android:layout_width="55sp"
-            android:layout_height="55sp"
-            android:background="@drawable/ic_action_qr"
-            android:clickable="true"
-            android:focusable="true"
-            android:layout_marginLeft="82sp"/>
-        <ImageButton
+        android:layout_height="140dp"
+        android:layout_marginTop="510dp"
+        android:gravity="center">
 
-            android:id="@+id/story"
-            android:layout_width="45sp"
-            android:layout_height="45sp"
-            android:background="@drawable/ic_action_people"
-            android:clickable="true"
-            android:focusable="true"
-            android:layout_marginLeft="85sp"
-            android:layout_marginTop="5sp"/>
+        <Button
+            android:layout_width="320dp"
+            android:layout_height="match_parent"
+            android:text="CLICK TO SCAN"
+            android:textSize="20dp"
+            android:background="@drawable/edittextbackground"
+            android:backgroundTint="@color/gray"
+            android:theme="@style/Button.White"/>
+
     </LinearLayout>
-
 </FrameLayout>
