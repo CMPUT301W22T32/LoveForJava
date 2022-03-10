@@ -1,6 +1,8 @@
 package com.example.loveforjava;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.PatternMatcher;
 import android.util.Log;
@@ -15,69 +17,156 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Map;
 
+/**
+ * This is the Login Screen which is only shown once on the first time the user starts the app
+ * This screen will no longer be shown after the user has logged in or signed up
+ */
 public class LoginActivity extends AppCompatActivity {
-
     //initialize
     private EditText mEmail, musername;
-    private Button loginBtn;
+    private Button signUpBtn;
+    private APIMain APIServer;
 
-    //Firebase Authentication
-    private FirebaseAuth mAuth;
+    /**
+     * This method checks whether a user ID is saved locally
+     * It launches the main screen if there is a user ID
+     * It launches the login screen if there is no user ID
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
+        APIServer = new APIMain();
 
-        mEmail = findViewById(R.id.useremail);
-        musername = findViewById(R.id.username);
-        loginBtn = findViewById(R.id.login_button);
-        mAuth = FirebaseAuth.getInstance();
-
-        loginBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                LoginUser();
-            }
-        });
-    }
-    private void LoginUser(){
-        String email = mEmail.getText().toString();
-        String name = musername.getText().toString();
-
-        //Checks if it follows the pattern of email addresses
-        if (!email.isEmpty() && Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-            if (!name.isEmpty()){
-                mAuth.createUserWithEmailAndPassword(email, name)
-                        .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                            @Override
-                            public void onComplete(@NonNull Task<AuthResult> task) {
-                                Toast.makeText(LoginActivity.this, "Login Successfully!", Toast.LENGTH_SHORT).show();
-                                startActivity(new Intent(LoginActivity.this, MainActivity.class));
-                                finish();
-                            }
-                        }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(LoginActivity.this, "Login Error", Toast.LENGTH_SHORT).show();
+        /*
+        * WEBSITE : https://stackoverflow.com
+        * SOLUTION : https://stackoverflow.com/a/13910268
+        * AUTHOR : https://stackoverflow.com/users/1369222/anup-cowkur
+        * */
+        SharedPreferences sharedPreferences = this.getSharedPreferences("Login", MODE_PRIVATE);
+        String userID = sharedPreferences.getString("USERID", null);
+        if(userID != null) {
+            Context context = this;
+            APIServer.getPlayerInfo(userID, new ResponseCallback() {
+                @Override
+                public void onResponse(Map<String, Object> response) {
+                    if( (Boolean) response.get("success")) {
+                        Player player = (Player) response.get("Player_obj");
+                        player.printPlayer();
+                        Intent intent = new Intent(context, MainActivity.class);
+                        intent.putExtra("PLAYER", player);
+                        startActivity(intent);
                     }
-                });
-            } else {
-                musername.setError("Empty Fields Are not Allowed");
-            }
-        } else if (email.isEmpty()){
-            mEmail.setError("Empty Fields Are not Allowed");
+
+                }
+            });
+
         } else {
-            mEmail.setError("Please Enter Correct Email");
+            setContentView(R.layout.activity_login);
+            mEmail = findViewById(R.id.useremail);
+            musername = findViewById(R.id.username);
+            signUpBtn = findViewById(R.id.login_button);
+
+            signUpBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    signUp();
+                }
+            });
         }
+    }
+
+    /**
+     * This method is responsible to query username and email into the database
+     * It also retrieves the userID from the database and save it locally
+     */
+    private void signUp() {
+        String name = musername.getText().toString();
+        String email = mEmail.getText().toString();
+
+        // Checks if the information are all valid, gives prompt to reenter if they are not
+        ArrayList<Boolean> validInfo = infoValidation(name, email);
+
+        // Sends only valid account information to the database
+        if(validInfo.get(0) && validInfo.get(1)) {
+            APIServer.createPlayer(name, email, new ResponseCallback() {
+                @Override
+                public void onResponse(Map<String, Object> response) {
+                    if( (Boolean) response.get("success")) {
+                        String userID = (String) response.get("user_id");
+                        saveUserIdLocally(userID);
+                    } else
+                        cannotCreateAccount();
+                }
+            });
+        }
+    }
+
+    /**
+     * This method checks whether the username and email inputs are valid
+     * It returns an ArrayList of 2 Boolean values in corresponds to the validity of the username and email
+     * @param name
+     * @param email
+     * @return validInfo
+     */
+    private ArrayList<Boolean> infoValidation(String name, String email) {
+        boolean validUserName = false;
+        boolean validEmail = false;
+        ArrayList <Boolean> validInfo = new ArrayList<Boolean>();
+
+        // Checks if userName and email are not empty then set boolean values to true
+        if(!name.isEmpty())
+            validUserName = true;
+        if(!email.isEmpty())
+            validEmail = true;
+
+        // Prompts error to user if userName and email are empty OR email is not a valid email address
+        if(!validUserName)
+            musername.setError("Empty Fields Are not Allowed");
+
+        if(!validEmail)
+            mEmail.setError("Empty Fields Are not Allowed");
+        else {
+            if(!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+                validEmail = false;
+                mEmail.setError("Please Enter A Valid Email");
+            }
+        }
+
+        validInfo.add(validUserName);
+        validInfo.add(validEmail);
+
+        return validInfo;
+    }
+
+    /**
+     * This method will prompt an error when an account couldn't be created on the database
+     */
+    public void cannotCreateAccount() {
+        Toast toast = Toast.makeText(this, "Couldn't create account", Toast.LENGTH_SHORT);
+        toast.show();
+    }
+
+    /**
+     * This method is responsible to save the user ID locally
+     * @param userID
+     */
+    private void saveUserIdLocally(String userID) {
+        SharedPreferences sharedPreferences = this.getSharedPreferences("Login", MODE_PRIVATE);
+        SharedPreferences.Editor Ed = sharedPreferences.edit();
+        Ed.putString("USERID", userID);
+        Ed.commit();
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.putExtra("USERID", userID);
+        startActivity(intent);
     }
 }
