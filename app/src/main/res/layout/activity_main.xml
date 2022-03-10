@@ -80,7 +80,7 @@
             android:layout_marginLeft="82sp"/>
         <ImageButton
 
-            android:id="@+id/story"
+            android:id="@+id/rank"
             android:layout_width="45sp"
             android:layout_height="45sp"
             android:background="@drawable/ic_action_people"

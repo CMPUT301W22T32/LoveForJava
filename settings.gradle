@@ -9,3 +9,11 @@ dependencyResolutionManagement {
 }
 rootProject.name = "LoveForJava"
 include ':app'
+
+dependencyResolutionManagement {
+
+    repositories {
+
+        maven { url 'https://jitpack.io' }
+    }
+}
