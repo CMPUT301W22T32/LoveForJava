@@ -38,37 +38,43 @@
         android:layout_height="140dp"
         android:layout_marginTop="140dp"
         android:gravity="center">
+
         <ImageButton
+            android:id="@+id/profile"
             android:layout_width="140dp"
             android:layout_height="140dp"
             android:layout_alignParentTop="true"
             android:layout_alignParentRight="true"
-            android:src="@drawable/ic_baseline_person_24"
-            android:background="@drawable/edittextbackground"/>
+            android:background="@drawable/edittextbackground"
+            android:src="@drawable/ic_baseline_person_24" />
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="140dp"
         android:layout_marginTop="320dp"
         android:gravity="center">
+
         <ImageButton
+            android:id="@+id/location"
             android:layout_width="140dp"
             android:layout_height="140dp"
             android:layout_alignParentTop="true"
             android:layout_alignParentRight="true"
-            android:src="@drawable/ic_baseline_map_24"
+            android:layout_marginHorizontal="20dp"
             android:background="@drawable/edittextbackground"
             android:gravity="center_horizontal"
-            android:layout_marginHorizontal="20dp"/>
+            android:src="@drawable/ic_baseline_map_24" />
+
         <ImageButton
+            android:id="@+id/rank"
             android:layout_width="140dp"
             android:layout_height="140dp"
             android:layout_alignParentTop="true"
             android:layout_alignParentRight="true"
-            android:src="@drawable/ic_baseline_group_24"
+            android:layout_marginHorizontal="20dp"
             android:background="@drawable/edittextbackground"
             android:gravity="center_horizontal"
-            android:layout_marginHorizontal="20dp"/>
+            android:src="@drawable/ic_baseline_group_24" />
     </LinearLayout>
 
     <LinearLayout
@@ -78,13 +84,14 @@
         android:gravity="center">
 
         <Button
+            android:id="@+id/qr"
             android:layout_width="320dp"
             android:layout_height="match_parent"
-            android:text="CLICK TO SCAN"
-            android:textSize="20dp"
             android:background="@drawable/edittextbackground"
             android:backgroundTint="@color/gray"
-            android:theme="@style/Button.White"/>
+            android:text="CLICK TO SCAN"
+            android:textSize="20dp"
+            android:theme="@style/Button.White" />
 
     </LinearLayout>
 </FrameLayout>
