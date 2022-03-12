@@ -3,6 +3,14 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/Roopdilawar Singh/AndroidStudioProjects/LoveForJava/app/src/main/res/layout/activity_code_scanner.xml" value="0.264" />
+        <entry key="..\:/Users/Roopdilawar Singh/AndroidStudioProjects/LoveForJava/app/src/main/res/layout/activity_main.xml" value="0.2" />
+        <entry key="..\:/Users/Roopdilawar Singh/AndroidStudioProjects/LoveForJava/app/src/main/res/layout/activity_profile.xml" value="0.4" />
+        <entry key="..\:/Users/Roopdilawar Singh/AndroidStudioProjects/LoveForJava/app/src/main/res/layout/activity_qrcodes.xml" value="0.2" />
+        <entry key="..\:/Users/Roopdilawar Singh/AndroidStudioProjects/LoveForJava/app/src/main/res/layout/activity_rank.xml" value="0.264" />
+        <entry key="..\:/Users/Roopdilawar Singh/AndroidStudioProjects/LoveForJava/app/src/main/res/layout/comment_section.xml" value="0.22916666666666666" />
+        <entry key="..\:/Users/Roopdilawar Singh/AndroidStudioProjects/LoveForJava/app/src/main/res/layout/list_of_comments.xml" value="0.22916666666666666" />
+        <entry key="..\:/Users/Roopdilawar Singh/AndroidStudioProjects/LoveForJava/app/src/main/res/layout/list_of_friends.xml" value="0.22916666666666666" />
         <entry key="app/src/main/res/drawable-anydpi/ic_action_people.xml" value="0.325" />
         <entry key="app/src/main/res/drawable-anydpi/ic_action_snap.xml" value="0.325" />
         <entry key="app/src/main/res/drawable-anydpi/ic_action_texture.xml" value="0.4197916666666667" />
