@@ -53,7 +53,7 @@ public class AfterScanActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.acitivity_AfterScan);
+        setContentView(R.layout.acitivity_afterscan_alpha);
         getWindow().setBackgroundDrawableResource(R.drawable.qr);
         hashing();
         imageView = findViewById(R.id.iv_selected);
