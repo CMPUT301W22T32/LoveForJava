@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "247857101143",
+    "project_id": "loveforjava-6ab80",
+    "storage_bucket": "loveforjava-6ab80.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:247857101143:android:553cc234e7f0d20e0a2612",
+        "android_client_info": {
+          "package_name": "com.example.loveforjava"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "247857101143-m384bch1k0lk16a8pp9ks12ca3k64h07.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAwnlYQxw8mZmxsI4C9TXswuciF5NW9Yvc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "247857101143-m384bch1k0lk16a8pp9ks12ca3k64h07.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:gravity="center_vertical">
+
+        <ImageButton
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:background="@drawable/ic_action_backbtn"
+            android:backgroundTint="@color/blue_crayola" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center">
+        <ImageButton
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:src="@drawable/ic_action_texture"
+            android:layout_marginHorizontal="50dp"/>
+        <com.mikhaellopez.circularimageview.CircularImageView
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:src="@drawable/qr"
+            app:civ_border_color="@color/platinum"
+            app:civ_border="true"
+            app:civ_border_width="4dp"
+            android:layout_marginHorizontal="10dp"/>
+        <ImageButton
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:src="@drawable/ic_baseline_assistant_direction_24"
+            android:background="@color/white"
+            android:layout_marginHorizontal="50dp"/>
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:gravity="center_horizontal"
+        android:text="Seen By"
+        android:textColor="@color/blue_crayola"
+        android:textSize="30sp"
+        android:textStyle="bold" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:src="@drawable/ic_baseline_thumb_up_alt_24"
+            android:background="@color/white"
+            android:layout_marginStart="35dp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="100"
+            android:layout_marginStart="2dp"/>
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_baseline_flag_24"
+            android:background="@color/white"
+            android:layout_marginStart="250dp"/>
+    </LinearLayout>
+
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="330dp"
+        android:layout_marginTop="10dp"
+        tools:listitem="@layout/list_of_comments" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginVertical="40dp">
+
+        <com.mikhaellopez.circularimageview.CircularImageView
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:src="@drawable/ic_action_username"
+            app:civ_border_color="@color/platinum"
+            app:civ_border="true"
+            app:civ_border_width="4dp"
+            android:layout_marginStart="20dp"/>
+        <LinearLayout
+            android:layout_width="300dp"
+            android:layout_height="match_parent"
+            android:layout_marginStart="10dp"
+            android:orientation="vertical"
+            android:background="@drawable/edittablebackground2">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/write_comment"
+                android:text="Wow, very nice qr code!"
+                android:textColor="@color/black"
+                android:textSize="15sp"
+                android:layout_marginStart="10dp"/>
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>
