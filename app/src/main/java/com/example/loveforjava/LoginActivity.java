@@ -10,6 +10,7 @@ import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -20,6 +21,7 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.rpc.Code;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -34,6 +36,7 @@ public class LoginActivity extends AppCompatActivity {
     //initialize
     private EditText mEmail, musername;
     private Button signUpBtn;
+    private ImageButton loginBtn;
     private APIMain APIServer;
 
     /**
@@ -75,11 +78,19 @@ public class LoginActivity extends AppCompatActivity {
             mEmail = findViewById(R.id.useremail);
             musername = findViewById(R.id.username);
             signUpBtn = findViewById(R.id.login_button);
+            loginBtn = findViewById(R.id.qr_button);
 
             signUpBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     signUp();
+                }
+            });
+
+            loginBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    login();
                 }
             });
         }
@@ -109,6 +120,15 @@ public class LoginActivity extends AppCompatActivity {
                 }
             });
         }
+    }
+
+    /**
+     * This method directs user to the CodeScanner_activity to scan the QR code of their profile to login
+     */
+    public void login() {
+        Intent intent = new Intent(this, CodeScanner_activity.class);
+        intent.putExtra("Previous Activity", "Login");
+        startActivity(intent);
     }
 
     /**
