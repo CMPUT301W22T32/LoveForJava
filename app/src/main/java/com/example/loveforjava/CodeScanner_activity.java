@@ -101,7 +101,7 @@ public class CodeScanner_activity extends AppCompatActivity {
                 }
             });
         } else {
-            Toast.makeText(this, "This account doesn't exist", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Invalid Player QR Code", Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(this, LoginActivity.class);
             startActivity(intent);
         }
