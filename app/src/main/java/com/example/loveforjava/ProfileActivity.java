@@ -4,11 +4,10 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
-
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Set;
 
 public class ProfileActivity extends AppCompatActivity {
     private Player player;
@@ -30,5 +29,19 @@ public class ProfileActivity extends AppCompatActivity {
         //TextView lowest_box = (TextView)findViewById(R.id.lowest_box);
         //lowest_box.setText(player.getLowestCode().getScore());            Don't have a straightforward function to get lowest score
 
+        final ImageButton camera_button = findViewById(R.id.start_camera_btn);
+        camera_button.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), CodeScanner_activity.class);
+                startActivity(intent);
+            }
+        });
+
+        final ImageButton back_button = findViewById(R.id.back_button);
+        back_button.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                finish();
+            }
+        });
     }
 }

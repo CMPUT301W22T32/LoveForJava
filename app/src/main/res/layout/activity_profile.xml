@@ -11,12 +11,14 @@
         android:layout_height="wrap_content"
         android:padding="10dp"
         android:gravity="center_vertical">
+
         <ImageButton
+            android:id="@+id/back_button"
             android:layout_width="40sp"
             android:layout_height="40sp"
-            android:background="@drawable/ic_action_backbtn"
             android:layout_alignParentLeft="true"
-            android:backgroundTint="@color/blue_crayola"/>
+            android:background="@drawable/ic_action_backbtn"
+            android:backgroundTint="@color/blue_crayola" />
     </LinearLayout>
 
     <LinearLayout
@@ -224,13 +226,14 @@
         android:background="@drawable/edittablebackground">
 
         <ImageButton
+            android:id="@+id/start_camera_btn"
             android:layout_width="40sp"
             android:layout_height="40sp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="25dp"
             android:background="@drawable/ic_baseline_camera_alt_24"
             android:clickable="true"
-            android:focusable="true"
-            android:layout_gravity="center_vertical"
-            android:layout_marginStart="25dp"/>
+            android:focusable="true" />
 
         <EditText
             android:layout_width="310sp"
