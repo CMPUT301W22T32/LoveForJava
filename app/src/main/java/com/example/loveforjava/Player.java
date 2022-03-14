@@ -51,7 +51,7 @@ public class Player implements Serializable {
         String name = code.getNickName();
         String id = code.getCodeId();
         int score = code.getScore();
-        if(scannedCodes.containsKey(name) || scannedCodes.containsValue(id)){
+        if(scannedCodes.containsValue(id)){
             return false;
         }
 

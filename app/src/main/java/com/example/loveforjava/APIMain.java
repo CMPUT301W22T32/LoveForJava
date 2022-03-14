@@ -141,6 +141,7 @@ public class APIMain {
                     public void onSuccess(Void aVoid) {
                         Log.d(TAG, "QR code info succesuffly updated");
                         res.put("success", true);
+                        res.put("Player_obj", player);
                         responseCallback.onResponse(res);
                     }
                 })

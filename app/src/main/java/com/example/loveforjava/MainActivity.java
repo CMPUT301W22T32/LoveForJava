@@ -21,7 +21,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Intent i = getIntent();
-        p = (Player) i.getSerializableExtra("player");
+        p = (Player) i.getSerializableExtra("PLAYER");
         setContentView(R.layout.activity_main);
 
         ImageButton Profile_Button = findViewById(R.id.profile);
