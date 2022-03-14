@@ -21,7 +21,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Intent i = getIntent();
-        p = (Player) i.getSerializableExtra("PLAYER");
+        p = (Player) i.getSerializableExtra("player");
         setContentView(R.layout.activity_main);
 
         ImageButton Profile_Button = findViewById(R.id.profile);
@@ -98,7 +98,9 @@ public class MainActivity extends AppCompatActivity {
      * open CodeScanner_activity
      */
     public void openCodeScanner_activity(){
-        Intent intent = new Intent(this, CodeScanner_activity.class);
+        Intent intent = new Intent(this, AfterScanActivity.class);
+        intent.putExtra("player", p);
+        intent.putExtra("code", "BIG MANS");
         startActivity(intent);
     }
 
