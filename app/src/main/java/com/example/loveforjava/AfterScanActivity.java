@@ -194,7 +194,4 @@ public class AfterScanActivity extends AppCompatActivity {
             }
         });
     }
-
-
-
 }

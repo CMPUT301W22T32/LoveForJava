@@ -49,7 +49,7 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         APIServer = new APIMain();
-
+        //boolean sp = getSharedPreferences("Login", MODE_PRIVATE).edit().clear().commit();
         /*
         * WEBSITE : https://stackoverflow.com
         * SOLUTION : https://stackoverflow.com/a/13910268
