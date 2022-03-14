@@ -67,7 +67,7 @@ public class AfterScanActivity extends AppCompatActivity {
         });
     }
     /**
-     * Open Carema
+     * Open Camera
      */
     @SuppressLint("SdCardPath")
     private void openCamera() {
