@@ -49,6 +49,11 @@ public class CodeScanner_activity extends AppCompatActivity {
                         }
                     }
                 });
+                String qr_content = result.getText().toString();
+                Intent intent = new Intent(getApplicationContext(), afterscan_activity.class);
+                intent.putExtra("message", qr_content);
+
+                startActivity(intent);
             }
         });
         scannerView.setOnClickListener(new View.OnClickListener() {
