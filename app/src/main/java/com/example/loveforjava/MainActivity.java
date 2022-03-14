@@ -102,10 +102,9 @@ public class MainActivity extends AppCompatActivity {
      * open CodeScanner_activity
      */
     public void openCodeScanner_activity(){
-        Intent intent = new Intent(this, QRcodeActivity.class);
-        intent.putExtra("PLAYER", p);
-        intent.putExtra("QRcode", "jasper");
-        intent.putExtra("name", "Shao's code");
+        Intent intent = new Intent(this, CodeScanner_activity.class);
+        intent.putExtra("player", p);
+        intent.putExtra("Previous Activity", "Main");
         startActivity(intent);
     }
 
