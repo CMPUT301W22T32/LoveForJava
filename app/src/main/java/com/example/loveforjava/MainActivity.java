@@ -98,9 +98,8 @@ public class MainActivity extends AppCompatActivity {
      * open CodeScanner_activity
      */
     public void openCodeScanner_activity(){
-        Intent intent = new Intent(this, AfterScanActivity.class);
+        Intent intent = new Intent(this, CodeScanner_activity.class);
         intent.putExtra("player", p);
-        intent.putExtra("code", "BIG MANS");
         startActivity(intent);
     }
 

@@ -114,6 +114,7 @@ public class APIMain {
     }
 
     public void addQRCode(QRcode qr_code, Player player, ResponseCallback responseCallback){
+        // TODO: fix seen by feature
         Map<String, Object> res = new HashMap<>();
         String id = qr_code.getCodeId();
         // if code already scanned
