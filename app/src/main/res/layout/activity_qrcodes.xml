@@ -38,6 +38,8 @@
             app:civ_border_width="4dp"
             android:layout_marginHorizontal="10dp"/>
         <ImageButton
+            android:onClick="submit"
+            android:id="@+id/submit_comment"
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:src="@drawable/ic_baseline_assistant_direction_24"
@@ -46,13 +48,14 @@
     </LinearLayout>
 
     <TextView
+        android:id="@+id/score"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="15dp"
         android:gravity="center_horizontal"
         android:text="Seen By"
-        android:textColor="@color/blue_crayola"
-        android:textSize="30sp"
+        android:textColor="@color/black"
+        android:textSize="20sp"
         android:textStyle="bold" />
 
     <LinearLayout
@@ -78,11 +81,7 @@
             android:layout_marginStart="250dp"/>
     </LinearLayout>
 
-    <ListView
-        android:layout_width="match_parent"
-        android:layout_height="330dp"
-        android:layout_marginTop="10dp"
-        tools:listitem="@layout/list_of_comments" />
+
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -90,29 +89,30 @@
         android:orientation="horizontal"
         android:layout_marginVertical="40dp">
 
-        <com.mikhaellopez.circularimageview.CircularImageView
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:src="@drawable/ic_action_username"
-            app:civ_border_color="@color/platinum"
-            app:civ_border="true"
-            app:civ_border_width="4dp"
-            android:layout_marginStart="20dp"/>
         <LinearLayout
-            android:layout_width="300dp"
+            android:layout_width="280dp"
             android:layout_height="match_parent"
             android:layout_marginStart="10dp"
-            android:orientation="vertical"
-            android:background="@drawable/edittablebackground2">
-            <TextView
-                android:layout_width="wrap_content"
+            android:background="@drawable/edittablebackground2"
+            android:orientation="vertical">
+
+            <EditText
+                android:id="@+id/comment_text"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/write_comment"
-                android:text="Wow, very nice qr code!"
+                android:layout_marginStart="10dp"
+                android:hint="Add a comment to this code..."
                 android:textColor="@color/black"
-                android:textSize="15sp"
-                android:layout_marginStart="10dp"/>
+                android:textSize="15sp" />
         </LinearLayout>
+        <Button
+            android:onClick="submit"
+            android:id="@+id/submit"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:text="ADD"
+            android:src="@drawable/ic_action_backbtn"
+            />
     </LinearLayout>
 
 </LinearLayout>
