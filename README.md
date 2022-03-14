@@ -38,9 +38,10 @@ photograph location  (3 medium)
 save qr code to user profile(4 high)
 
 2.User Interface Mockups and Storyboard Sequences:
-<img width="870" alt="Screen_Shot_2022-02-14_at_3 43 56_PM" src="https://user-images.githubusercontent.com/91228828/153959663-8b76a673-f648-495b-b810-fa09bd0d4f40.png">
 
+![New Wireframe 1](https://user-images.githubusercontent.com/71053656/158239788-5e71c0af-46f1-4aa1-8d23-622713a25c4c.png)
 **Login screen only occurs on first launch, after initial login the first screen will be the scan screen 
+
 
 storyboard:
 main ui: click to scan, check the map, see the rank 
