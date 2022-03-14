@@ -15,7 +15,7 @@
         <activity android:name=".Map_Activity"></activity>
         <activity android:name=".Rank_Activity"></activity>
         <activity android:name=".CodeScanner_activity"></activity>
-
+        <activity android:name=".afterscan_activity"></activity>
         <activity
             android:name=".LoginActivity"
             android:exported="true">
