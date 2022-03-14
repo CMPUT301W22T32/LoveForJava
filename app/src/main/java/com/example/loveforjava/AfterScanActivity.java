@@ -3,6 +3,7 @@ package com.example.loveforjava;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -13,11 +14,14 @@ import android.os.Bundle;
 import android.os.Parcelable;
 import android.os.StrictMode;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
@@ -34,20 +38,15 @@ import java.util.Map;
 
 public class AfterScanActivity extends AppCompatActivity {
     Uri imageUri;
-    Button btn;
+    Button saveBtn;
+    ImageButton camBtn;
     ImageView imageView;
     TextView score_text;
     TextView score_show;
     EditText editText;
-    private String codeId;  // this is just the hashed code string
-    private String nickName;
-    private int score_of_QR;
-    private int likes;
-    private int flags;
     private Player p;
-    private String hashedCode;
-    ArrayList<String> seenBy;
-    ArrayList<String> loc;
+    private String hashedCode = "JEFFFFFF";
+    private int score;
     ActivityResultLauncher<Intent> someActivityResultLauncher = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
             new ActivityResultCallback<ActivityResult>() {
@@ -68,15 +67,28 @@ public class AfterScanActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        p= (Player) savedInstanceState.getSerializable("player");
-        setContentView(R.layout.acitivity_afterscan_alpha);
+        Intent i = getIntent();
+        p = (Player) i.getSerializableExtra("player");
+        String rawCode = i.getStringExtra("code");
+        Log.i("CODE", rawCode);
+        setContentView(R.layout.activity_afterscan);
         imageView = findViewById(R.id.iv_selected);
-        btn = findViewById(R.id.btn_camera);
+        camBtn = findViewById(R.id.btn_camera);
+        saveBtn = findViewById(R.id.save_QR);
+        score_text = findViewById(R.id.score);
         Permission();
-        btn.setOnClickListener(new View.OnClickListener() {
+        hashedCode = hashing(rawCode);
+        scoring();
+        camBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 openCamera();
+            }
+        });
+        saveBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                saveCode();
             }
         });
     }
@@ -91,7 +103,6 @@ public class AfterScanActivity extends AppCompatActivity {
         intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
         someActivityResultLauncher.launch(intent);
     }
-
 
     public void Permission() {
         //Call Camera
@@ -113,8 +124,8 @@ public class AfterScanActivity extends AppCompatActivity {
             }
         }
     }
-    public static String getSHA256(String input){
 
+    public static String getSHA256(String input){
         String toReturn = null;
         try {
             MessageDigest digest = MessageDigest.getInstance("SHA-256");
@@ -124,60 +135,60 @@ public class AfterScanActivity extends AppCompatActivity {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
         return toReturn;
     }
 
-    public void hashing() {
+    public String hashing(String inputValue) {
 
-        String inputValue = "this is an example";
+        //String inputValue = "this is an example";
 
         // With the java libraries
-        hashedCode = getSHA256(inputValue);
-        score_show.setText(hashedCode);
-
-
+        String hashed = getSHA256(inputValue);
+        //score_show.setText(hashedCode);
+        return hashed;
     }
 
-    public void score_calc() {
-
-
-
+    public int score_calc(String code) {
+        String ints = "0123456789";
+        String str;
+        int score = 0;
+        for(int i=0;i<code.length();i++){
+            str = code.charAt(i)+"";
+            if(ints.contains(str)){
+                score += Integer.parseInt(str);
+            }
+        }
+        return score;
     }
 
     public void scoring() {
 
         // With the java libraries
-        score_show=findViewById(R.id.score);
-        score_of_QR = score_calc(hashedCode);
-        score_show.setText(hashedCode);
+        //score_show=findViewById(R.id.score);
+        score = score_calc(hashedCode);
+        score_text.setText(score+"");
+        //score_show.setText(hashedCode);
 
 
-    }
-
-    public void QRcode(String name, String id, int Score){
-        codeId = id;
-        nickName = name;
-        score_of_QR = Score;
-        likes = 0;
-        flags = 0;
-        seenBy = new ArrayList<>();
-        loc = new ArrayList<>();
     }
 
     private void saveCode(){
         editText = findViewById(R.id.nickname_of_QR);
-        QRcode code = new QRcode(editText.getText(), hashedCode ,score);
+        QRcode code = new QRcode(editText.getText()+"", hashedCode ,score);
         APIMain APIServer = new APIMain();
+        Context context = this;
         APIServer.addQRCode(code, p, new ResponseCallback() {
             @Override
             public void onResponse(Map<String, Object> response) {
                 if( (boolean) response.get("success")){
-                    Intent intent = new Intent(this, QRcode.class);
+                    Intent intent = new Intent(context, MainActivity.class);
                     intent.putExtra("player", p);
-                    intent.putExtra("QRcode", (Parcelable) code);
+                    intent.putExtra("QRcode", code);
                     intent.putExtra("name", code.getNickName());
                     startActivity(intent);
+                }else{
+                    Log.i("rt", "werewerwqwewq");
+                    Toast.makeText(context, "Code Already Scanned", Toast.LENGTH_SHORT).show();
                 }
             }
         });

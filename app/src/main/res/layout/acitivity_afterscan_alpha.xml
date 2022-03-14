@@ -122,7 +122,8 @@
         android:layout_height="37dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="392dp" />
+        tools:layout_editor_absoluteY="392dp"
+        tools:ignore="MissingConstraints" />
 
     <Button
         android:id="@+id/save_QR"
