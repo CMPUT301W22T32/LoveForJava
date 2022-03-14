@@ -38,7 +38,7 @@
         <com.mikhaellopez.circularimageview.CircularImageView
             android:layout_width="100dp"
             android:layout_height="100dp"
-            android:src="@drawable/qr"
+            android:src="@drawable/ic_action_qr"
             app:civ_border_color="@color/gray"
             app:civ_border="true"
             app:civ_border_width="4dp"

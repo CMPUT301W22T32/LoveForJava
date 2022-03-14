@@ -33,6 +33,7 @@ public class ProfileActivity extends AppCompatActivity {
         camera_button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), CodeScanner_activity.class);
+                intent.putExtra("Previous Activity", "Profile");
                 startActivity(intent);
             }
         });
