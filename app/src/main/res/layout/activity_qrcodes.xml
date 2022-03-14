@@ -79,8 +79,9 @@
     </LinearLayout>
 
     <ListView
+        android:id="@+id/comment_list"
         android:layout_width="match_parent"
-        android:layout_height="330dp"
+        android:layout_height="300dp"
         android:layout_marginTop="10dp"
         tools:listitem="@layout/list_of_comments" />
 

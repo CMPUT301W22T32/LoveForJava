@@ -72,6 +72,10 @@ public class MainActivity extends AppCompatActivity {
         );
     }
 
+    /**
+     * open ProfileActivity
+     * @param p
+     */
     public void profile_Activity(Player p) {
         Intent intent = new Intent(this, ProfileActivity.class);
         intent.putExtra("PLAYER", p);

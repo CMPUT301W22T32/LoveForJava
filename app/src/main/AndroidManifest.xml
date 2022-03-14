@@ -17,6 +17,7 @@
         <activity android:name=".CodeScanner_activity"></activity>
         <activity android:name=".AfterScanActivity"></activity>
         <activity android:name=".ProfileActivity"></activity>
+        <activity android:name=".QRcodeActivity"></activity>
         <activity
             android:name=".LoginActivity"
             android:exported="true">
