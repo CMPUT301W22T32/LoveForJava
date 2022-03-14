@@ -125,14 +125,14 @@ public class APIMain {
         }
         players.document(player.getUserId()).set(player)
                 .addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Log.w(TAG, "Error writing document", e);
-                res.put("success", false);
-                res.put("err", "" + e);
-                responseCallback.onResponse(res);
-            }
-        });
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w(TAG, "Error writing document", e);
+                        res.put("success", false);
+                        res.put("err", "" + e);
+                        responseCallback.onResponse(res);
+                    }
+                });
         qr_code.addSeenBy(player.getUserName());
         codes.document(id).set(qr_code)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -225,7 +225,7 @@ public class APIMain {
                     }
                 });
     }
-    
+
     public void createComment(String code_id, String userName, String body, ResponseCallback responseCallback){
         Map<String, Object> res = new HashMap<>();
         Map<String, String> data = new HashMap<>();
