@@ -68,10 +68,11 @@ public class AfterScanActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Intent i = getIntent();
-        p = (Player) i.getSerializableExtra("player");
+        p = (Player) i.getSerializableExtra("PLAYER");
         String rawCode = i.getStringExtra("code");
         Log.i("CODE", rawCode);
         setContentView(R.layout.activity_afterscan);
+
         imageView = findViewById(R.id.iv_selected);
         camBtn = findViewById(R.id.btn_camera);
         saveBtn = findViewById(R.id.save_QR);

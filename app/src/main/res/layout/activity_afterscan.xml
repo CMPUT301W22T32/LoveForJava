@@ -62,8 +62,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:backgroundTint="@color/white"
-            android:src="@drawable/ic_baseline_camera_alt_24"
-            android:paddingTop="20dp" />
+            android:paddingTop="20dp"
+            android:src="@drawable/ic_baseline_camera_alt_24" />
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

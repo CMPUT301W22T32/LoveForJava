@@ -33,6 +33,9 @@ public class CodeScanner_activity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_code_scanner);
 
+        Intent i = getIntent();
+        Player p = (Player) i.getSerializableExtra("player");
+
         // To identify which previous activity called this class
         String previousActivity = (String) getIntent().getSerializableExtra("Previous Activity");
 
@@ -50,8 +53,9 @@ public class CodeScanner_activity extends AppCompatActivity {
                     }
                 });
                 String qr_content = result.getText();
-                Intent intent = new Intent(getApplicationContext(), afterscan_activity.class);
-                intent.putExtra("message", qr_content);
+                Intent intent = new Intent(getApplicationContext(), AfterScanActivity.class);
+                intent.putExtra("code", qr_content);
+                intent.putExtra("PLAYER", p);
                 startActivity(intent);
             }
         });
