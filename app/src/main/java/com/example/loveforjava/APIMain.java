@@ -114,17 +114,15 @@ public class APIMain {
     }
 
     public void addQRCode(QRcode qr_code, Player player, ResponseCallback responseCallback){
-        // TODO: make this into a map object so that we can store the code(or nickname) along with the score
         Map<String, Object> res = new HashMap<>();
         String id = qr_code.getCodeId();
         // if code already scanned
-        if(!player.addQR(qr_code.getNickName(), id)){
+        if(!player.addQR(qr_code)){
             res.put("success", false);
             res.put("err", "QR code already scanned: "+qr_code.getNickName());
             responseCallback.onResponse(res);
             return;
         }
-        qr_code.addSeenBy(player.getUserName());
         players.document(player.getUserId()).set(player)
                 .addOnFailureListener(new OnFailureListener() {
             @Override
@@ -135,7 +133,7 @@ public class APIMain {
                 responseCallback.onResponse(res);
             }
         });
-
+        qr_code.addSeenBy(player.getUserName());
         codes.document(id).set(qr_code)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
@@ -160,7 +158,7 @@ public class APIMain {
         Map<String, Object> res = new HashMap<>();
         String id = qr_code.getCodeId();
         // if code already scanned
-        if(!player.remQR(qr_code.getNickName())){
+        if(!player.remQR(qr_code)){
             res.put("success", false);
             res.put("err", "QR code '"+qr_code.getNickName()+"' does not exist");
             responseCallback.onResponse(res);
