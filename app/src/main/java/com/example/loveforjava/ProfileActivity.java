@@ -4,7 +4,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -33,6 +35,21 @@ public class ProfileActivity extends AppCompatActivity {
         ArrayAdapter qrAdapter = new CustomList(this, qrName);
         qrList.setAdapter(qrAdapter);
         qrAdapter.notifyDataSetChanged();
+        qrList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> l, View v, int i, long id) {
+                // TODO Auto-generated method stub
+                Log.i("############","Items " + i);
+                String qrId = player.scannedCodes.get(qrName.get(i));
+                Intent intent = new Intent(ProfileActivity.this, QRcodeActivity.class);
+                intent.putExtra("PLAYER", player);
+                intent.putExtra("QRcode", qrId);
+                intent.putExtra("name", qrName.get(i));
+                startActivity(intent);
+            }
+
+        });
 
         TextView highest_box = (TextView)findViewById(R.id.highest_box);
         highest_box.setText(Integer.toString(player.getHighestCode()));

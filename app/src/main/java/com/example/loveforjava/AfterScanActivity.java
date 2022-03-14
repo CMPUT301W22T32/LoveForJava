@@ -182,10 +182,11 @@ public class AfterScanActivity extends AppCompatActivity {
             @Override
             public void onResponse(Map<String, Object> response) {
                 if( (boolean) response.get("success")){
-                    Intent intent = new Intent(context, MainActivity.class);
-                    intent.putExtra("player", p);
-                    intent.putExtra("QRcode", code);
-                    intent.putExtra("name", code.getNickName());
+                    p = (Player) response.get("Player_obj");
+                    Intent intent = new Intent(context, QRcodeActivity.class);
+                    intent.putExtra("PLAYER", p);
+                    intent.putExtra("QRcode", hashedCode);
+                    intent.putExtra("name", editText.getText()+"");
                     startActivity(intent);
                 }else{
                     Log.i("rt", "werewerwqwewq");
@@ -194,7 +195,4 @@ public class AfterScanActivity extends AppCompatActivity {
             }
         });
     }
-
-
-
 }

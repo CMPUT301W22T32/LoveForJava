@@ -21,7 +21,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Intent i = getIntent();
-        p = (Player) i.getSerializableExtra("player");
+        p = (Player) i.getSerializableExtra("PLAYER");
         setContentView(R.layout.activity_main);
 
         ImageButton Profile_Button = findViewById(R.id.profile);
@@ -72,6 +72,10 @@ public class MainActivity extends AppCompatActivity {
         );
     }
 
+    /**
+     * open ProfileActivity
+     * @param p
+     */
     public void profile_Activity(Player p) {
         Intent intent = new Intent(this, ProfileActivity.class);
         intent.putExtra("PLAYER", p);
@@ -100,6 +104,7 @@ public class MainActivity extends AppCompatActivity {
     public void openCodeScanner_activity(){
         Intent intent = new Intent(this, CodeScanner_activity.class);
         intent.putExtra("player", p);
+        intent.putExtra("Previous Activity", "Main");
         startActivity(intent);
     }
 
