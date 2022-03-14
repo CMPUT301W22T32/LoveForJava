@@ -11,7 +11,8 @@ public class Player implements Serializable {
     String userName;
     String email;
     Map<String, String> scannedCodes;  // stored as nickName:code_id
-    QRcode highestCode;
+    int highestCode;
+    int lowestCode;
     int totScore;
 
 
@@ -23,7 +24,8 @@ public class Player implements Serializable {
         userName = name;
         email = Email;
         scannedCodes = new HashMap<>();
-        highestCode = null;
+        highestCode = 0;
+        lowestCode = -1;
         totScore = 0;
     }
 
@@ -33,6 +35,7 @@ public class Player implements Serializable {
         Log.i("email", email);
         Log.i("scannedCodes", scannedCodes+"");
         Log.i("highestCode", highestCode+"");
+        Log.i("lowestCode", lowestCode+"");
         Log.i("totScore", totScore+"");
     }
 
@@ -44,18 +47,31 @@ public class Player implements Serializable {
         userName = name;
     }
 
-    public Boolean addQR(String nickName, String codeId){
-        if(scannedCodes.containsKey(nickName)){
+    public Boolean addQR(QRcode code){
+        String name = code.getNickName();
+        int score = code.getScore();
+        if(scannedCodes.containsKey(name)){
             return false;
         }
-        scannedCodes.put(codeId, nickName);
+
+        if(score > highestCode){
+            highestCode = score;
+        }
+        if(score < lowestCode || lowestCode == -1){
+            lowestCode = score;
+        }
+        totScore += score;
+        scannedCodes.put(name, code.getCodeId());
         return true;
     }
-    public Boolean remQR(String nickName){
-        if(!scannedCodes.containsKey(nickName)){
+    public Boolean remQR(QRcode code){
+        String name = code.getNickName();
+        if(!scannedCodes.containsKey(name)){
             return false;
         }
-        scannedCodes.remove(nickName);
+        // TODO: change highest/lowest score if this is that code
+        totScore -= code.getScore();
+        scannedCodes.remove(name);
         Log.i("codes", scannedCodes+"");
         return true;
     }
@@ -68,7 +84,7 @@ public class Player implements Serializable {
         return scannedCodes;
     }
 
-    public QRcode getHighestCode() {
+    public int getHighestCode() {
         return highestCode;
     }
 
@@ -82,5 +98,9 @@ public class Player implements Serializable {
 
     public String getUserName() {
         return userName;
+    }
+
+    public int getLowestCode() {
+        return lowestCode;
     }
 }
