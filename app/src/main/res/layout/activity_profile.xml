@@ -189,16 +189,6 @@
             android:textSize="14dp"
             android:layout_weight="2"
             android:gravity="center_horizontal"
-            android:text="Friends"
-            android:textStyle="bold"
-            android:textColor="@color/blue_crayola"/>
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:padding="2sp"
-            android:textSize="14dp"
-            android:layout_weight="2"
-            android:gravity="center_horizontal"
             android:text="QR Codes"
             android:textStyle="bold"
             android:textColor="@color/blue_crayola"/>
