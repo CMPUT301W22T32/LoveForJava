@@ -66,7 +66,7 @@ public class LoginActivity extends AppCompatActivity {
                         Player player = (Player) response.get("Player_obj");
                         player.printPlayer();
                         Intent intent = new Intent(context, MainActivity.class);
-                        intent.putExtra("PLAYER", player);
+                        intent.putExtra("player", player);
                         startActivity(intent);
                     }
 

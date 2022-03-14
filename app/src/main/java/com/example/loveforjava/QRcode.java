@@ -1,8 +1,9 @@
 package com.example.loveforjava;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class QRcode {
+public class QRcode implements Serializable {
     private String codeId;  // this is just the hashed code string
     private String nickName;
     private int score;
@@ -19,6 +20,16 @@ public class QRcode {
         nickName = name;
         score = 100;
         likes = 5;
+        flags = 0;
+        seenBy = new ArrayList<>();
+        loc = new ArrayList<>();
+    }
+
+    public QRcode(String name, String id, int Score){
+        codeId = id;
+        nickName = name;
+        score = Score;
+        likes = 0;
         flags = 0;
         seenBy = new ArrayList<>();
         loc = new ArrayList<>();
