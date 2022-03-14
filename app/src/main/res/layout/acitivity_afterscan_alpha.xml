@@ -100,7 +100,6 @@
         android:layout_height="48dp"
         android:layout_gravity="center"
         android:layout_weight="1"
-        android:background="#0000000"
         android:text="Picture of Location"
         android:textAllCaps="false"
         android:textColor="#2A78AA"
