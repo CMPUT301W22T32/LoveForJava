@@ -27,7 +27,7 @@ public class ProfileActivity extends AppCompatActivity {
 
         ArrayList<String> qrName = new ArrayList<String>();
         for(Map.Entry<String, String> entry: player.scannedCodes.entrySet()) {
-            qrName.add(entry.getValue());
+            qrName.add(entry.getKey());
         }
         ListView qrList = findViewById(R.id.qr_list);
         ArrayAdapter qrAdapter = new CustomList(this, qrName);
