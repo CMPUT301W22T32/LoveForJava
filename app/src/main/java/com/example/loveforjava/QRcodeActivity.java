@@ -35,6 +35,9 @@ public class QRcodeActivity extends AppCompatActivity {
     private TextView score;
     private QRcode code;
     private APIMain APIserver;
+    private ArrayAdapter commentAdapter;
+    private ArrayList<String> userNames;
+    private ArrayList<String> commentsBody;
 
     public void submit(View v){
         APIserver.createComment(codeId, p.getUserName(), comment.getText()+"", new ResponseCallback() {
@@ -43,6 +46,9 @@ public class QRcodeActivity extends AppCompatActivity {
                 if( (boolean) response.get("success")){
                     Log.i("SUCC", "ESS");
                     Toast.makeText(QRcodeActivity.this, "Comment addded", Toast.LENGTH_SHORT).show();
+                    userNames.add(p.getUserName());
+                    commentsBody.add(comment.getText()+"");
+                    commentAdapter.notifyDataSetChanged();
                     comment.setText("");
                 }else{
                     Log.i("FAIL", "IURE");
@@ -89,22 +95,22 @@ public class QRcodeActivity extends AppCompatActivity {
             public void onResponse(Map<String, Object> response) {
                 ArrayList<Map<String, Object>> commentsData = new ArrayList<>();
                 Map<String, Object> temp;
-                ArrayList<String> userNames = new ArrayList<String>();
-                ArrayList<String> commentsBody = new ArrayList<String>();
+                userNames = new ArrayList<String>();
+                commentsBody = new ArrayList<String>();
                 commentsData = (ArrayList<Map<String, Object>>) response.get("data");
                 for(int i = 0 ; i < commentsData.size(); i++) {
                     temp = (Map<String, Object>) commentsData.get(i);
                     userNames.add((String) temp.get("user_name"));
                     commentsBody.add((String) temp.get("body"));
                 }
-                populateCommentList(userNames, commentsBody);
+                populateCommentList();
             }
         });
     }
 
-    public void populateCommentList(ArrayList<String> userNames, ArrayList<String> commentsBody) {
+    public void populateCommentList() {
         ListView commentList = findViewById(R.id.comment_list);
-        ArrayAdapter commentAdapter = new CustomList2(this, userNames, commentsBody);
+        commentAdapter = new CustomList2(this, userNames, commentsBody);
         commentList.setAdapter(commentAdapter);
         commentAdapter.notifyDataSetChanged();
     }
