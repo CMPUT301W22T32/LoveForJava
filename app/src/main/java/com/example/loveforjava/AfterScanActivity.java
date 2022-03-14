@@ -10,10 +10,12 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.os.StrictMode;
 import android.provider.MediaStore;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -27,12 +29,25 @@ import androidx.appcompat.app.AppCompatActivity;
 import java.io.File;
 import java.math.BigInteger;
 import java.security.MessageDigest;
+import java.util.ArrayList;
+import java.util.Map;
 
 public class AfterScanActivity extends AppCompatActivity {
     Uri imageUri;
     Button btn;
     ImageView imageView;
-    TextView score;
+    TextView score_text;
+    TextView score_show;
+    EditText editText;
+    private String codeId;  // this is just the hashed code string
+    private String nickName;
+    private int score_of_QR;
+    private int likes;
+    private int flags;
+    private Player p;
+    private String hashedCode;
+    ArrayList<String> seenBy;
+    ArrayList<String> loc;
     ActivityResultLauncher<Intent> someActivityResultLauncher = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
             new ActivityResultCallback<ActivityResult>() {
@@ -53,9 +68,8 @@ public class AfterScanActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        p= (Player) savedInstanceState.getSerializable("player");
         setContentView(R.layout.acitivity_afterscan_alpha);
-        getWindow().setBackgroundDrawableResource(R.drawable.qr);
-        hashing();
         imageView = findViewById(R.id.iv_selected);
         btn = findViewById(R.id.btn_camera);
         Permission();
@@ -113,16 +127,62 @@ public class AfterScanActivity extends AppCompatActivity {
 
         return toReturn;
     }
+
     public void hashing() {
 
         String inputValue = "this is an example";
 
         // With the java libraries
-        String sha256 = getSHA256(inputValue);
-        score.setText(sha256);
+        hashedCode = getSHA256(inputValue);
+        score_show.setText(hashedCode);
 
 
     }
+
+    public void score_calc() {
+
+
+
+    }
+
+    public void scoring() {
+
+        // With the java libraries
+        score_show=findViewById(R.id.score);
+        score_of_QR = score_calc(hashedCode);
+        score_show.setText(hashedCode);
+
+
+    }
+
+    public void QRcode(String name, String id, int Score){
+        codeId = id;
+        nickName = name;
+        score_of_QR = Score;
+        likes = 0;
+        flags = 0;
+        seenBy = new ArrayList<>();
+        loc = new ArrayList<>();
+    }
+
+    private void saveCode(){
+        editText = findViewById(R.id.nickname_of_QR);
+        QRcode code = new QRcode(editText.getText(), hashedCode ,score);
+        APIMain APIServer = new APIMain();
+        APIServer.addQRCode(code, p, new ResponseCallback() {
+            @Override
+            public void onResponse(Map<String, Object> response) {
+                if( (boolean) response.get("success")){
+                    Intent intent = new Intent(this, QRcode.class);
+                    intent.putExtra("player", p);
+                    intent.putExtra("QRcode", (Parcelable) code);
+                    intent.putExtra("name", code.getNickName());
+                    startActivity(intent);
+                }
+            }
+        });
+    }
+
 
 
 }
