@@ -35,15 +35,42 @@
             app:civ_border_width="4dp"
             android:layout_marginHorizontal="50dp"/>
 
-        <com.mikhaellopez.circularimageview.CircularImageView
+        <Button
             android:layout_width="100dp"
             android:layout_height="100dp"
-            android:src="@drawable/ic_action_qr"
-            app:civ_border_color="@color/gray"
-            app:civ_border="true"
-            app:civ_border_width="4dp"
+            android:background="@drawable/round_button"
+            android:text="Generate Custom QR Code"
+            android:textSize="5pt"
             android:layout_marginHorizontal="50dp"/>
 
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_marginTop="1dp">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:padding="2sp"
+            android:textSize="14dp"
+            android:layout_weight="2"
+            android:gravity="center_horizontal"
+            android:text="Username"
+            android:textStyle="bold"
+            android:textColor="@color/gray"/>
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:padding="2sp"
+            android:textSize="14dp"
+            android:layout_weight="2"
+            android:gravity="center_horizontal"
+
+            android:textStyle="bold"
+            android:textColor="@color/gray"/>
     </LinearLayout>
     <TableLayout
         android:layout_width="match_parent"
@@ -241,11 +268,11 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="scan a firend"
+        android:text="scan a friend"
         android:textColor="@color/blue_crayola"
         android:textSize="10dp"
         android:textStyle="bold"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="-35dp"/>
+        android:layout_marginTop="-20dp"/>
 
 </LinearLayout>
