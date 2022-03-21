@@ -21,8 +21,17 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Intent i = getIntent();
-        p = (Player) i.getSerializableExtra("player");
+        p = (Player) i.getSerializableExtra("PLAYER");
         setContentView(R.layout.activity_main);
+
+        ImageButton Profile_Button = findViewById(R.id.profile);
+        Profile_Button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                profile_Activity(p);
+            }
+        });
+
         /**
          * set listener for Map_Button
          */
@@ -64,6 +73,16 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
+     * open ProfileActivity
+     * @param p
+     */
+    public void profile_Activity(Player p) {
+        Intent intent = new Intent(this, ProfileActivity.class);
+        intent.putExtra("PLAYER", p);
+        startActivity(intent);
+    }
+
+    /**
      * open openMap Activity
      */
     public void openMap_Activity(){
@@ -83,9 +102,9 @@ public class MainActivity extends AppCompatActivity {
      * open CodeScanner_activity
      */
     public void openCodeScanner_activity(){
-        Intent intent = new Intent(this, AfterScanActivity.class);
+        Intent intent = new Intent(this, CodeScanner_activity.class);
         intent.putExtra("player", p);
-        intent.putExtra("code", "BIG MANS");
+        intent.putExtra("Previous Activity", "Main");
         startActivity(intent);
     }
 

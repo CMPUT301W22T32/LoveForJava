@@ -114,6 +114,7 @@ public class APIMain {
     }
 
     public void addQRCode(QRcode qr_code, Player player, ResponseCallback responseCallback){
+        // TODO: fix seen by feature
         Map<String, Object> res = new HashMap<>();
         String id = qr_code.getCodeId();
         // if code already scanned
@@ -125,14 +126,14 @@ public class APIMain {
         }
         players.document(player.getUserId()).set(player)
                 .addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Log.w(TAG, "Error writing document", e);
-                res.put("success", false);
-                res.put("err", "" + e);
-                responseCallback.onResponse(res);
-            }
-        });
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w(TAG, "Error writing document", e);
+                        res.put("success", false);
+                        res.put("err", "" + e);
+                        responseCallback.onResponse(res);
+                    }
+                });
         qr_code.addSeenBy(player.getUserName());
         codes.document(id).set(qr_code)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -140,6 +141,7 @@ public class APIMain {
                     public void onSuccess(Void aVoid) {
                         Log.d(TAG, "QR code info succesuffly updated");
                         res.put("success", true);
+                        res.put("Player_obj", player);
                         responseCallback.onResponse(res);
                     }
                 })
@@ -225,7 +227,7 @@ public class APIMain {
                     }
                 });
     }
-    
+
     public void createComment(String code_id, String userName, String body, ResponseCallback responseCallback){
         Map<String, Object> res = new HashMap<>();
         Map<String, String> data = new HashMap<>();
