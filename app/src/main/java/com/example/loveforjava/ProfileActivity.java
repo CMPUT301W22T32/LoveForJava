@@ -10,11 +10,8 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
-
-import com.mikhaellopez.circularimageview.CircularImageView;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -34,7 +31,7 @@ public class ProfileActivity extends AppCompatActivity {
         for(Map.Entry<String, String> entry: player.scannedCodes.entrySet()) {
             qrName.add(entry.getKey());
         }
-        CircularImageView generateProfileQR = findViewById(R.id.generate_qrcode);
+        Button generateProfileQR = findViewById(R.id.generate_qrcode);
         ListView qrList = findViewById(R.id.qr_list);
         ArrayAdapter qrAdapter = new CustomList(this, qrName);
         qrList.setAdapter(qrAdapter);

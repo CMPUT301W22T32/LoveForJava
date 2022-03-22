@@ -35,15 +35,25 @@
             app:civ_border_width="4dp"
             android:layout_marginHorizontal="50dp"/>
 
-        <com.mikhaellopez.circularimageview.CircularImageView
-            android:id="@+id/generate_qrcode"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:src="@drawable/ic_action_qr"
-            app:civ_border_color="@color/gray"
-            app:civ_border="true"
-            app:civ_border_width="4dp"
-            android:layout_marginHorizontal="50dp"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/profile_username"
+                android:layout_width="180dp"
+                android:layout_height="40dp"
+                android:textSize="30sp">
+            </TextView>
+
+            <Button
+                android:id="@+id/generate_qrcode"
+                android:layout_width="180dp"
+                android:layout_height="wrap_content"
+                android:text="Profile QR Code">
+            </Button>
+        </LinearLayout>
 
     </LinearLayout>
     <TableLayout
