@@ -63,15 +63,16 @@ public class QRcodeActivity extends AppCompatActivity {
 
     public void seenByFrag(View v){
         Log.i("HERE", "HERE");
-        Fragment fragment = new SeenByFragment();
+        SeenByFragment fragment = new SeenByFragment();
         Bundle bundle = new Bundle();
         ArrayList<String> seenBy = code.getSeenBy();
-        bundle.putStringArrayList("seen_by", seenBy);
+        getSupportFragmentManager().beginTransaction().add(R.id.seen_by, fragment);
+        //ArrayAdapter adapter = new ArrayAdapter<>(this, R.layout.seen_by_list, seenBy);
+        //fragment.setListAdapter(adapter);
+
+        /*bundle.putStringArrayList("seen_by", seenBy);
         fragment.setArguments(bundle);
-        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        ft.replace(R.id.seen_by_fragment, fragment);
-        ft.commit();
-        //fragment.show(getSupportFragmentManager(), "Seen By:");
+        fragment.show(getSupportFragmentManager(), "Seen By:");*/
     }
 
 
