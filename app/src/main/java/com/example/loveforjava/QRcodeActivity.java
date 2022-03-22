@@ -22,6 +22,9 @@ import android.widget.TextView;
 
 import androidx.annotation.ArrayRes;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.fragment.app.ListFragment;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -56,6 +59,19 @@ public class QRcodeActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    public void seenByFrag(View v){
+        Log.i("HERE", "HERE");
+        Fragment fragment = new SeenByFragment();
+        Bundle bundle = new Bundle();
+        ArrayList<String> seenBy = code.getSeenBy();
+        bundle.putStringArrayList("seen_by", seenBy);
+        fragment.setArguments(bundle);
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        ft.replace(R.id.seen_by_fragment, fragment);
+        ft.commit();
+        //fragment.show(getSupportFragmentManager(), "Seen By:");
     }
 
 
