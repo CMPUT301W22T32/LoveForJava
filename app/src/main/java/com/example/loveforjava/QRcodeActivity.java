@@ -70,6 +70,8 @@ public class QRcodeActivity extends AppCompatActivity {
         //ArrayAdapter adapter = new ArrayAdapter<>(this, R.layout.seen_by_list, seenBy);
         //fragment.setListAdapter(adapter);
 
+        Intent intent = new Intent(this, SeenByActivity.class);
+        intent.putExtra("Seen By", code.getSeenBy());
         /*bundle.putStringArrayList("seen_by", seenBy);
         fragment.setArguments(bundle);
         fragment.show(getSupportFragmentManager(), "Seen By:");*/
