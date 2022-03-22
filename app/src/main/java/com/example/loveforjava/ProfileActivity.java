@@ -31,8 +31,11 @@ public class ProfileActivity extends AppCompatActivity {
         for(Map.Entry<String, String> entry: player.scannedCodes.entrySet()) {
             qrName.add(entry.getKey());
         }
+        TextView userName = findViewById(R.id.profile_username);
         TextView generateProfileQR = findViewById(R.id.generate_qrcode);
         ListView qrList = findViewById(R.id.qr_list);
+
+        userName.setText(player.getUserName());
         ArrayAdapter qrAdapter = new CustomList(this, qrName);
         qrList.setAdapter(qrAdapter);
         qrAdapter.notifyDataSetChanged();
