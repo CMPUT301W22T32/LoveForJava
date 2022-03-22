@@ -18,8 +18,8 @@
             android:orientation="horizontal">
 
             <com.mikhaellopez.circularimageview.CircularImageView
-                android:layout_width="60dp"
-                android:layout_height="60dp"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
                 android:layout_marginStart="20dp"
                 android:src="@drawable/ic_action_qr"
                 app:civ_border="true"
@@ -33,22 +33,15 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/QRName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
-                    android:text="QRName"
+                    android:text="Score: 1000"
                     android:textColor="@color/black"
                     android:textSize="18sp"
                     android:textStyle="bold" />
             </LinearLayout>
 
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginStart="190dp"
-                android:rotation="180"
-                android:src="@drawable/ic_action_backbtn" />
         </LinearLayout>
     </RelativeLayout>
 
