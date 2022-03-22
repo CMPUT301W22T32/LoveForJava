@@ -36,6 +36,7 @@
             android:layout_marginHorizontal="50dp"/>
 
         <com.mikhaellopez.circularimageview.CircularImageView
+            android:id="@+id/generate_qrcode"
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:src="@drawable/ic_action_qr"
