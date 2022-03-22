@@ -1,7 +1,9 @@
 package com.example.loveforjava;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -18,6 +20,8 @@ import java.util.Map;
 
 public class ProfileActivity extends AppCompatActivity {
     private Player player;
+    private ArrayList<String> qrName;
+    private ArrayAdapter qrAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,12 +31,16 @@ public class ProfileActivity extends AppCompatActivity {
         Intent i = getIntent();
         player = (Player) i.getSerializableExtra("PLAYER");
 
-        ArrayList<String> qrName = new ArrayList<String>();
+        qrName = new ArrayList<String>();
         for(Map.Entry<String, String> entry: player.scannedCodes.entrySet()) {
             qrName.add(entry.getKey());
         }
+        TextView userName = findViewById(R.id.profile_username);
+        TextView generateProfileQR = findViewById(R.id.generate_qrcode);
         ListView qrList = findViewById(R.id.qr_list);
-        ArrayAdapter qrAdapter = new CustomList(this, qrName);
+
+        userName.setText(player.getUserName());
+        qrAdapter = new CustomList(this, qrName);
         qrList.setAdapter(qrAdapter);
         qrAdapter.notifyDataSetChanged();
         qrList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -49,6 +57,23 @@ public class ProfileActivity extends AppCompatActivity {
                 startActivity(intent);
             }
 
+        });
+
+        qrList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
+                deleteConfirmation(i);
+                return false;
+            }
+        });
+
+        generateProfileQR.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(ProfileActivity.this, GenerateQRCodeActivity.class);
+                intent.putExtra("USERID", player.getUserId());
+                startActivity(intent);
+            }
         });
 
         TextView highest_box = (TextView)findViewById(R.id.highest_box);
@@ -75,5 +100,26 @@ public class ProfileActivity extends AppCompatActivity {
                 finish();
             }
         });
+    }
+
+    public void deleteConfirmation(int i) {
+        /*  WEBSITE : https://stackoverflow.com
+         *  LINK TO SOLUTION : https://stackoverflow.com/a/36747528
+         *  AUTHOR : https://stackoverflow.com/users/5130239/dus
+         * */
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setCancelable(true);
+        builder.setTitle("Confirm to Delete?");
+        builder.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+
+
+            }
+        });
+        builder.setNegativeButton(android.R.string.cancel, null);
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 }

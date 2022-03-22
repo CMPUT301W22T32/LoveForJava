@@ -1,0 +1,24 @@
+Make sure to add text to Icons just so it's easy to navigate
+Start with test cases soon as they would take time
+Setup the Android CI workflow that will help you remember that you need to write appropriate functionality for each test case
+Add appropriate messgaes for sign up & login 
+Add correct error messages
+Feedback was addressed appropriately
+Alot of DB acitivites were seen which is good, just try to add more test cases towards it
+Good quality Code About ½ of requirements implemented and mostly done
+Code is mostly clear, readable and checks for errors
+Add information in readme as well however, the wiki page looks extremely helpful for 3rd party users
+Numbered, tracked, and organized requirements
+Requirements noted for halfway checkpoint
+Complete story point estimates
+Complete risk levels
+Displays understanding of requirements specification/elicitation
+Complete UI mockups and Labeled elements on UI mockups
+Displays understanding of Scrum
+Riskier requirements are done earlier
+All members were present during the demo
+Each sprint is reviewed howver all members are not present at each review
+User stories are fully “done done” (implemented, tested, integrated, documented) but I couldn't find stories in to-do section
+Following CI/CD
+Clear and coherent demo
+Overall, great work!
