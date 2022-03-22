@@ -47,12 +47,14 @@
                 android:textSize="30sp">
             </TextView>
 
-            <Button
+            <TextView
                 android:id="@+id/generate_qrcode"
                 android:layout_width="180dp"
-                android:layout_height="wrap_content"
-                android:text="Profile QR Code">
-            </Button>
+                android:layout_height="40dp"
+                android:text="Profile QR Code"
+                android:gravity="center"
+                android:textStyle="bold"
+                android:textColor="@color/blue_crayola"/>
         </LinearLayout>
 
     </LinearLayout>
