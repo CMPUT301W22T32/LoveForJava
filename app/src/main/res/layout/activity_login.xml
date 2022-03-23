@@ -62,7 +62,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Sign in With QR Code"
+        android:text="Login with QR code"
         android:textColor="@color/blue_crayola"
         android:textSize="15dp"
         android:textStyle="bold"
