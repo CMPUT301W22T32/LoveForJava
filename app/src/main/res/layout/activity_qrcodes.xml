@@ -24,11 +24,13 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:gravity="center">
+
         <ImageButton
+            android:id="@+id/gallery_button"
             android:layout_width="60dp"
             android:layout_height="60dp"
-            android:src="@drawable/ic_action_texture"
-            android:layout_marginHorizontal="50dp"/>
+            android:layout_marginHorizontal="50dp"
+            android:src="@android:drawable/ic_menu_gallery" />
         <com.mikhaellopez.circularimageview.CircularImageView
             android:layout_width="100dp"
             android:layout_height="100dp"
@@ -37,15 +39,18 @@
             app:civ_border="true"
             app:civ_border_width="4dp"
             android:layout_marginHorizontal="10dp"/>
+
         <ImageButton
+            android:id="@+id/map_button"
             android:layout_width="60dp"
             android:layout_height="60dp"
-            android:src="@drawable/ic_baseline_assistant_direction_24"
+            android:layout_marginHorizontal="50dp"
             android:background="@color/white"
-            android:layout_marginHorizontal="50dp"/>
+            android:src="@android:drawable/ic_dialog_map" />
     </LinearLayout>
 
     <TextView
+        android:id="@+id/seen_link"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
@@ -60,22 +65,28 @@
         android:layout_height="wrap_content">
 
         <ImageButton
+            android:id="@+id/like_button"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:src="@drawable/ic_baseline_thumb_up_alt_24"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="35dp"
             android:background="@color/white"
-            android:layout_marginStart="35dp"/>
+            android:src="@drawable/ic_dislike" />
+
         <TextView
+            android:id="@+id/like_count"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="100"
-            android:layout_marginStart="2dp"/>
+            android:layout_marginStart="2dp"
+            android:hint="likes"
+            android:textColor="@color/black"/>
+
         <ImageButton
+            android:id="@+id/flag_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_baseline_flag_24"
+            android:layout_marginStart="250dp"
             android:background="@color/white"
-            android:layout_marginStart="250dp"/>
+            android:src="@drawable/ic_not_flagged" />
     </LinearLayout>
 
     <ListView
