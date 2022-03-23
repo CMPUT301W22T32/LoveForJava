@@ -56,7 +56,8 @@
         android:text="score"
         android:textColor="@color/black"
         android:textSize="20sp"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        android:clickable="true"/>
 
     <TextView
         android:id="@+id/seen_by"
