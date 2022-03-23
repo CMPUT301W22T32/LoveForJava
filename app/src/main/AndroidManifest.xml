@@ -12,10 +12,13 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.LoveForJava">
-        <activity android:name=".Map_Activity"></activity>
-        <activity android:name=".Rank_Activity"></activity>
-        <activity android:name=".CodeScanner_activity"></activity>
-        <activity android:name=".AfterScanActivity"></activity>
+        <activity
+            android:name=".OtherUserActivity"
+            android:exported="false" />
+        <activity android:name=".Map_Activity" />
+        <activity android:name=".Rank_Activity" />
+        <activity android:name=".CodeScanner_activity" />
+        <activity android:name=".AfterScanActivity" />
         <activity
             android:name=".LoginActivity"
             android:exported="true">
