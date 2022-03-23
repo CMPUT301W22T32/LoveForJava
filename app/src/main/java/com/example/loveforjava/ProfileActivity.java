@@ -14,6 +14,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -112,14 +113,43 @@ public class ProfileActivity extends AppCompatActivity {
         builder.setTitle("Confirm to Delete?");
         builder.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
             @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-
-
+            public void onClick(DialogInterface dialogInterface, int j) {
+                Log.i("LOC", i+"");
+                deleteQRcode(i);
             }
         });
         builder.setNegativeButton(android.R.string.cancel, null);
 
         AlertDialog dialog = builder.create();
         dialog.show();
+    }
+
+    private void deleteQRcode(int i){
+        Log.i("POS", i+"");
+        String name = qrName.get(i);
+        String id = player.getQRcodeByName(name);
+        Log.i("player", name+":"+id);
+        APIMain APIserver = new APIMain();
+        APIserver.getQRcode(id, name, new ResponseCallback() {
+            @Override
+            public void onResponse(Map<String, Object> response) {
+                if( (boolean) response.get("success")){
+                    APIserver.delQRCode((QRcode) response.get("QRcode_obj"), player, new ResponseCallback() {
+                        @Override
+                        public void onResponse(Map<String, Object> response) {
+                            if( (boolean) response.get("success")){
+                                player = (Player) response.get("Player_obj");
+                                qrName.remove(i);
+                                qrAdapter.notifyDataSetChanged();
+                            }else{
+                                Toast.makeText(getApplicationContext(), "Cannot delete QR code", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    });
+                }else{
+                    Toast.makeText(getApplicationContext(), "Cannot delete QR code", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
     }
 }
