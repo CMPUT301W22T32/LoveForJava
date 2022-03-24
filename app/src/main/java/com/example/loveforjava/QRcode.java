@@ -25,7 +25,7 @@ public class QRcode implements Serializable {
         loc = new ArrayList<>();
     }
 
-    public QRcode(String name, String id, int Score){
+    public QRcode(String name, String id, int Score, String geolocation){
         codeId = id;
         nickName = name;
         score = Score;
@@ -33,6 +33,7 @@ public class QRcode implements Serializable {
         flags = 0;
         seenBy = new ArrayList<>();
         loc = new ArrayList<>();
+        loc.add(geolocation);
     }
 
     public void addSeenBy(String name){

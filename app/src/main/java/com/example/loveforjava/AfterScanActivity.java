@@ -1,9 +1,13 @@
 package com.example.loveforjava;
 
+import static android.Manifest.permission.ACCESS_COARSE_LOCATION;
+import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -11,12 +15,13 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.os.StrictMode;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -28,6 +33,7 @@ import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.io.File;
@@ -42,11 +48,17 @@ public class AfterScanActivity extends AppCompatActivity {
     ImageButton camBtn;
     ImageView imageView;
     TextView score_text;
-    TextView score_show;
     EditText editText;
+    CheckBox recordLocation;
     private Player p;
     private String hashedCode = "JEFFFFFF";
     private int score;
+    private ArrayList permissionsToRequest;
+    private ArrayList permissionsRejected = new ArrayList();
+    private ArrayList permissions = new ArrayList();
+    private final static int ALL_PERMISSIONS_RESULT = 101;
+    String geolocation;
+    LocationTrack locationTrack;
     ActivityResultLauncher<Intent> someActivityResultLauncher = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
             new ActivityResultCallback<ActivityResult>() {
@@ -72,6 +84,43 @@ public class AfterScanActivity extends AppCompatActivity {
         String rawCode = i.getStringExtra("code");
         Log.i("CODE", rawCode);
         setContentView(R.layout.activity_afterscan);
+
+        /*  WEBSITE : https://www.journaldev.com
+        *   SOLUTION : https://www.journaldev.com/13325/android-location-api-tracking-gps
+        *   AUTHOR : https://www.journaldev.com/author/anupam
+        * */
+
+        // Set permissions for location access
+        permissions.add(ACCESS_FINE_LOCATION);
+        permissions.add(ACCESS_COARSE_LOCATION);
+
+        //get the permissions we have asked for before but are not granted..
+        //we will store this in a global list to access later.
+        permissionsToRequest = findUnAskedPermissions(permissions);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (permissionsToRequest.size() > 0)
+                requestPermissions((String[]) permissionsToRequest.toArray(new String[permissionsToRequest.size()]), ALL_PERMISSIONS_RESULT);
+        }
+
+        recordLocation = findViewById(R.id.record_location);
+        recordLocation.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean checked) {
+                if(checked) {
+                    locationTrack = new LocationTrack(AfterScanActivity.this);
+                    if (locationTrack.canGetLocation()) {
+                        double longitude = locationTrack.getLongitude();
+                        double latitude = locationTrack.getLatitude();
+                        geolocation = Double.toString(longitude) + "," + Double.toString(latitude);
+                        Toast.makeText(getApplicationContext(), "Longitude:" + Double.toString(longitude) + "\nLatitude:" + Double.toString(latitude), Toast.LENGTH_SHORT).show();
+                    } else {
+                        locationTrack.showSettingsAlert();
+                    }
+                }
+            }
+        });
+
 
         imageView = findViewById(R.id.iv_selected);
         camBtn = findViewById(R.id.btn_camera);
@@ -126,6 +175,79 @@ public class AfterScanActivity extends AppCompatActivity {
         }
     }
 
+    private ArrayList findUnAskedPermissions(ArrayList wanted) {
+        ArrayList result = new ArrayList();
+
+        for (Object perm : wanted) {
+            if (!hasPermission((String) perm)) {
+                result.add(perm);
+            }
+        }
+
+        return result;
+    }
+
+    private boolean hasPermission(String permission) {
+        if (canMakeSmores()) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                return (checkSelfPermission(permission) == PackageManager.PERMISSION_GRANTED);
+            }
+        }
+        return true;
+    }
+
+    private boolean canMakeSmores() {
+        return (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP_MR1);
+    }
+
+
+    @TargetApi(Build.VERSION_CODES.M)
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        switch (requestCode) {
+            case ALL_PERMISSIONS_RESULT:
+                for (Object perms : permissionsToRequest) {
+                    if (!hasPermission((String) perms)) {
+                        permissionsRejected.add(perms);
+                    }
+                }
+                if (permissionsRejected.size() > 0) {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                        if (shouldShowRequestPermissionRationale((String) permissionsRejected.get(0))) {
+                            showMessageOKCancel("These permissions are mandatory for the application. Please allow access.",
+                                    new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                                                requestPermissions((String[]) permissionsRejected.toArray(new String[permissionsRejected.size()]), ALL_PERMISSIONS_RESULT);
+                                            }
+                                        }
+                                    });
+                            return;
+                        }
+                    }
+                }
+                break;
+        }
+    }
+
+    private void showMessageOKCancel(String message, DialogInterface.OnClickListener okListener) {
+        new AlertDialog.Builder(AfterScanActivity.this)
+                .setMessage(message)
+                .setPositiveButton("OK", okListener)
+                .setNegativeButton("Cancel", null)
+                .create()
+                .show();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        locationTrack.stopListener();
+    }
+
     public static String getSHA256(String input){
         String toReturn = null;
         try {
@@ -163,19 +285,16 @@ public class AfterScanActivity extends AppCompatActivity {
     }
 
     public void scoring() {
-
         // With the java libraries
         //score_show=findViewById(R.id.score);
         score = score_calc(hashedCode);
         score_text.setText(score+"");
         //score_show.setText(hashedCode);
-
-
     }
 
     private void saveCode(){
         editText = findViewById(R.id.nickname_of_QR);
-        QRcode code = new QRcode(editText.getText()+"", hashedCode ,score);
+        QRcode code = new QRcode(editText.getText()+"", hashedCode ,score, geolocation);
         APIMain APIServer = new APIMain();
         Context context = this;
         APIServer.addQRCode(code, p, new ResponseCallback() {
