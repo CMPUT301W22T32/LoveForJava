@@ -310,4 +310,32 @@ public class APIMain {
                     }
                 });
     }
+
+    public void searchByUsername(String Username, ResponseCallback responseCallback){
+        Map<String, Object> res = new HashMap<>();
+        ArrayList<Player> data = new ArrayList<>();
+        char last = Username.charAt(Username.length() - 1);
+        char next = (char) (last+1);
+        StringBuilder end = new StringBuilder(Username);
+        end.setCharAt(Username.length() - 1, next);
+        players.orderBy("userName").startAt(Username).endAt(end+"").limit(5).get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if(task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                Log.i(TAG, document.getId() + " => " + document.toObject(Player.class));
+                                data.add(document.toObject(Player.class));
+                            }
+                            res.put("success", true);
+                            res.put("data", data); // type: ArrayList<Player>
+                        } else {
+                            Log.d(TAG, "Error getting documents: ", task.getException());
+                            res.put("success", false);
+                            res.put("err", "" + task.getException());
+                        }
+                        responseCallback.onResponse(res);
+                    }
+                });
+    }
 }
