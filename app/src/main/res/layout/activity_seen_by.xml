@@ -14,17 +14,18 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginVertical="10dp">
+            android:layout_marginVertical="10dp"
+            android:orientation="horizontal">
 
             <com.mikhaellopez.circularimageview.CircularImageView
                 android:layout_width="60dp"
                 android:layout_height="60dp"
+                android:layout_marginStart="20dp"
                 android:src="@drawable/ic_action_username"
-                app:civ_border_color="@color/platinum"
                 app:civ_border="true"
-                app:civ_border_width="4dp"
-                android:layout_marginStart="20dp"/>
+                app:civ_border_color="@color/platinum"
+                app:civ_border_width="4dp" />
+
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -32,21 +33,22 @@
                 android:orientation="vertical">
 
                 <TextView
+                    android:id="@+id/QRName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/QRName"
+                    android:layout_marginTop="20dp"
                     android:text="UserName"
                     android:textColor="@color/black"
                     android:textSize="18sp"
-                    android:textStyle="bold"
-                    android:layout_marginTop="20dp"/>
+                    android:textStyle="bold" />
             </LinearLayout>
+
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:src="@drawable/ic_action_backbtn"
+                android:layout_marginStart="190dp"
                 android:rotation="180"
-                android:layout_marginStart="190dp"/>
+                android:src="@drawable/ic_action_backbtn" />
         </LinearLayout>
     </RelativeLayout>
 

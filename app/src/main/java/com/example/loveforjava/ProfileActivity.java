@@ -23,11 +23,14 @@ public class ProfileActivity extends AppCompatActivity {
     private Player player;
     private ArrayList<String> qrName;
     private ArrayAdapter qrAdapter;
+    private boolean longPress;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
+
+        longPress = false;
 
         Intent i = getIntent();
         player = (Player) i.getSerializableExtra("PLAYER");
@@ -49,13 +52,16 @@ public class ProfileActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> l, View v, int i, long id) {
                 // TODO Auto-generated method stub
-                Log.i("############","Items " + i);
-                String qrId = player.scannedCodes.get(qrName.get(i));
-                Intent intent = new Intent(ProfileActivity.this, QRcodeActivity.class);
-                intent.putExtra("PLAYER", player);
-                intent.putExtra("QRcode", qrId);
-                intent.putExtra("name", qrName.get(i));
-                startActivity(intent);
+                Log.i("ORESS", longPress+"");
+                if(!longPress) {
+                    Log.i("############", "Items " + i);
+                    String qrId = player.scannedCodes.get(qrName.get(i));
+                    Intent intent = new Intent(ProfileActivity.this, QRcodeActivity.class);
+                    intent.putExtra("PLAYER", player);
+                    intent.putExtra("QRcode", qrId);
+                    intent.putExtra("name", qrName.get(i));
+                    startActivity(intent);
+                }
             }
 
         });
@@ -63,8 +69,9 @@ public class ProfileActivity extends AppCompatActivity {
         qrList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
+                longPress = true;
                 deleteConfirmation(i);
-                return false;
+                return true;
             }
         });
 
@@ -116,9 +123,15 @@ public class ProfileActivity extends AppCompatActivity {
             public void onClick(DialogInterface dialogInterface, int j) {
                 Log.i("LOC", i+"");
                 deleteQRcode(i);
+                longPress = false;
             }
         });
-        builder.setNegativeButton(android.R.string.cancel, null);
+        builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int j) {
+                longPress = false;
+            }
+        });
 
         AlertDialog dialog = builder.create();
         dialog.show();
