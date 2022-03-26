@@ -24,14 +24,6 @@ public class MainActivity extends AppCompatActivity {
         p = (Player) i.getSerializableExtra("PLAYER");
         setContentView(R.layout.activity_main);
 
-        ImageButton Profile_Button = findViewById(R.id.profile);
-        Profile_Button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                profile_Activity(p);
-            }
-        });
-
         /**
          * set listener for Map_Button
          */
