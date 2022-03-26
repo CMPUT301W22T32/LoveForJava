@@ -14,12 +14,17 @@
         <entry key="app/src/main/res/layout/activity_afterscan.xml" value="0.33" />
         <entry key="app/src/main/res/layout/activity_code_scanner.xml" value="0.18489583333333334" />
         <entry key="app/src/main/res/layout/activity_friendprofile.xml" value="0.25339508056640625" />
+        <entry key="app/src/main/res/layout/activity_generate_qr_code.xml" value="0.3098958333333333" />
         <entry key="app/src/main/res/layout/activity_login.xml" value="0.35260416666666666" />
-        <entry key="app/src/main/res/layout/activity_main.xml" value="0.35260416666666666" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/activity_map.xml" value="0.3098958333333333" />
         <entry key="app/src/main/res/layout/activity_profile.xml" value="0.33033483258370816" />
         <entry key="app/src/main/res/layout/activity_qrcodes.xml" value="0.34057362874348956" />
+        <entry key="app/src/main/res/layout/activity_rank.xml" value="0.3098958333333333" />
         <entry key="app/src/main/res/layout/activity_ranking.xml" value="0.18489583333333334" />
         <entry key="app/src/main/res/layout/comment_section.xml" value="0.18489583333333334" />
+        <entry key="app/src/main/res/layout/fragment_name.xml" value="0.3098958333333333" />
+        <entry key="app/src/main/res/layout/fragment_name_list.xml" value="0.29583333333333334" />
         <entry key="app/src/main/res/layout/list_of_comments.xml" value="0.18489583333333334" />
         <entry key="app/src/main/res/layout/list_of_friends.xml" value="0.18489583333333334" />
         <entry key="app/src/main/res/layout/list_of_qr.xml" value="0.18489583333333334" />
