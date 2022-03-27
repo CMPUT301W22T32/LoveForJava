@@ -39,9 +39,27 @@ public class APIMain {
     }
 
     public void createPlayer(String name, String email, ResponseCallback responseCallback){
-        // NOTE: inside the db the userId will always be stored as null, that because we store this locally
+        // NOTE: inside the db the userId will always be stored as null, that's because we store this locally
         Map<String, Object> res = new HashMap<>();
-        Player player = new Player(name, email);
+        players.whereEqualTo("userName", name).limit(1).get()
+                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                    @Override
+                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                        Log.i("Username taken", queryDocumentSnapshots.isEmpty()+"");
+                        if(queryDocumentSnapshots.isEmpty()) {
+                            Player player = new Player(name, email);
+                            addPlayer(player, responseCallback);
+                        }else{
+                            res.put("success", false);
+                            res.put("taken", true);
+                            responseCallback.onResponse(res);
+                        }
+                    }
+                });
+    }
+
+    private void addPlayer(Player player, ResponseCallback responseCallback){
+        Map<String, Object> res = new HashMap<>();
         players.add(player)
                 .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                     @Override
