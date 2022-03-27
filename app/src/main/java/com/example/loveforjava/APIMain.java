@@ -11,9 +11,11 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.firestore.SetOptions;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -129,13 +131,42 @@ public class APIMain {
                     @Override
                     public void onFailure(@NonNull Exception e) {
                         Log.w(TAG, "Error writing document", e);
+                        player.remQR(qr_code);
                         res.put("success", false);
                         res.put("err", "" + e);
                         responseCallback.onResponse(res);
                     }
                 });
         qr_code.addSeenBy(player.getUserName());
-        codes.document(id).set(qr_code)
+        codes.document(id).update("seenBy", FieldValue.arrayUnion(player.getUserName()))
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.i(TAG, "DocumentSnapshot successfully updated!");
+                        res.put("success", true);
+                        res.put("Player_obj", player);
+                        responseCallback.onResponse(res);
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.i(TAG, "Error updating document", e);
+                        if(e.getMessage().startsWith("NOT_FOUND")){
+                            Log.i(TAG, "NEW CODE");
+                            addNewCode(qr_code, player, res, responseCallback);
+                        }else{
+                            player.remQR(qr_code);
+                            res.put("success", false);
+                            res.put("err", "" + e);
+                            responseCallback.onResponse(res);
+                        }
+                    }
+                });
+    }
+
+    private void addNewCode(QRcode qr_code, Player player, Map<String, Object> res, ResponseCallback responseCallback){
+        codes.document(qr_code.getCodeId()).set(qr_code)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
@@ -149,6 +180,7 @@ public class APIMain {
                     @Override
                     public void onFailure(@NonNull Exception e) {
                         Log.w(TAG, "Error updating document", e);
+                        player.remQR(qr_code);
                         res.put("success", false);
                         res.put("err", "" + e);
                         responseCallback.onResponse(res);
@@ -184,6 +216,7 @@ public class APIMain {
                     public void onSuccess(Void aVoid) {
                         Log.d(TAG, "QR code info succesuffly updated");
                         res.put("success", true);
+                        res.put("PLayer_obj", player);
                         responseCallback.onResponse(res);
                     }
                 })
@@ -268,6 +301,34 @@ public class APIMain {
                             }
                             res.put("success", true);
                             res.put("data", data); // type: ArrayList<Map<String, Object>>
+                        } else {
+                            Log.d(TAG, "Error getting documents: ", task.getException());
+                            res.put("success", false);
+                            res.put("err", "" + task.getException());
+                        }
+                        responseCallback.onResponse(res);
+                    }
+                });
+    }
+
+    public void searchByUsername(String Username, ResponseCallback responseCallback){
+        Map<String, Object> res = new HashMap<>();
+        ArrayList<Player> data = new ArrayList<>();
+        char last = Username.charAt(Username.length() - 1);
+        char next = (char) (last+1);
+        StringBuilder end = new StringBuilder(Username);
+        end.setCharAt(Username.length() - 1, next);
+        players.orderBy("userName").startAt(Username).endAt(end+"").limit(5).get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if(task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                Log.i(TAG, document.getId() + " => " + document.toObject(Player.class));
+                                data.add(document.toObject(Player.class));
+                            }
+                            res.put("success", true);
+                            res.put("data", data); // type: ArrayList<Player>
                         } else {
                             Log.d(TAG, "Error getting documents: ", task.getException());
                             res.put("success", false);
