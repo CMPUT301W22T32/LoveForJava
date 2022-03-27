@@ -37,6 +37,8 @@ import java.util.ArrayList;
 import java.util.Map;
 
 public class AfterScanActivity extends AppCompatActivity {
+    final String imgUrl = "/sdcard/DCIM/demo.png";
+    private final APIMain APIServer = new APIMain();
     Uri imageUri;
     Button saveBtn;
     ImageButton camBtn;
@@ -89,7 +91,7 @@ public class AfterScanActivity extends AppCompatActivity {
         saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                saveCode();
+                saveImage();
             }
         });
     }
@@ -173,10 +175,22 @@ public class AfterScanActivity extends AppCompatActivity {
 
     }
 
+    private void saveImage(){
+        APIServer.addImage(imageUri, hashedCode, new ResponseCallback() {
+            @Override
+            public void onResponse(Map<String, Object> response) {
+                if((boolean) response.get("success")){
+                    Log.i("IMG", "STORED");
+                }else{
+                    Log.i("IMG", "FAILED");
+                }
+            }
+        });
+    }
+
     private void saveCode(){
         editText = findViewById(R.id.nickname_of_QR);
         QRcode code = new QRcode(editText.getText()+"", hashedCode ,score);
-        APIMain APIServer = new APIMain();
         Context context = this;
         APIServer.addQRCode(code, p, new ResponseCallback() {
             @Override
