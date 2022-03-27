@@ -75,7 +75,19 @@ public class MainActivity extends AppCompatActivity {
     public void profile_Activity(Player p) {
         Intent intent = new Intent(this, ProfileActivity.class);
         intent.putExtra("PLAYER", p);
-        startActivity(intent);
+        startActivityForResult(intent, 1);
+    }
+
+    protected void onActivityResult(int requestCode, int resultCode,
+                                    Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1) {
+            if (resultCode == Activity.RESULT_OK) {
+                // A contact was picked.  Here we will just display it
+                // to the user.
+                startActivity(new Intent(Intent.ACTION_VIEW, data));
+            }
+        }
     }
 
     /**
