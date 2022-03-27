@@ -15,7 +15,8 @@
         <activity android:name=".Map_Activity"></activity>
         <activity android:name=".Rank_Activity"></activity>
         <activity android:name=".CodeScanner_activity"></activity>
-        <activity android:name=".AfterScanActivity"></activity>
+        <activity android:name=".AfterScanActivity"
+                  android:noHistory="true"></activity>
         <activity android:name=".ProfileActivity"></activity>
         <activity android:name=".QRcodeActivity"></activity>
         <activity android:name=".GenerateQRCodeActivity"></activity>
