@@ -3,6 +3,20 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/hp/Desktop/CMPUT301/QRHunter/LoveForJava/app/src/main/res/layout/a1q23.xml" value="0.2694746376811594" />
+        <entry key="..\:/Users/hp/Desktop/CMPUT301/QRHunter/LoveForJava/app/src/main/res/layout/activity_afterscan.xml" value="0.2957427536231884" />
+        <entry key="..\:/Users/hp/Desktop/CMPUT301/QRHunter/LoveForJava/app/src/main/res/layout/activity_code_scanner.xml" value="0.2694746376811594" />
+        <entry key="..\:/Users/hp/Desktop/CMPUT301/QRHunter/LoveForJava/app/src/main/res/layout/activity_map.xml" value="0.2694746376811594" />
+        <entry key="..\:/Users/hp/Desktop/CMPUT301/QRHunter/LoveForJava/app/src/main/res/layout/activity_qrcodes.xml" value="0.2957427536231884" />
+        <entry key="..\:/Users/hp/Desktop/CMPUT301/QRHunter/LoveForJava/app/src/main/res/layout/activity_rank.xml" value="0.28306159420289856" />
+        <entry key="..\:/Users/hp/Desktop/CMPUT301/QRHunter/LoveForJava/app/src/main/res/layout/activity_ranking.xml" value="0.2957427536231884" />
+        <entry key="..\:/Users/hp/Desktop/CMPUT301/QRHunter/LoveForJava/app/src/main/res/layout/comment_section.xml" value="0.2957427536231884" />
+        <entry key="..\:/Users/hp/Desktop/CMPUT301/QRHunter/LoveForJava/app/src/main/res/layout/list_of_comments.xml" value="0.2957427536231884" />
+        <entry key="..\:/Users/hp/Desktop/CMPUT301/QRHunter/LoveForJava/app/src/main/res/layout/list_of_friends.xml" value="0.2957427536231884" />
+        <entry key="..\:/Users/hp/Desktop/CMPUT301/QRHunter/LoveForJava/app/src/main/res/layout/rank_list.xml" value="0.2957427536231884" />
+        <entry key="..\:/Users/hp/Desktop/CMPUT301/QRHunter/LoveForJava/app/src/main/res/layout/rank_list_all_sum.xml" value="0.276268115942029" />
+        <entry key="..\:/Users/hp/Desktop/CMPUT301/QRHunter/LoveForJava/app/src/main/res/layout/rank_list_single.xml" value="0.276268115942029" />
+        <entry key="..\:/Users/hp/Desktop/CMPUT301/QRHunter/LoveForJava/app/src/main/res/layout/ranklist_all_sum.xml" value="0.2694746376811594" />
         <entry key="..\:/Users/jaspe/CMPUT_301/LoveForJava/app/src/main/res/layout/acitivity_afterscan_alpha.xml" value="0.1" />
         <entry key="..\:/Users/jaspe/CMPUT_301/LoveForJava/app/src/main/res/layout/activity_afterscan.xml" value="0.33" />
         <entry key="..\:/Users/jaspe/CMPUT_301/LoveForJava/app/src/main/res/layout/activity_afterscan2.xml" value="0.1" />
