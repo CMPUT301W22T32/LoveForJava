@@ -2,6 +2,7 @@ package com.example.loveforjava;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -83,9 +84,7 @@ public class MainActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 1) {
             if (resultCode == Activity.RESULT_OK) {
-                // A contact was picked.  Here we will just display it
-                // to the user.
-                startActivity(new Intent(Intent.ACTION_VIEW, data));
+                p = (Player) data.getSerializableExtra("result");
             }
         }
     }

@@ -2,6 +2,7 @@ package com.example.loveforjava;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -55,6 +56,9 @@ public class ProfileActivity extends AppCompatActivity {
         final ImageButton back_button = findViewById(R.id.back_button);
         back_button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+                Intent returnIntent = new Intent();
+                returnIntent.putExtra("result",player);
+                setResult(Activity.RESULT_OK,returnIntent);
                 finish();
             }
         });
