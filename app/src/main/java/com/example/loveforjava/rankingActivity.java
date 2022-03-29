@@ -14,7 +14,9 @@ import java.util.List;
 
 public class rankingActivity extends AppCompatActivity {
 
-    private ListView list_one;
+    private ListView list_single;
+    private ListView list_num;
+    private ListView list_all_scans;
     private CustomList_single Adapter_single = null;
     //private List<ContactsContract.Contacts.Data> mData = null;
     private Context mContext = null;
@@ -26,7 +28,9 @@ public class rankingActivity extends AppCompatActivity {
         mContext = rankingActivity.this;
         //mData = new LinkedList<ContactsContract.Contacts.Data>();
         //Adapter_single = new CustomList_single((LinkedList<ContactsContract.Contacts.Data>) mData,mContext);
-        list_one.setAdapter(Adapter_single);
+        //mData.add(data);
+        //notifyDataSetChanged();
+        list_single.setAdapter(Adapter_single);
     }
 
 }
