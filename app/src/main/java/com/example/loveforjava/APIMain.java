@@ -390,4 +390,31 @@ public class APIMain {
                 });
 
     }
+
+
+    public void getAllCodes(ResponseCallback responseCallback){
+        Map<String, Object> res = new HashMap<>();
+        codes.get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            ArrayList<QRcode> data = new ArrayList<>();
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                Log.d(TAG, document.getId() + " => " + document.toObject(QRcode.class));
+                                data.add(document.toObject(QRcode.class));
+                            }
+                            res.put("success", false);
+                            res.put("data", data);  // type: ArrayList<QRcode>
+                            responseCallback.onResponse(res);
+                        } else {
+                            Exception e =task.getException();
+                            Log.i(TAG, "Data could not be fetched!" + e);
+                            res.put("success", false);
+                            res.put("err", "" + e);
+                            responseCallback.onResponse(res);
+                        }
+                    }
+                });
+    }
 }
