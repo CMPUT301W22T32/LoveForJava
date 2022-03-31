@@ -98,7 +98,6 @@ public class AfterScanActivity extends AppCompatActivity {
          *   SOLUTION : http://rdcworld-android.blogspot.com/2012/01/get-current-location-coordinates-city.html
          *   AUTHOR : https://draft.blogger.com/profile/09071971836590859058
          * */
-
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         recordLocation = findViewById(R.id.record_location);
         recordLocation.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -111,6 +110,9 @@ public class AfterScanActivity extends AppCompatActivity {
                         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000, 10, locationListener);
                         if(locationManager != null) {
                             location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+                            Toast.makeText(getApplicationContext(),
+                                    "Long:" + location.getLongitude() + ", Lat: " +
+                                            location.getLatitude(), Toast.LENGTH_SHORT).show();
                         }
                     }
                 } else {
