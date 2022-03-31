@@ -12,15 +12,15 @@ import androidx.annotation.Nullable;
 
 import java.util.ArrayList;
 
-public class CustomList_num_of_scans extends ArrayAdapter<String> {
+public class CustomList_rank extends ArrayAdapter<String> {
     private ArrayList<String> userNames;
-    private ArrayList<String> score;
+    private ArrayList<Integer> value;
     private Context context;
 
-    public CustomList_num_of_scans(Context context, ArrayList<String> userNames, ArrayList<String> score) {
+    public CustomList_rank(Context context, ArrayList<String> userNames, ArrayList<Integer> value) {
         super(context, 0, userNames);
         this.userNames = userNames;
-        this.score = score;
+        this.value = value;
         this.context = context;
     }
 
@@ -30,17 +30,17 @@ public class CustomList_num_of_scans extends ArrayAdapter<String> {
         View view = convertView;
 
         if(view == null) {
-            view = LayoutInflater.from(context).inflate(R.layout.rank_list_num_of_scans, parent, false);
+            view = LayoutInflater.from(context).inflate(R.layout.rank_list, parent, false);
         }
 
         String name = userNames.get(position);
-        String value = score.get(position);
+        Integer Value = value.get(position);
 
         TextView personText = view.findViewById(R.id.personName);
         TextView valueText = view.findViewById(R.id.value);
 
         personText.setText(name);
-        valueText.setText(value);
+        valueText.setText(Value);
 
 
         return view;
