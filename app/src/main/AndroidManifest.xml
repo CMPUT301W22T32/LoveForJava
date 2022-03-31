@@ -19,6 +19,7 @@
         <activity android:name=".Rank_Activity" />
         <activity android:name=".CodeScanner_activity" />
         <activity android:name=".AfterScanActivity" />
+        <activity android:name=".ProfileActivity" />
         <activity
             android:name=".LoginActivity"
             android:exported="true">
