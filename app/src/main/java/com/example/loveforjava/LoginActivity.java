@@ -49,7 +49,7 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         APIServer = new APIMain();
-
+        //boolean sp = getSharedPreferences("Login", MODE_PRIVATE).edit().clear().commit();
         /*
         * WEBSITE : https://stackoverflow.com
         * SOLUTION : https://stackoverflow.com/a/13910268
@@ -58,15 +58,14 @@ public class LoginActivity extends AppCompatActivity {
         SharedPreferences sharedPreferences = this.getSharedPreferences("Login", MODE_PRIVATE);
         String userID = sharedPreferences.getString("USERID", null);
         if(userID != null) {
-            Context context = this;
             APIServer.getPlayerInfo(userID, new ResponseCallback() {
                 @Override
                 public void onResponse(Map<String, Object> response) {
                     if( (Boolean) response.get("success")) {
                         Player player = (Player) response.get("Player_obj");
                         player.printPlayer();
-                        Intent intent = new Intent(context, MainActivity.class);
-                        intent.putExtra("player", player);
+                        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                        intent.putExtra("PLAYER", player);
                         startActivity(intent);
                     }
 
@@ -116,7 +115,12 @@ public class LoginActivity extends AppCompatActivity {
                         String userID = (String) response.get("user_id");
                         saveUserIdLocally(userID);
                     } else
-                        cannotCreateAccount();
+                        if((Boolean) response.get("taken")){
+                            Toast.makeText(LoginActivity.this, "Username "+ name+ " already taken",
+                                    Toast.LENGTH_SHORT).show();
+                        }else {
+                            cannotCreateAccount();
+                        }
                 }
             });
         }

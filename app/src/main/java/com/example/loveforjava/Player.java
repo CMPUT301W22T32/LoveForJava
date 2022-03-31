@@ -49,8 +49,9 @@ public class Player implements Serializable {
 
     public Boolean addQR(QRcode code){
         String name = code.getNickName();
+        String id = code.getCodeId();
         int score = code.getScore();
-        if(scannedCodes.containsKey(name)){
+        if(scannedCodes.containsValue(id)){
             return false;
         }
 
@@ -61,7 +62,7 @@ public class Player implements Serializable {
             lowestCode = score;
         }
         totScore += score;
-        scannedCodes.put(name, code.getCodeId());
+        scannedCodes.put(name, id);
         return true;
     }
     public Boolean remQR(QRcode code){
@@ -74,6 +75,11 @@ public class Player implements Serializable {
         scannedCodes.remove(name);
         Log.i("codes", scannedCodes+"");
         return true;
+    }
+
+    public String getQRcodeByName(String name){
+        Log.i(name, scannedCodes.get(name));
+        return scannedCodes.get(name);
     }
 
     public int getTotScore() {

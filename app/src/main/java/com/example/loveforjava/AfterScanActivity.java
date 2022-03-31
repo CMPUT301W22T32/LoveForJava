@@ -68,10 +68,11 @@ public class AfterScanActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Intent i = getIntent();
-        p = (Player) i.getSerializableExtra("player");
+        p = (Player) i.getSerializableExtra("PLAYER");
         String rawCode = i.getStringExtra("code");
         Log.i("CODE", rawCode);
         setContentView(R.layout.activity_afterscan);
+
         imageView = findViewById(R.id.iv_selected);
         camBtn = findViewById(R.id.btn_camera);
         saveBtn = findViewById(R.id.save_QR);
@@ -181,10 +182,11 @@ public class AfterScanActivity extends AppCompatActivity {
             @Override
             public void onResponse(Map<String, Object> response) {
                 if( (boolean) response.get("success")){
-                    Intent intent = new Intent(context, MainActivity.class);
-                    intent.putExtra("player", p);
-                    intent.putExtra("QRcode", code);
-                    intent.putExtra("name", code.getNickName());
+                    p = (Player) response.get("Player_obj");
+                    Intent intent = new Intent(context, QRcodeActivity.class);
+                    intent.putExtra("PLAYER", p);
+                    intent.putExtra("QRcode", hashedCode);
+                    intent.putExtra("name", editText.getText()+"");
                     startActivity(intent);
                 }else{
                     Log.i("rt", "werewerwqwewq");
@@ -193,7 +195,4 @@ public class AfterScanActivity extends AppCompatActivity {
             }
         });
     }
-
-
-
 }
