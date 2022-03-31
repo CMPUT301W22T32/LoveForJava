@@ -5,17 +5,26 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.Spinner;
 
 import java.util.ArrayList;
+
 import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
     private EditText name;
     private Player p;
+    AutoCompleteTextView search_friends;
+    Spinner friends;
+    ArrayList<String> usernames = new ArrayList<>();
+    APIMain user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,6 +33,29 @@ public class MainActivity extends AppCompatActivity {
         p = (Player) i.getSerializableExtra("PLAYER");
         setContentView(R.layout.activity_main);
 
+        search_friends = (AutoCompleteTextView) findViewById(R.id.username);
+        friends = (Spinner) findViewById(R.id.friends);
+
+        usernames.add("uuuu");
+        usernames.add("uauaua");
+        usernames.add("she");
+        usernames.add("he");
+        usernames.add("fruit");
+        usernames.add("zebra");
+        usernames.add("hit");
+        usernames.add("hint");
+        usernames.add("bit");
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(MainActivity.this, android.R.layout.simple_spinner_dropdown_item,usernames);
+
+        ArrayAdapter<String> adapter1 = new ArrayAdapter<String>(MainActivity.this, android.R.layout.simple_spinner_dropdown_item,usernames);
+
+        search_friends.setAdapter(adapter);
+        friends.setAdapter(adapter1);
+
+        /**
+         * set listener for profile_Button
+         */
         ImageButton Profile_Button = findViewById(R.id.profile);
         Profile_Button.setOnClickListener(new View.OnClickListener() {
             @Override

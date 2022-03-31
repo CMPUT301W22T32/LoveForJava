@@ -22,6 +22,9 @@ import android.widget.TextView;
 
 import androidx.annotation.ArrayRes;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.fragment.app.ListFragment;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -56,6 +59,26 @@ public class QRcodeActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    public void seenByFrag(View v){
+        Log.i("HERE", "HERE");
+
+        Intent intent = new Intent(this, SeenByActivity.class);
+        intent.putExtra("Seen By", code.getSeenBy());
+        startActivity(intent);
+        Log.i("HERE", "HOWW");
+        SeenByFragment fragment = new SeenByFragment();
+        Bundle bundle = new Bundle();
+        ArrayList<String> seenBy = code.getSeenBy();
+        //getSupportFragmentManager().beginTransaction().add(R.id.seen_by, fragment);
+        //ArrayAdapter adapter = new ArrayAdapter<>(this, R.layout.seen_by_list, seenBy);
+        //fragment.setListAdapter(adapter);
+
+
+        /*bundle.putStringArrayList("seen_by", seenBy);
+        fragment.setArguments(bundle);
+        fragment.show(getSupportFragmentManager(), "Seen By:");*/
     }
 
 
@@ -113,14 +136,5 @@ public class QRcodeActivity extends AppCompatActivity {
         commentAdapter = new CustomList2(this, userNames, commentsBody);
         commentList.setAdapter(commentAdapter);
         commentAdapter.notifyDataSetChanged();
-    }
-
-    @Override
-    public void onDestroy(){
-        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        intent.putExtra("PLAYER", p);
-        startActivity(intent);
-        super.onDestroy();
     }
 }

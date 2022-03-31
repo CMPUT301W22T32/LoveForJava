@@ -77,6 +77,11 @@ public class Player implements Serializable {
         return true;
     }
 
+    public String getQRcodeByName(String name){
+        Log.i(name, scannedCodes.get(name));
+        return scannedCodes.get(name);
+    }
+
     public int getTotScore() {
         return totScore;
     }

@@ -6,32 +6,29 @@
     android:layout_height="match_parent"
     tools:context=".Player">
 
-    <androidx.viewpager.widget.ViewPager
-        android:id="@+id/viewPager"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <RelativeLayout
-            android:id="@+id/container"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-    </androidx.viewpager.widget.ViewPager>
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:layout_weight="1"
         android:layout_marginTop="2dp">
-        <EditText
+        <AutoCompleteTextView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:id="@+id/username"
-            android:hint="Search Friends"
+            android:hint="Search for friends"
             android:textSize="15dp"
             android:background="@drawable/edittextbackground"
             android:drawableLeft="@drawable/ic_action_search"
             android:paddingLeft="10dp"
-            android:layout_gravity="center_vertical" />
+            android:layout_gravity="center_vertical"
+            android:completionThreshold="1" />
+
+        <Spinner
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/username"
+            android:layout_marginTop="30dp"
+            android:id="@+id/friends" />
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
@@ -48,6 +45,15 @@
             android:background="@drawable/edittextbackground"
             android:src="@drawable/ic_baseline_person_24" />
     </LinearLayout>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="250dp"
+        android:gravity="center"
+        android:text="Profile"
+        android:textSize="17dp"
+        android:textColor="@color/blue_crayola"/>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="140dp"
@@ -75,8 +81,45 @@
             android:background="@drawable/edittextbackground"
             android:gravity="center_horizontal"
             android:src="@drawable/ic_baseline_group_24" />
-    </LinearLayout>
 
+        <androidx.viewpager.widget.ViewPager
+            android:id="@+id/viewPager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <RelativeLayout
+                android:id="@+id/container"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+        </androidx.viewpager.widget.ViewPager>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="430dp"
+        android:gravity="center">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Map"
+            android:textSize="17dp"
+            android:textColor="@color/blue_crayola"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginHorizontal="76dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Ranking"
+            android:textSize="17dp"
+            android:textColor="@color/blue_crayola"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginHorizontal="58dp"/>
+    </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="140dp"
