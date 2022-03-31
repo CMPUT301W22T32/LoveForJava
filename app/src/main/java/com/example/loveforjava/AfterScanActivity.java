@@ -63,9 +63,6 @@ public class AfterScanActivity extends AppCompatActivity {
     private Player p;
     private String hashedCode = "JEFFFFFF";
     private int score;
-    private ArrayList permissionsToRequest;
-    private ArrayList permissionsRejected = new ArrayList();
-    private ArrayList permissions = new ArrayList();
     private final static int ALL_PERMISSIONS_RESULT = 101;
     ActivityResultLauncher<Intent> someActivityResultLauncher = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
@@ -110,9 +107,6 @@ public class AfterScanActivity extends AppCompatActivity {
                         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000, 10, locationListener);
                         if(locationManager != null) {
                             location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-                            Toast.makeText(getApplicationContext(),
-                                    "Long:" + location.getLongitude() + ", Lat: " +
-                                            location.getLatitude(), Toast.LENGTH_SHORT).show();
                         }
                     }
                 } else {
