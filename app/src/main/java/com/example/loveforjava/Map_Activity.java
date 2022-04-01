@@ -32,6 +32,7 @@ import org.osmdroid.views.overlay.Marker;
 import org.osmdroid.views.overlay.compass.CompassOverlay;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Map_Activity extends AppCompatActivity {
     private MapView map = null;
@@ -67,19 +68,26 @@ public class Map_Activity extends AppCompatActivity {
         Location location;
         LocationListener locationListener = new MyLocationListener();
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000, 10, locationListener);
-        if(locationManager != null) {
-            location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-            Log.i("MAP", locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER)+"");
+        List<String> providers = locationManager.getProviders(true);
+        for(String provider : providers){
+            location = locationManager.getLastKnownLocation(provider);
+            if (location == null) {
+                continue;
+            }
+            Log.i("MAP", location.getLongitude()+", "+location.getLatitude());
 
-            GeoPoint point = new GeoPoint(location.getLongitude(), location.getLatitude());
+            GeoPoint point = new GeoPoint(location.getLatitude(), location.getLongitude());
 
             Marker startMarker = new Marker(map);
             startMarker.setPosition(point);
             startMarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_CENTER);
             map.getOverlays().add(startMarker);
-
+            map.getController().setZoom(18.0);
             map.getController().setCenter(point);
+            break;
         }
+
+
 
 
     }
