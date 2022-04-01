@@ -39,7 +39,6 @@ public class Map_Activity extends AppCompatActivity {
 
     private final int REQUEST_PERMISSIONS_REQUEST_CODE = 1;
 
-    @SuppressLint("MissingPermission")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,7 +62,7 @@ public class Map_Activity extends AppCompatActivity {
         compassOverlay.enableCompass();
         map.getOverlays().add(compassOverlay);
 
-        LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        /*LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         locPermission();
         Location location;
         LocationListener locationListener = new MyLocationListener();
@@ -85,8 +84,17 @@ public class Map_Activity extends AppCompatActivity {
             map.getController().setZoom(18.0);
             map.getController().setCenter(point);
             break;
-        }
+        }*/
+        Location location = getLocation();
+        Log.i("MAP2", location.getLongitude()+", "+location.getLatitude());
+        GeoPoint point = new GeoPoint(location.getLatitude(), location.getLongitude());
 
+        Marker startMarker = new Marker(map);
+        startMarker.setPosition(point);
+        startMarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_CENTER);
+        map.getOverlays().add(startMarker);
+        map.getController().setZoom(18.0);
+        map.getController().setCenter(point);
 
 
 
@@ -123,31 +131,24 @@ public class Map_Activity extends AppCompatActivity {
         }
     }
 
-    protected void alertBox(String title, String mymessage) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage("Your Device's GPS is Disable")
-                .setCancelable(false)
-                .setTitle("** Gps Status **")
-                .setPositiveButton("Gps On",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                // finish the current activity
-                                // AlertBoxAdvance.this.finish();
-                                Intent myIntent = new Intent(
-                                        Settings.ACTION_SECURITY_SETTINGS);
-                                startActivity(myIntent);
-                                dialog.cancel();
-                            }
-                        })
-                .setNegativeButton("Cancel",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                // cancel the dialog box
-                                dialog.cancel();
-                            }
-                        });
-        AlertDialog alert = builder.create();
-        alert.show();
+    @SuppressLint("MissingPermission")
+    private Location getLocation(){
+        LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        locPermission();
+        Location location = null;
+        LocationListener locationListener = new MyLocationListener();
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000, 10, locationListener);
+        List<String> providers = locationManager.getProviders(true);
+        Log.i("PROVIDERS", providers+"");
+        for(String provider : providers){
+            location = locationManager.getLastKnownLocation(provider);
+            if (location == null) {
+                continue;
+            }
+            Log.i("MAP", location.getLongitude()+", "+location.getLatitude());
+            return location;
+        }
+        return location;
     }
 
     public void locPermission() {

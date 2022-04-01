@@ -14,6 +14,7 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.SetOptions;
@@ -391,7 +392,6 @@ public class APIMain {
 
     }
 
-
     public void getAllCodes(ResponseCallback responseCallback){
         Map<String, Object> res = new HashMap<>();
         codes.get()
@@ -421,8 +421,8 @@ public class APIMain {
     public void getRank(Player p, String field,ResponseCallback responseCallback){
         Map<String, Object> res = new HashMap<>();
         ArrayList<String> usernames = new ArrayList<>();
-        ArrayList<Integer> values = new ArrayList<>();
-        players.orderBy(field).get()
+        ArrayList<String> values = new ArrayList<>();
+        players.orderBy(field, Query.Direction.DESCENDING).get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
@@ -432,14 +432,14 @@ public class APIMain {
                                 if(document.getId().equals(p.getUserId())){
                                     res.put("rank", i);
                                 }
-                                Log.i(TAG, document.getId() + " => " + document.getData().get(field));
+                                Log.i(TAG, document.getData().get("userName") + " => " + document.getData().get(field));
                                 usernames.add((String) document.getData().get("userName"));
-                                values.add((Integer) document.getData().get(field));
+                                values.add(document.getData().get(field)+"");
                                 i++;
                             }
                             res.put("success", true);
                             res.put("usernames", usernames); // type: ArrayList<String>
-                            res.put("values", values); // type: ArrayList<Integer>
+                            res.put("values", values); // type: ArrayList<String>
                         } else {
                             Log.d(TAG, "Error getting documents: ", task.getException());
                             res.put("success", false);
