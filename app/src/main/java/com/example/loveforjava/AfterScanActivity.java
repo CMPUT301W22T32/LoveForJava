@@ -97,20 +97,23 @@ public class AfterScanActivity extends AppCompatActivity {
          * */
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         recordLocation = findViewById(R.id.record_location);
+        locPermission();
         recordLocation.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @SuppressLint("MissingPermission")
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean checked) {
                 if (checked) {
+                    locPermission();
                     if (displayGpsStatus()) {
                         locationListener = new MyLocationListener();
                         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000, 10, locationListener);
                         if(locationManager != null) {
                             location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
                         }
+                    } else {
+                        compoundButton.toggle();
+                        alertBox("Gps Status!!", "Your GPS is: OFF");
                     }
-                } else {
-                    alertBox("Gps Status!!", "Your GPS is: OFF");
                 }
             }
         });
@@ -201,6 +204,27 @@ public class AfterScanActivity extends AppCompatActivity {
             int REQUEST_CODE_CONTACT = 101;
             String[] permissions = {Manifest.permission.READ_CONTACTS, Manifest.permission.WRITE_CONTACTS,//联系人的权限
                     Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE};//读写SD卡权限
+            //Test if permitted
+            for (String str : permissions) {
+                if (this.checkSelfPermission(str) != PackageManager.PERMISSION_GRANTED) {
+                    //request permission
+                    this.requestPermissions(permissions, REQUEST_CODE_CONTACT);
+                }
+            }
+        }
+    }
+
+    public void locPermission() {
+        //Call Camera
+        StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
+        StrictMode.setVmPolicy(builder.build());
+        builder.detectFileUriExposure();
+
+        //Dynamic Permission Request
+        if (Build.VERSION.SDK_INT >= 23) {
+            int REQUEST_CODE_CONTACT = 101;
+            String[] permissions = {Manifest.permission.ACCESS_COARSE_LOCATION,
+                                    Manifest.permission.ACCESS_FINE_LOCATION};
             //Test if permitted
             for (String str : permissions) {
                 if (this.checkSelfPermission(str) != PackageManager.PERMISSION_GRANTED) {
