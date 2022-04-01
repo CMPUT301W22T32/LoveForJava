@@ -54,14 +54,14 @@
     </LinearLayout>
 
     <ListView
-        android:id="@+id/qr_list2"
+        android:id="@+id/qr_list3"
         android:layout_width="match_parent"
         android:layout_height="260dp"
         android:layout_marginTop="200dp"
         tools:listitem="@layout/list_of_friends" >
 
         <ListView
-            android:id="@+id/qr_list2"
+            android:id="@+id/qr_list4"
             android:layout_width="match_parent"
             android:layout_height="260dp"
             android:layout_marginTop="200dp"
