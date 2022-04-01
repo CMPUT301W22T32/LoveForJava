@@ -66,6 +66,8 @@ public class LoginActivity extends AppCompatActivity {
                         player.printPlayer();
                         Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                         intent.putExtra("PLAYER", player);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         startActivity(intent);
                     }
 
@@ -191,6 +193,8 @@ public class LoginActivity extends AppCompatActivity {
         Ed.commit();
         Intent intent = new Intent(this, MainActivity.class);
         intent.putExtra("USERID", userID);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
     }
 }

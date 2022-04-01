@@ -60,6 +60,7 @@ public class CodeScanner_activity extends AppCompatActivity {
                 Intent intent = new Intent(getApplicationContext(), AfterScanActivity.class);
                 intent.putExtra("code", qr_content);
                 intent.putExtra("PLAYER", p);
+                //intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
                 startActivity(intent);
             }
         });
@@ -104,6 +105,8 @@ public class CodeScanner_activity extends AppCompatActivity {
                         player.printPlayer();
                         Intent intent = new Intent(context, MainActivity.class);
                         intent.putExtra("PLAYER", player);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         startActivity(intent);
                     } else {
                         Toast.makeText(context, "This account doesn't exist", Toast.LENGTH_SHORT).show();

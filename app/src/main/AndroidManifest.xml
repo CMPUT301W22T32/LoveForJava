@@ -20,24 +20,24 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.LoveForJava">
+        <activity android:name=".Map_Activity"
+            android:screenOrientation="nosensor" />
+        <activity android:name=".Rank_Activity"
+            android:screenOrientation="nosensor" />
+        <activity android:name=".CodeScanner_activity"
+            android:screenOrientation="nosensor" />
+        <activity android:name=".AfterScanActivity"
+            android:screenOrientation="nosensor" />
+        <activity android:name=".ProfileActivity"
+            android:screenOrientation="nosensor" />
+        <activity android:name=".QRcodeActivity"
+            android:screenOrientation="nosensor" />
+        <activity android:name=".GenerateQRCodeActivity"
+            android:screenOrientation="nosensor" />
+        <activity android:name=".SeenByActivity"
+            android:screenOrientation="nosensor" />
         <activity
-            android:name=".OwnerPageActivity"
-            android:exported="false" />
-        <activity
-            android:name=".OwnerLoginActivity"
-            android:exported="false" />
-        <activity android:name=".Map_Activity" />
-        <activity android:name=".Rank_Activity" />
-        <activity android:name=".CodeScanner_activity" />
-        <activity
-            android:name=".AfterScanActivity"
-            android:noHistory="true" />
-        <activity android:name=".ProfileActivity" />
-        <activity android:name=".QRcodeActivity" />
-        <activity android:name=".GenerateQRCodeActivity" />
-        <activity android:name=".SeenByActivity" />
-        <activity android:name=".OtherUserActivity" />
-        <activity
+            android:screenOrientation="nosensor"
             android:name=".LoginActivity"
             android:exported="true">
             <intent-filter>
@@ -46,7 +46,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MainActivity" />
+        <activity android:name=".MainActivity"
+            android:screenOrientation="nosensor"/>
     </application>
 
 </manifest>

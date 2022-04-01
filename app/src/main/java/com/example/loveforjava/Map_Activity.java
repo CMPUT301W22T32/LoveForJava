@@ -1,15 +1,27 @@
 package com.example.loveforjava;
 
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.preference.PreferenceManager;
+import android.provider.Settings;
+import android.util.Log;
+import android.widget.CompoundButton;
 
 import org.osmdroid.config.Configuration;
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
@@ -20,8 +32,9 @@ import org.osmdroid.views.overlay.Marker;
 import org.osmdroid.views.overlay.compass.CompassOverlay;
 
 import java.util.ArrayList;
+import java.util.List;
 
-public class Map_Activity extends AppCompatActivity{
+public class Map_Activity extends AppCompatActivity {
     private MapView map = null;
 
     private final int REQUEST_PERMISSIONS_REQUEST_CODE = 1;
@@ -49,14 +62,42 @@ public class Map_Activity extends AppCompatActivity{
         compassOverlay.enableCompass();
         map.getOverlays().add(compassOverlay);
 
-        GeoPoint point = new GeoPoint(53.5461, -113.4938);
+        /*LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        locPermission();
+        Location location;
+        LocationListener locationListener = new MyLocationListener();
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000, 10, locationListener);
+        List<String> providers = locationManager.getProviders(true);
+        for(String provider : providers){
+            location = locationManager.getLastKnownLocation(provider);
+            if (location == null) {
+                continue;
+            }
+            Log.i("MAP", location.getLongitude()+", "+location.getLatitude());
+
+            GeoPoint point = new GeoPoint(location.getLatitude(), location.getLongitude());
+
+            Marker startMarker = new Marker(map);
+            startMarker.setPosition(point);
+            startMarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_CENTER);
+            map.getOverlays().add(startMarker);
+            map.getController().setZoom(18.0);
+            map.getController().setCenter(point);
+            break;
+        }*/
+        Location location = getLocation();
+        Log.i("MAP2", location.getLongitude()+", "+location.getLatitude());
+        GeoPoint point = new GeoPoint(location.getLatitude(), location.getLongitude());
 
         Marker startMarker = new Marker(map);
         startMarker.setPosition(point);
         startMarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_CENTER);
         map.getOverlays().add(startMarker);
-
+        map.getController().setZoom(18.0);
         map.getController().setCenter(point);
+
+
+
     }
 
     @Override
@@ -87,6 +128,41 @@ public class Map_Activity extends AppCompatActivity{
                     this,
                     permissionsToRequest.toArray(new String[0]),
                     REQUEST_PERMISSIONS_REQUEST_CODE);
+        }
+    }
+
+    @SuppressLint("MissingPermission")
+    private Location getLocation(){
+        LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        locPermission();
+        Location location = null;
+        LocationListener locationListener = new MyLocationListener();
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000, 10, locationListener);
+        List<String> providers = locationManager.getProviders(true);
+        Log.i("PROVIDERS", providers+"");
+        for(String provider : providers){
+            location = locationManager.getLastKnownLocation(provider);
+            if (location == null) {
+                continue;
+            }
+            Log.i("MAP", location.getLongitude()+", "+location.getLatitude());
+            return location;
+        }
+        return location;
+    }
+
+    public void locPermission() {
+        if (ActivityCompat.checkSelfPermission(this,
+                Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
+                ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
         }
     }
 }

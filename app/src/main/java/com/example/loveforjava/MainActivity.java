@@ -138,6 +138,7 @@ public class MainActivity extends AppCompatActivity {
      */
     public void openRank_Activity(){
         Intent intent = new Intent(this, Rank_Activity.class);
+        intent.putExtra("player", p);
         startActivity(intent);
     }
 
