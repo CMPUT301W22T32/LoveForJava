@@ -61,6 +61,11 @@ public class QRcodeActivity extends AppCompatActivity {
         });
     }
 
+    public void openGallery(View v){
+        Intent intent = new Intent(this, ViewImages.class);
+        startActivity(intent);
+    }
+
     public void seenByFrag(View v){
         Log.i("HERE", "HERE");
 
