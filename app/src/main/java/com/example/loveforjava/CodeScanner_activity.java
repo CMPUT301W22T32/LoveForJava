@@ -56,7 +56,7 @@ public class CodeScanner_activity extends AppCompatActivity {
                 Intent intent = new Intent(getApplicationContext(), AfterScanActivity.class);
                 intent.putExtra("code", qr_content);
                 intent.putExtra("PLAYER", p);
-                intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+                //intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
                 startActivity(intent);
             }
         });
