@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="10dp"
+    android:background="#FFFFFF"
+    android:orientation="vertical"
+    tools:context=".OwnerLoginActivity">
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="212dp"
+        android:layout_margin="50dp"
+        android:src="@drawable/logo"/>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:id="@+id/username"
+        android:hint="Username"
+        android:textSize="16dp"
+        android:background="@drawable/edittextbackground"
+        android:drawableLeft="@drawable/ic_action_username"
+        android:layout_marginBottom="10dp"
+        android:paddingLeft="20dp"/>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:id="@+id/useremail"
+        android:hint="Email"
+        android:textSize="16dp"
+        android:background="@drawable/edittextbackground"
+        android:drawableLeft="@drawable/ic_action_email"
+        android:layout_marginBottom="10dp"
+        android:paddingLeft="20dp"/>
+
+    <Button
+        android:id="@+id/login_button"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_marginBottom="30dp"
+        android:backgroundTint="#3772FF"
+        android:text="Owner Sign In"
+        android:textSize="20dp" />
+
+</LinearLayout>
