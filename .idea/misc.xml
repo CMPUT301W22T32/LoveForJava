@@ -3,16 +3,8 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/Users/Roopdilawar Singh/AndroidStudioProjects/LoveForJava/app/src/main/res/layout/activity_afterscan.xml" value="0.25" />
-        <entry key="..\:/Users/Roopdilawar Singh/AndroidStudioProjects/LoveForJava/app/src/main/res/layout/activity_login.xml" value="0.2028985507246377" />
-        <entry key="..\:/Users/Roopdilawar Singh/AndroidStudioProjects/LoveForJava/app/src/main/res/layout/activity_main.xml" value="0.22780797101449277" />
-        <entry key="..\:/Users/Roopdilawar Singh/AndroidStudioProjects/LoveForJava/app/src/main/res/layout/activity_other_user.xml" value="0.2" />
-        <entry key="..\:/Users/Roopdilawar Singh/AndroidStudioProjects/LoveForJava/app/src/main/res/layout/activity_profile.xml" value="0.2" />
-        <entry key="..\:/Users/Roopdilawar Singh/AndroidStudioProjects/LoveForJava/app/src/main/res/layout/activity_qrcodes.xml" value="0.25" />
-        <entry key="..\:/Users/Roopdilawar Singh/AndroidStudioProjects/LoveForJava/app/src/main/res/layout/activity_rank.xml" value="0.23097826086956522" />
-        <entry key="..\:/Users/Roopdilawar Singh/AndroidStudioProjects/LoveForJava/app/src/main/res/layout/activity_ranking.xml" value="0.23097826086956522" />
-        <entry key="..\:/Users/Roopdilawar Singh/AndroidStudioProjects/LoveForJava/app/src/main/res/layout/list_of_friends.xml" value="0.23097826086956522" />
-        <entry key="..\:/Users/Roopdilawar Singh/AndroidStudioProjects/LoveForJava/app/src/main/res/layout/rank_list.xml" value="0.23097826086956522" />
+        <entry key="..\:/Users/Roopdilawar Singh/AndroidStudioProjects/LoveForJava/app/src/main/res/layout/activity_login.xml" value="0.19927536231884058" />
+        <entry key="..\:/Users/Roopdilawar Singh/AndroidStudioProjects/LoveForJava/app/src/main/res/layout/activity_main.xml" value="0.24365942028985507" />
         <entry key="app/src/main/res/drawable-anydpi/ic_action_people.xml" value="0.325" />
         <entry key="app/src/main/res/drawable-anydpi/ic_action_snap.xml" value="0.325" />
         <entry key="app/src/main/res/drawable-anydpi/ic_action_texture.xml" value="0.4197916666666667" />
