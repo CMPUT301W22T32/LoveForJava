@@ -1,22 +1,33 @@
 package com.example.loveforjava;
 
+import static android.Manifest.permission.ACCESS_COARSE_LOCATION;
+import static android.Manifest.permission.ACCESS_FINE_LOCATION;
+
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.annotation.TargetApi;
 import android.app.Activity;
+import android.content.ContentResolver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.os.StrictMode;
 import android.provider.MediaStore;
+import android.provider.Settings;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -28,7 +39,9 @@ import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
 import java.io.File;
 import java.math.BigInteger;
@@ -42,11 +55,15 @@ public class AfterScanActivity extends AppCompatActivity {
     ImageButton camBtn;
     ImageView imageView;
     TextView score_text;
-    TextView score_show;
     EditText editText;
+    CheckBox recordLocation;
+    LocationManager locationManager;
+    LocationListener locationListener;
+    Location location;
     private Player p;
     private String hashedCode = "JEFFFFFF";
     private int score;
+    private final static int ALL_PERMISSIONS_RESULT = 101;
     ActivityResultLauncher<Intent> someActivityResultLauncher = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
             new ActivityResultCallback<ActivityResult>() {
@@ -63,6 +80,7 @@ public class AfterScanActivity extends AppCompatActivity {
                 }
             }
     );
+
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR2)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,6 +90,34 @@ public class AfterScanActivity extends AppCompatActivity {
         String rawCode = i.getStringExtra("code");
         Log.i("CODE", rawCode);
         setContentView(R.layout.activity_afterscan);
+
+        /*  WEBSITE : http://rdcworld-android.blogspot.com
+         *   SOLUTION : http://rdcworld-android.blogspot.com/2012/01/get-current-location-coordinates-city.html
+         *   AUTHOR : https://draft.blogger.com/profile/09071971836590859058
+         * */
+        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        recordLocation = findViewById(R.id.record_location);
+        locPermission();
+        recordLocation.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @SuppressLint("MissingPermission")
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean checked) {
+                if (checked) {
+                    locPermission();
+                    if (displayGpsStatus()) {
+                        locationListener = new MyLocationListener();
+                        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000, 10, locationListener);
+                        if(locationManager != null) {
+                            location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+                        }
+                    } else {
+                        compoundButton.toggle();
+                        alertBox("Gps Status!!", "Your GPS is: OFF");
+                    }
+                }
+            }
+        });
+
 
         imageView = findViewById(R.id.iv_selected);
         camBtn = findViewById(R.id.btn_camera);
@@ -93,6 +139,48 @@ public class AfterScanActivity extends AppCompatActivity {
             }
         });
     }
+
+    private boolean displayGpsStatus() {
+        ContentResolver contentResolver = getBaseContext()
+                .getContentResolver();
+        boolean gpsStatus = Settings.Secure
+                .isLocationProviderEnabled(contentResolver,
+                        LocationManager.GPS_PROVIDER);
+        if (gpsStatus) {
+            return true;
+
+        } else {
+            return false;
+        }
+    }
+
+    protected void alertBox(String title, String mymessage) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("Your Device's GPS is Disable")
+                .setCancelable(false)
+                .setTitle("** Gps Status **")
+                .setPositiveButton("Gps On",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                // finish the current activity
+                                // AlertBoxAdvance.this.finish();
+                                Intent myIntent = new Intent(
+                                        Settings.ACTION_SECURITY_SETTINGS);
+                                startActivity(myIntent);
+                                dialog.cancel();
+                            }
+                        })
+                .setNegativeButton("Cancel",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                // cancel the dialog box
+                                dialog.cancel();
+                            }
+                        });
+        AlertDialog alert = builder.create();
+        alert.show();
+    }
+
     /**
      * Open Camera
      */
@@ -116,6 +204,27 @@ public class AfterScanActivity extends AppCompatActivity {
             int REQUEST_CODE_CONTACT = 101;
             String[] permissions = {Manifest.permission.READ_CONTACTS, Manifest.permission.WRITE_CONTACTS,//联系人的权限
                     Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE};//读写SD卡权限
+            //Test if permitted
+            for (String str : permissions) {
+                if (this.checkSelfPermission(str) != PackageManager.PERMISSION_GRANTED) {
+                    //request permission
+                    this.requestPermissions(permissions, REQUEST_CODE_CONTACT);
+                }
+            }
+        }
+    }
+
+    public void locPermission() {
+        //Call Camera
+        StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
+        StrictMode.setVmPolicy(builder.build());
+        builder.detectFileUriExposure();
+
+        //Dynamic Permission Request
+        if (Build.VERSION.SDK_INT >= 23) {
+            int REQUEST_CODE_CONTACT = 101;
+            String[] permissions = {Manifest.permission.ACCESS_COARSE_LOCATION,
+                                    Manifest.permission.ACCESS_FINE_LOCATION};
             //Test if permitted
             for (String str : permissions) {
                 if (this.checkSelfPermission(str) != PackageManager.PERMISSION_GRANTED) {
@@ -163,19 +272,17 @@ public class AfterScanActivity extends AppCompatActivity {
     }
 
     public void scoring() {
-
         // With the java libraries
         //score_show=findViewById(R.id.score);
         score = score_calc(hashedCode);
         score_text.setText(score+"");
         //score_show.setText(hashedCode);
-
-
     }
 
     private void saveCode(){
         editText = findViewById(R.id.nickname_of_QR);
-        QRcode code = new QRcode(editText.getText()+"", hashedCode ,score);
+        QRcode code = new QRcode(editText.getText()+"", hashedCode ,score,
+                Double.toString(location.getLongitude()), Double.toString(location.getLatitude()));
         APIMain APIServer = new APIMain();
         Context context = this;
         APIServer.addQRCode(code, p, new ResponseCallback() {
