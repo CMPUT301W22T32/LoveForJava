@@ -417,4 +417,36 @@ public class APIMain {
                     }
                 });
     }
+
+    public void getRank(Player p, String field,ResponseCallback responseCallback){
+        Map<String, Object> res = new HashMap<>();
+        ArrayList<String> usernames = new ArrayList<>();
+        ArrayList<Integer> values = new ArrayList<>();
+        players.orderBy(field).get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if(task.isSuccessful()) {
+                            int i = 1;
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                if(document.getId().equals(p.getUserId())){
+                                    res.put("rank", i);
+                                }
+                                Log.i(TAG, document.getId() + " => " + document.getData().get(field));
+                                usernames.add((String) document.getData().get("userName"));
+                                values.add((Integer) document.getData().get(field));
+                                i++;
+                            }
+                            res.put("success", true);
+                            res.put("usernames", usernames); // type: ArrayList<String>
+                            res.put("values", values); // type: ArrayList<Integer>
+                        } else {
+                            Log.d(TAG, "Error getting documents: ", task.getException());
+                            res.put("success", false);
+                            res.put("err", "" + task.getException());
+                        }
+                        responseCallback.onResponse(res);
+                    }
+                });
+    }
 }

@@ -14,6 +14,7 @@ public class Player implements Serializable {
     int highestCode;
     int lowestCode;
     int totScore;
+    int numScanned;
 
 
     // **empty constructor requried for firebase storage**
@@ -27,6 +28,7 @@ public class Player implements Serializable {
         highestCode = 0;
         lowestCode = -1;
         totScore = 0;
+        numScanned = 0;
     }
 
     public void printPlayer(){
@@ -108,5 +110,9 @@ public class Player implements Serializable {
 
     public int getLowestCode() {
         return lowestCode;
+    }
+
+    public int getNumScanned(){
+        return numScanned;
     }
 }
