@@ -71,9 +71,8 @@ public class AfterScanActivity extends AppCompatActivity {
     LocationListener locationListener;
     Location location;
     private Player p;
-    private String hashedCode = "JEFFFFFF";
+    private String hashedCode;
     private int score;
-    private final static int ALL_PERMISSIONS_RESULT = 101;
     ActivityResultLauncher<Intent> someActivityResultLauncher = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
             new ActivityResultCallback<ActivityResult>() {
@@ -136,8 +135,8 @@ public class AfterScanActivity extends AppCompatActivity {
         saveBtn = findViewById(R.id.save_QR);
         score_text = findViewById(R.id.score);
         Permission();
-        hashedCode = hashing(rawCode);
-        scoring();
+        hashedCode = hashCode(rawCode);
+        scoreCalc(hashedCode);
         camBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -228,7 +227,6 @@ public class AfterScanActivity extends AppCompatActivity {
     }
 
     public void locPermission() {
-        //Call Camera
         StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
         StrictMode.setVmPolicy(builder.build());
         builder.detectFileUriExposure();
@@ -248,63 +246,32 @@ public class AfterScanActivity extends AppCompatActivity {
         }
     }
 
-    public static String getSHA256(String input){
-        String toReturn = null;
+    public static String hashCode(String input){
+        String hashedString = null;
         try {
             MessageDigest digest = MessageDigest.getInstance("SHA-256");
             digest.reset();
             digest.update(input.getBytes("utf8"));
-            toReturn = String.format("%064x", new BigInteger(1, digest.digest()));
+            hashedString = String.format("%064x", new BigInteger(1, digest.digest()));
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return toReturn;
+        Log.i("HASHED", hashedString);
+        return hashedString;
     }
 
-    public String hashing(String inputValue) {
-
-        //String inputValue = "this is an example";
-
-        // With the java libraries
-        String hashed = getSHA256(inputValue);
-        Log.i("HASHED", hashed);
-        //score_show.setText(hashedCode);
-        return hashed;
-    }
-
-    public int score_calc(String code) {
+    public int scoreCalc(String code) {
         String ints = "0123456789";
         String str;
-        int score = 0;
+        score = 0;
         for(int i=0;i<code.length();i++){
             str = code.charAt(i)+"";
             if(ints.contains(str)){
                 score += Integer.parseInt(str);
             }
         }
+        score_text.setText("Score: "+score);
         return score;
-    }
-
-    public void scoring() {
-        // With the java libraries
-        //score_show=findViewById(R.id.score);
-        score = score_calc(hashedCode);
-        score_text.setText(score+"");
-        //score_show.setText(hashedCode);
-    }
-
-    private void saveImage(){
-        signIn();
-        APIServer.addImage(imageUri, hashedCode, new ResponseCallback() {
-            @Override
-            public void onResponse(Map<String, Object> response) {
-                if((boolean) response.get("success")){
-                    Log.i("IMG", "STORED");
-                }else{
-                    Log.i("IMG", "FAILED");
-                }
-            }
-        });
     }
 
     private void saveCode(){
@@ -329,10 +296,25 @@ public class AfterScanActivity extends AppCompatActivity {
                     intent.putExtra("PLAYER", p);
                     intent.putExtra("QRcode", hashedCode);
                     intent.putExtra("name", editText.getText()+"");
+                    intent.putExtra("previousActivity", "AfterScanActivity");
                     startActivity(intent);
                 }else{
                     Log.i("rt", "werewerwqwewq");
                     Toast.makeText(context, "Code Already Scanned", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
+
+    private void saveImage(){
+        signIn();
+        APIServer.addImage(imageUri, hashedCode, new ResponseCallback() {
+            @Override
+            public void onResponse(Map<String, Object> response) {
+                if((boolean) response.get("success")){
+                    Log.i("IMG", "STORED");
+                }else{
+                    Log.i("IMG", "FAILED");
                 }
             }
         });

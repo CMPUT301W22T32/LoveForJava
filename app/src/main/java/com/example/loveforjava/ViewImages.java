@@ -86,6 +86,7 @@ public class ViewImages extends AppCompatActivity {
                 Log.i("SWIPE", "RIGHT");
                 if(index > 0){
                     index--;
+                    // set image view to loading screen so user knows image is loading
                     imageView.setImageResource(R.drawable.ic_action_texture);
                     getImage(index);
                 }
@@ -95,6 +96,7 @@ public class ViewImages extends AppCompatActivity {
                 Log.i("SWIPE", "LEFT");
                 if(index < imgLinks.size()-1){
                     index++;
+                    // set image view to loading screen so user knows image is loading
                     imageView.setImageResource(R.drawable.ic_action_texture);
                     getImage(index);
                 }

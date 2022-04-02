@@ -41,6 +41,7 @@ public class QRcodeActivity extends AppCompatActivity {
     private ArrayAdapter commentAdapter;
     private ArrayList<String> userNames;
     private ArrayList<String> commentsBody;
+    private String prevActivity;
 
     public void submit(View v){
         APIserver.createComment(codeId, p.getUserName(), comment.getText()+"", new ResponseCallback() {
@@ -96,6 +97,7 @@ public class QRcodeActivity extends AppCompatActivity {
         p = (Player) i.getSerializableExtra("PLAYER");
         codeId = i.getStringExtra("QRcode");
         codeName = i.getStringExtra("name");
+        prevActivity = i.getStringExtra("previousActivity");
         setContentView(R.layout.activity_qrcodes);
 
         comment = findViewById(R.id.comment_text);
@@ -142,5 +144,18 @@ public class QRcodeActivity extends AppCompatActivity {
         commentAdapter = new CustomList2(this, userNames, commentsBody);
         commentList.setAdapter(commentAdapter);
         commentAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onDestroy(){
+        Log.i("PREV", "AfterScanActivity".equals(prevActivity)+"");
+        if("AfterScanActivity".equals(prevActivity)){
+            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            intent.putExtra("PLAYER", p);
+            startActivity(intent);
+        }else{
+            super.onDestroy();
+        }
     }
 }
