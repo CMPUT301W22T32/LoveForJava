@@ -38,6 +38,7 @@ public class LoginActivity extends AppCompatActivity {
     private Button signUpBtn;
     private ImageButton loginBtn;
     private APIMain APIServer;
+    private Button ownerLgn;
 
     /**
      * This method checks whether a user ID is saved locally
@@ -81,6 +82,8 @@ public class LoginActivity extends AppCompatActivity {
             signUpBtn = findViewById(R.id.login_button);
             loginBtn = findViewById(R.id.qr_button);
 
+            ownerLgn = findViewById(R.id.ownerLgnBtn);
+
             signUpBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -94,7 +97,19 @@ public class LoginActivity extends AppCompatActivity {
                     login();
                 }
             });
+
+            ownerLgn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    ownerLogin();
+                }
+            });
         }
+    }
+
+    private void ownerLogin() {
+        Intent intent = new Intent(this, OwnerLoginActivity.class);
+        startActivity(intent);
     }
 
     /**

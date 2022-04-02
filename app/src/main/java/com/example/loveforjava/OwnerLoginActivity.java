@@ -35,8 +35,8 @@ public class OwnerLoginActivity extends AppCompatActivity {
         String email = mEmail.getText().toString();
         if (name.equals("jasper")) {
             if (email.equals("jasper")){
-                //Intent intent = new Intent(this, OwnerPageActivity.class);
-                //startActivity(intent);
+                Intent intent = new Intent(this, OwnerPageActivity.class);
+                startActivity(intent);
             }
         }
     }

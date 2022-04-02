@@ -40,6 +40,10 @@ public class OtherUserActivity extends AppCompatActivity {
         TextView no_scans_box = (TextView)findViewById(R.id.no_scans_box2);
         no_scans_box.setText(Integer.toString(player.getScannedCodes().size()));
         TextView lowest_box = (TextView)findViewById(R.id.lowest_box2);
+
+        TextView userName = findViewById(R.id.profile_username);
+        userName.setText(player.getUserName());
+
         if (player.getLowestCode() == -1){
             lowest_box.setText("N/A");
         }

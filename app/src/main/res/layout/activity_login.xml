@@ -67,4 +67,12 @@
         android:textSize="15dp"
         android:textStyle="bold"
         android:gravity="center_horizontal" />
+
+    <Button
+        android:id="@+id/ownerLgnBtn"
+        android:layout_width="100dp"
+        android:layout_height="54dp"
+        android:layout_marginStart="280dp"
+        android:layout_marginTop="20dp"
+        android:text="Admin" />
 </LinearLayout>
