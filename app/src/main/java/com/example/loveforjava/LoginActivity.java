@@ -1,11 +1,8 @@
 package com.example.loveforjava;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.os.PatternMatcher;
-import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
@@ -13,19 +10,9 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.rpc.Code;
-
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Map;
 
 /**
@@ -81,10 +68,13 @@ public class LoginActivity extends AppCompatActivity {
             signUpBtn = findViewById(R.id.login_button);
             loginBtn = findViewById(R.id.qr_button);
 
+
             signUpBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    signUp();
+                    String name = musername.getText().toString();
+                    String email = mEmail.getText().toString();
+                    int success = signUp(name, email);
                 }
             });
 
@@ -100,11 +90,10 @@ public class LoginActivity extends AppCompatActivity {
     /**
      * This method is responsible to query username and email into the database
      * It also retrieves the userID from the database and save it locally
+     * @return int
      */
-    private void signUp() {
-        String name = musername.getText().toString();
-        String email = mEmail.getText().toString();
-
+    public int signUp(String name, String email) {
+        final int[] success = {0};
         // Checks if the information are all valid, gives prompt to reenter if they are not
         ArrayList<Boolean> validInfo = infoValidation(name, email);
 
@@ -116,16 +105,20 @@ public class LoginActivity extends AppCompatActivity {
                     if( (Boolean) response.get("success")) {
                         String userID = (String) response.get("user_id");
                         saveUserIdLocally(userID);
-                    } else
+                        success[0] = 1;
+                    } else {
                         if((Boolean) response.get("taken")){
                             Toast.makeText(LoginActivity.this, "Username "+ name+ " already taken",
                                     Toast.LENGTH_SHORT).show();
                         }else {
                             cannotCreateAccount();
                         }
+                    }
+
                 }
             });
         }
+        return success[0];
     }
 
     /**
@@ -144,9 +137,10 @@ public class LoginActivity extends AppCompatActivity {
      * @param email
      * @return validInfo
      */
-    private ArrayList<Boolean> infoValidation(String name, String email) {
+    public ArrayList<Boolean> infoValidation(String name, String email) {
         boolean validUserName = false;
         boolean validEmail = false;
+
         ArrayList <Boolean> validInfo = new ArrayList<Boolean>();
 
         // Checks if userName and email are not empty then set boolean values to true
