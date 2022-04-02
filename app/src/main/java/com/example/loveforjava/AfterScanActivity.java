@@ -38,10 +38,17 @@ import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import java.io.File;
 import java.math.BigInteger;
@@ -93,6 +100,7 @@ public class AfterScanActivity extends AppCompatActivity {
         Log.i("CODE", rawCode);
         setContentView(R.layout.activity_afterscan);
 
+
         /*  WEBSITE : http://rdcworld-android.blogspot.com
          *   SOLUTION : http://rdcworld-android.blogspot.com/2012/01/get-current-location-coordinates-city.html
          *   AUTHOR : https://draft.blogger.com/profile/09071971836590859058
@@ -137,7 +145,8 @@ public class AfterScanActivity extends AppCompatActivity {
         saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                saveCode();
+                //saveCode();
+                saveImage();
             }
         });
     }
@@ -256,6 +265,7 @@ public class AfterScanActivity extends AppCompatActivity {
 
         // With the java libraries
         String hashed = getSHA256(inputValue);
+        Log.i("HASHED", hashed);
         //score_show.setText(hashedCode);
         return hashed;
     }
@@ -282,6 +292,7 @@ public class AfterScanActivity extends AppCompatActivity {
     }
 
     private void saveImage(){
+        signIn();
         APIServer.addImage(imageUri, hashedCode, new ResponseCallback() {
             @Override
             public void onResponse(Map<String, Object> response) {
@@ -315,5 +326,26 @@ public class AfterScanActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    private void signIn(){
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
+        mAuth.signInAnonymously()
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            // Sign in success, update UI with the signed-in user's information
+                            Log.i("AFTER", "signInAnonymously:success");
+                            FirebaseUser user = mAuth.getCurrentUser();
+                            //updateUI(user);
+                        } else {
+                            // If sign in fails, display a message to the user.
+                            Log.i("AFTER", "signInAnonymously:failure", task.getException());
+                            //Toast.makeText(Context, "Authentication failed.",Toast.LENGTH_SHORT).show();
+                            //updateUI(null);
+                        }
+                    }
+                });
     }
 }
