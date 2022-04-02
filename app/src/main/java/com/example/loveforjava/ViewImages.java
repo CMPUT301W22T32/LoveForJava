@@ -36,7 +36,8 @@ import io.grpc.Context;
 public class ViewImages extends AppCompatActivity {
     private ImageView imageView;
     private int index = 0;
-    private ArrayList<StorageReference> imgs;
+    private ArrayList<StorageReference> imgLinks = new ArrayList<>();
+    private ArrayList<Bitmap> imgBitmaps = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,22 +47,21 @@ public class ViewImages extends AppCompatActivity {
         Intent i = getIntent();
         String codeID = i.getStringExtra("code_id");
 
-        //String codeID = "0d9074a213e6da504d34c8559e9ed06d94edfc593db2933ec09d94fbb66da7f8";
+        // this code has 3 images, so it can be used for testing with multiple images
+        //String codeID = "287b9da5db58dd868619d0bad1683578d7406295d71c7d9653509cb80740a05a";
 
         StorageReference storageReference = FirebaseStorage.getInstance().getReference();
         StorageReference imgList = storageReference.child("images/"+codeID);
-
-        imgs = new ArrayList<>();
 
         imgList.listAll()
                 .addOnSuccessListener(new OnSuccessListener<ListResult>() {
                     @Override
                     public void onSuccess(ListResult listResult) {
                         Log.i("RES", listResult+"");
-                        imgs.addAll(listResult.getItems());
-                        if(imgs.size() != 0){
+                        imgLinks.addAll(listResult.getItems());
+                        if(imgLinks.size() != 0){
                             setListener();
-                            loadImg(imgs.get(0));
+                            loadImg(imgLinks.get(0));
                         }else{
                             Log.i("NO IMAGES", "true");
                             imageView.setImageResource(R.drawable.ic_action_texture);
@@ -87,19 +87,28 @@ public class ViewImages extends AppCompatActivity {
                 if(index > 0){
                     index--;
                     imageView.setImageResource(R.drawable.ic_action_texture);
-                    loadImg(imgs.get(index));
+                    getImage(index);
                 }
             }
             @Override
             public void onSwipeLeft() {
                 Log.i("SWIPE", "LEFT");
-                if(index < imgs.size()-1){
+                if(index < imgLinks.size()-1){
                     index++;
                     imageView.setImageResource(R.drawable.ic_action_texture);
-                    loadImg(imgs.get(index));
+                    getImage(index);
                 }
             }
         });
+    }
+
+    private void getImage(int i){
+        Log.i("Size", i+", "+imgBitmaps.size());
+        if(i < imgBitmaps.size()){
+            imageView.setImageBitmap(imgBitmaps.get(i));
+        }else{
+            loadImg(imgLinks.get(i));
+        }
     }
 
     private void loadImg(StorageReference imgRef){
@@ -108,7 +117,9 @@ public class ViewImages extends AppCompatActivity {
             imgRef.getFile(localFile).addOnSuccessListener(new OnSuccessListener< FileDownloadTask.TaskSnapshot >() {
                 @Override
                 public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
-                    imageView.setImageBitmap(BitmapFactory.decodeFile(localFile.getAbsolutePath()));
+                    Bitmap bitmap = BitmapFactory.decodeFile(localFile.getAbsolutePath());
+                    imgBitmaps.add(bitmap);
+                    imageView.setImageBitmap(bitmap);
                 }
             }).addOnFailureListener(new OnFailureListener() {
                 @Override
