@@ -63,6 +63,7 @@ public class QRcodeActivity extends AppCompatActivity {
 
     public void openGallery(View v){
         Intent intent = new Intent(this, ViewImages.class);
+        intent.putExtra("code_id", codeId);
         startActivity(intent);
     }
 

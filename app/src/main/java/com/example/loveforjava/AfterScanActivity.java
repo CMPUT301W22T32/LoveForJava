@@ -50,6 +50,8 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.math.BigInteger;
 import java.security.MessageDigest;
@@ -57,7 +59,6 @@ import java.util.ArrayList;
 import java.util.Map;
 
 public class AfterScanActivity extends AppCompatActivity {
-    final String imgUrl = "/sdcard/DCIM/demo.png";
     private final APIMain APIServer = new APIMain();
     Uri imageUri;
     Button saveBtn;
@@ -81,6 +82,7 @@ public class AfterScanActivity extends AppCompatActivity {
                     if (result.getResultCode() == Activity.RESULT_OK) {
                         try {
                             @SuppressLint("SdCardPath") Bitmap bitmap = BitmapFactory.decodeFile("/sdcard/DCIM/demo.png");
+                            //Bitmap original = BitmapFactory.decodeStream(getAssets().open("1024x768.jpg"));
                             imageView.setImageBitmap(bitmap);
                         } catch (Exception e) {
                             e.printStackTrace();
@@ -145,8 +147,8 @@ public class AfterScanActivity extends AppCompatActivity {
         saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //saveCode();
-                saveImage();
+                saveCode();
+                //saveImage();
             }
         });
     }
@@ -307,9 +309,17 @@ public class AfterScanActivity extends AppCompatActivity {
 
     private void saveCode(){
         editText = findViewById(R.id.nickname_of_QR);
-        QRcode code = new QRcode(editText.getText()+"", hashedCode ,score,
-                Double.toString(location.getLongitude()), Double.toString(location.getLatitude()));
+        QRcode code;
+        if(location != null){
+            code = new QRcode(editText.getText()+"", hashedCode ,score,
+                    Double.toString(location.getLongitude()), Double.toString(location.getLatitude()));
+        }else{
+            code = new QRcode(editText.getText()+"", hashedCode ,score);
+        }
         Context context = this;
+        if(imageUri != null){
+            saveImage();
+        }
         APIServer.addQRCode(code, p, new ResponseCallback() {
             @Override
             public void onResponse(Map<String, Object> response) {
