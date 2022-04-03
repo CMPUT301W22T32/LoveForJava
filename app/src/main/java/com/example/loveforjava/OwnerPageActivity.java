@@ -3,6 +3,7 @@ package com.example.loveforjava;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,6 +11,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -20,7 +22,7 @@ public class OwnerPageActivity extends AppCompatActivity {
     private boolean longPress;
     APIMain APIserver = new APIMain();
     private ArrayList<QRcode> qrCodes;
-    private ArrayList<String> qrCodesStrings;
+    private ArrayList<String> qrCodesStrings = new ArrayList<String>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,11 +30,6 @@ public class OwnerPageActivity extends AppCompatActivity {
         setContentView(R.layout.activity_owner_page);
 
         longPress = false;
-
-//        ArrayList<String> players = new ArrayList<String>();
-//        //for(Map.Entry<String, String> entry: getPlayers()) {
-//        //    players.add(entry.getKey());
-//        //}
 
         APIserver.getAllCodes(new ResponseCallback() {
             @Override
@@ -50,11 +47,6 @@ public class OwnerPageActivity extends AppCompatActivity {
         qrList.setAdapter(qrAdapter);
         qrAdapter.notifyDataSetChanged();
 
-//        //ListView playerList = findViewById(R.id.playerList);
-//        ArrayAdapter playerAdapter = new CustomList(this, players);
-//        //playerList.setAdapter(playerAdapter);
-//        playerAdapter.notifyDataSetChanged();
-
         qrList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -64,14 +56,13 @@ public class OwnerPageActivity extends AppCompatActivity {
             }
         });
 
-//        playerAdapter.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-//            @Override
-//            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
-//                longPress = true;
-//                deleteConfirmationPl(i);
-//                return true;
-//            }
-//        });
+        final ImageButton player_btn = findViewById(R.id.players);
+        player_btn.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), OwnerPagePlayerActivity.class);
+                startActivity(intent);
+            }
+        });
 
     }
 
@@ -102,33 +93,6 @@ public class OwnerPageActivity extends AppCompatActivity {
         dialog.show();
     }
 
-//    public void deleteConfirmationPl(int i) {
-//        /*  WEBSITE : https://stackoverflow.com
-//         *  LINK TO SOLUTION : https://stackoverflow.com/a/36747528
-//         *  AUTHOR : https://stackoverflow.com/users/5130239/dus
-//         * */
-//        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-//        builder.setCancelable(true);
-//        builder.setTitle("Confirm to Delete?");
-//        builder.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
-//            @Override
-//            public void onClick(DialogInterface dialogInterface, int j) {
-//                Log.i("LOC", i+"");
-//                deletePlayer(i);
-//                longPress = false;
-//            }
-//        });
-//        builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
-//            @Override
-//            public void onClick(DialogInterface dialogInterface, int j) {
-//                longPress = false;
-//            }
-//        });
-//
-//        AlertDialog dialog = builder.create();
-//        dialog.show();
-//    }
-
     private void deleteQRcode(int i){
         Log.i("POS", i+"");
         QRcode qr = qrCodes.get(i);
@@ -147,9 +111,5 @@ public class OwnerPageActivity extends AppCompatActivity {
 //            }
 //        });
     }
-
-//    private void deletePlayer(int i){
-//
-//    }
 
 }
