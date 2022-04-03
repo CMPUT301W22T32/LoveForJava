@@ -38,11 +38,20 @@ import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.math.BigInteger;
 import java.security.MessageDigest;
@@ -50,6 +59,7 @@ import java.util.ArrayList;
 import java.util.Map;
 
 public class AfterScanActivity extends AppCompatActivity {
+    private final APIMain APIServer = new APIMain();
     Uri imageUri;
     Button saveBtn;
     ImageButton camBtn;
@@ -61,9 +71,8 @@ public class AfterScanActivity extends AppCompatActivity {
     LocationListener locationListener;
     Location location;
     private Player p;
-    private String hashedCode = "JEFFFFFF";
+    private String hashedCode;
     private int score;
-    private final static int ALL_PERMISSIONS_RESULT = 101;
     ActivityResultLauncher<Intent> someActivityResultLauncher = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
             new ActivityResultCallback<ActivityResult>() {
@@ -72,6 +81,7 @@ public class AfterScanActivity extends AppCompatActivity {
                     if (result.getResultCode() == Activity.RESULT_OK) {
                         try {
                             @SuppressLint("SdCardPath") Bitmap bitmap = BitmapFactory.decodeFile("/sdcard/DCIM/demo.png");
+                            //Bitmap original = BitmapFactory.decodeStream(getAssets().open("1024x768.jpg"));
                             imageView.setImageBitmap(bitmap);
                         } catch (Exception e) {
                             e.printStackTrace();
@@ -90,6 +100,7 @@ public class AfterScanActivity extends AppCompatActivity {
         String rawCode = i.getStringExtra("code");
         Log.i("CODE", rawCode);
         setContentView(R.layout.activity_afterscan);
+
 
         /*  WEBSITE : http://rdcworld-android.blogspot.com
          *   SOLUTION : http://rdcworld-android.blogspot.com/2012/01/get-current-location-coordinates-city.html
@@ -124,8 +135,8 @@ public class AfterScanActivity extends AppCompatActivity {
         saveBtn = findViewById(R.id.save_QR);
         score_text = findViewById(R.id.score);
         Permission();
-        hashedCode = hashing(rawCode);
-        scoring();
+        hashedCode = hashCode(rawCode);
+        scoreCalc(hashedCode);
         camBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -136,6 +147,7 @@ public class AfterScanActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 saveCode();
+                //saveImage();
             }
         });
     }
@@ -215,7 +227,6 @@ public class AfterScanActivity extends AppCompatActivity {
     }
 
     public void locPermission() {
-        //Call Camera
         StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
         StrictMode.setVmPolicy(builder.build());
         builder.detectFileUriExposure();
@@ -235,56 +246,47 @@ public class AfterScanActivity extends AppCompatActivity {
         }
     }
 
-    public static String getSHA256(String input){
-        String toReturn = null;
+    public static String hashCode(String input){
+        String hashedString = null;
         try {
             MessageDigest digest = MessageDigest.getInstance("SHA-256");
             digest.reset();
             digest.update(input.getBytes("utf8"));
-            toReturn = String.format("%064x", new BigInteger(1, digest.digest()));
+            hashedString = String.format("%064x", new BigInteger(1, digest.digest()));
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return toReturn;
+        Log.i("HASHED", hashedString);
+        return hashedString;
     }
 
-    public String hashing(String inputValue) {
-
-        //String inputValue = "this is an example";
-
-        // With the java libraries
-        String hashed = getSHA256(inputValue);
-        //score_show.setText(hashedCode);
-        return hashed;
-    }
-
-    public int score_calc(String code) {
+    public int scoreCalc(String code) {
         String ints = "0123456789";
         String str;
-        int score = 0;
+        score = 0;
         for(int i=0;i<code.length();i++){
             str = code.charAt(i)+"";
             if(ints.contains(str)){
                 score += Integer.parseInt(str);
             }
         }
+        score_text.setText("Score: "+score);
         return score;
-    }
-
-    public void scoring() {
-        // With the java libraries
-        //score_show=findViewById(R.id.score);
-        score = score_calc(hashedCode);
-        score_text.setText(score+"");
-        //score_show.setText(hashedCode);
     }
 
     private void saveCode(){
         editText = findViewById(R.id.nickname_of_QR);
-        QRcode code = new QRcode(editText.getText()+"", hashedCode ,score,
-                Double.toString(location.getLongitude()), Double.toString(location.getLatitude()));
-        APIMain APIServer = new APIMain();
+        QRcode code;
+        if(location != null){
+            code = new QRcode(editText.getText()+"", hashedCode ,score,
+                    Double.toString(location.getLongitude()), Double.toString(location.getLatitude()));
+        }else{
+            code = new QRcode(editText.getText()+"", hashedCode ,score);
+        }
         Context context = this;
+        if(imageUri != null){
+            saveImage();
+        }
         APIServer.addQRCode(code, p, new ResponseCallback() {
             @Override
             public void onResponse(Map<String, Object> response) {
@@ -294,6 +296,7 @@ public class AfterScanActivity extends AppCompatActivity {
                     intent.putExtra("PLAYER", p);
                     intent.putExtra("QRcode", hashedCode);
                     intent.putExtra("name", editText.getText()+"");
+                    intent.putExtra("previousActivity", "AfterScanActivity");
                     startActivity(intent);
                 }else{
                     Log.i("rt", "werewerwqwewq");
@@ -301,5 +304,40 @@ public class AfterScanActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    private void saveImage(){
+        signIn();
+        APIServer.addImage(imageUri, hashedCode, new ResponseCallback() {
+            @Override
+            public void onResponse(Map<String, Object> response) {
+                if((boolean) response.get("success")){
+                    Log.i("IMG", "STORED");
+                }else{
+                    Log.i("IMG", "FAILED");
+                }
+            }
+        });
+    }
+
+    private void signIn(){
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
+        mAuth.signInAnonymously()
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            // Sign in success, update UI with the signed-in user's information
+                            Log.i("AFTER", "signInAnonymously:success");
+                            FirebaseUser user = mAuth.getCurrentUser();
+                            //updateUI(user);
+                        } else {
+                            // If sign in fails, display a message to the user.
+                            Log.i("AFTER", "signInAnonymously:failure", task.getException());
+                            //Toast.makeText(Context, "Authentication failed.",Toast.LENGTH_SHORT).show();
+                            //updateUI(null);
+                        }
+                    }
+                });
     }
 }

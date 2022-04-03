@@ -25,6 +25,7 @@
         android:orientation="horizontal"
         android:gravity="center">
         <ImageButton
+            android:onClick="openGallery"
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:src="@drawable/ic_action_texture"

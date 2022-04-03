@@ -1,6 +1,8 @@
 package com.example.loveforjava;
 
+import android.net.Uri;
 import android.util.Log;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
@@ -8,18 +10,27 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.SetOptions;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.Executor;
 
 public class APIMain {
     private String TAG = "API server";
@@ -347,6 +358,93 @@ public class APIMain {
                             }
                             res.put("success", true);
                             res.put("data", data); // type: ArrayList<Player>
+                        } else {
+                            Log.d(TAG, "Error getting documents: ", task.getException());
+                            res.put("success", false);
+                            res.put("err", "" + task.getException());
+                        }
+                        responseCallback.onResponse(res);
+                    }
+                });
+    }
+
+    public void addImage(Uri file, String codeId, ResponseCallback responseCallback){
+        Map<String, Object> res = new HashMap<>();
+        Date date = new Date();
+        long timeMilli = date.getTime();
+
+        FirebaseStorage storage = FirebaseStorage.getInstance();
+        StorageReference storageRef = storage.getReference();
+        StorageReference imgRef = storageRef.child("images/"+codeId+"/"+timeMilli+"1693.png");
+        imgRef.putFile(file)
+                .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                        // taskSnapshot.getMetadata() contains file metadata such as size, content-type, etc.
+                        Log.d(TAG, "Image stored successfully: " + taskSnapshot.getMetadata());
+                        res.put("success", true);
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w(TAG, "Error adding document", e);
+                        res.put("success", false);
+                        res.put("err", "" + e);
+                        responseCallback.onResponse(res);
+                    }
+                });
+
+    }
+
+    public void getAllCodes(ResponseCallback responseCallback){
+        Map<String, Object> res = new HashMap<>();
+        codes.get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            ArrayList<QRcode> data = new ArrayList<>();
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                Log.d(TAG, document.getId() + " => " + document.toObject(QRcode.class));
+                                data.add(document.toObject(QRcode.class));
+                            }
+                            res.put("success", false);
+                            res.put("data", data);  // type: ArrayList<QRcode>
+                            responseCallback.onResponse(res);
+                        } else {
+                            Exception e =task.getException();
+                            Log.i(TAG, "Data could not be fetched!" + e);
+                            res.put("success", false);
+                            res.put("err", "" + e);
+                            responseCallback.onResponse(res);
+                        }
+                    }
+                });
+    }
+
+    public void getRank(Player p, String field,ResponseCallback responseCallback){
+        Map<String, Object> res = new HashMap<>();
+        ArrayList<String> usernames = new ArrayList<>();
+        ArrayList<String> values = new ArrayList<>();
+        players.orderBy(field, Query.Direction.DESCENDING).get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if(task.isSuccessful()) {
+                            int i = 1;
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                if(document.getId().equals(p.getUserId())){
+                                    res.put("rank", i);
+                                }
+                                Log.i(TAG, document.getData().get("userName") + " => " + document.getData().get(field));
+                                usernames.add((String) document.getData().get("userName"));
+                                values.add(document.getData().get(field)+"");
+                                i++;
+                            }
+                            res.put("success", true);
+                            res.put("usernames", usernames); // type: ArrayList<String>
+                            res.put("values", values); // type: ArrayList<String>
                         } else {
                             Log.d(TAG, "Error getting documents: ", task.getException());
                             res.put("success", false);
