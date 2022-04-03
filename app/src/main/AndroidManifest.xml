@@ -36,11 +36,7 @@
             android:screenOrientation="nosensor" />
         <activity android:name=".SeenByActivity"
             android:screenOrientation="nosensor" />
-        <activity android:name=".OwnerLoginActivity"
-            android:screenOrientation="nosensor" />
-        <activity android:name=".OwnerPageActivity"
-            android:screenOrientation="nosensor" />
-        <activity android:name=".OtherUserActivity"
+        <activity android:name=".ViewImages"
             android:screenOrientation="nosensor" />
         <activity
             android:screenOrientation="nosensor"
