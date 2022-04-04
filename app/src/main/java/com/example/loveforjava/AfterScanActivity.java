@@ -67,8 +67,6 @@ public class AfterScanActivity extends AppCompatActivity {
     TextView score_text;
     EditText editText;
     CheckBox recordLocation;
-    LocationManager locationManager;
-    LocationListener locationListener;
     Location location;
     private Player p;
     private String hashedCode;
@@ -106,21 +104,15 @@ public class AfterScanActivity extends AppCompatActivity {
          *   SOLUTION : http://rdcworld-android.blogspot.com/2012/01/get-current-location-coordinates-city.html
          *   AUTHOR : https://draft.blogger.com/profile/09071971836590859058
          * */
-        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         recordLocation = findViewById(R.id.record_location);
-        locPermission();
+        UserLocation userLocation = new UserLocation(this);
         recordLocation.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @SuppressLint("MissingPermission")
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean checked) {
                 if (checked) {
-                    locPermission();
                     if (displayGpsStatus()) {
-                        locationListener = new MyLocationListener();
-                        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000, 10, locationListener);
-                        if(locationManager != null) {
-                            location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-                        }
+                        location = userLocation.getLocation();
                     } else {
                         compoundButton.toggle();
                         alertBox("Gps Status!!", "Your GPS is: OFF");
@@ -216,26 +208,6 @@ public class AfterScanActivity extends AppCompatActivity {
             int REQUEST_CODE_CONTACT = 101;
             String[] permissions = {Manifest.permission.READ_CONTACTS, Manifest.permission.WRITE_CONTACTS,//联系人的权限
                     Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE};//读写SD卡权限
-            //Test if permitted
-            for (String str : permissions) {
-                if (this.checkSelfPermission(str) != PackageManager.PERMISSION_GRANTED) {
-                    //request permission
-                    this.requestPermissions(permissions, REQUEST_CODE_CONTACT);
-                }
-            }
-        }
-    }
-
-    public void locPermission() {
-        StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
-        StrictMode.setVmPolicy(builder.build());
-        builder.detectFileUriExposure();
-
-        //Dynamic Permission Request
-        if (Build.VERSION.SDK_INT >= 23) {
-            int REQUEST_CODE_CONTACT = 101;
-            String[] permissions = {Manifest.permission.ACCESS_COARSE_LOCATION,
-                                    Manifest.permission.ACCESS_FINE_LOCATION};
             //Test if permitted
             for (String str : permissions) {
                 if (this.checkSelfPermission(str) != PackageManager.PERMISSION_GRANTED) {
