@@ -14,6 +14,16 @@
         android:textSize="30dp"
         android:textColor="@color/black"
         android:layout_marginTop="30dp"/>
+    <TextView
+        android:id="@+id/userRank"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Your Rank:"
+        android:textAlignment="center"
+        android:textAllCaps="true"
+        android:textSize="15dp"
+        android:textColor="@color/black"
+        android:layout_marginTop="30dp"/>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
