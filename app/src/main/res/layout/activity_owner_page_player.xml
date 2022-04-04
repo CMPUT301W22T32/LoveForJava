@@ -26,11 +26,11 @@
     </LinearLayout>
 
     <ListView
-        android:id="@+id/qr_code_list"
+        android:id="@+id/player_list"
         android:layout_width="match_parent"
         android:layout_height="493dp"
         android:layout_marginTop="35dp"
-        tools:listitem="@layout/rank_list" />
+        tools:listitem="@layout/all_users_list" />
 
     <LinearLayout
         android:layout_gravity="bottom|center_horizontal"

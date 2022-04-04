@@ -3,9 +3,20 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/Users/jaspe/CMPUT_301/LoveForJava/app/src/main/res/layout/activity_rank.xml" value="0.20416666666666666" />
-        <entry key="..\:/Users/jaspe/CMPUT_301/LoveForJava/app/src/main/res/layout/activity_ranking.xml" value="0.20416666666666666" />
-        <entry key="..\:/Users/jaspe/CMPUT_301/LoveForJava/app/src/main/res/layout/rank_list.xml" value="0.20416666666666666" />
+        <entry key="..\:/Users/Roopdilawar Singh/AndroidStudioProjects/LoveForJava/app/src/main/res/layout/activity_generate_qr_code.xml" value="0.24682971014492755" />
+        <entry key="..\:/Users/Roopdilawar Singh/AndroidStudioProjects/LoveForJava/app/src/main/res/layout/activity_login.xml" value="0.24682971014492755" />
+        <entry key="..\:/Users/Roopdilawar Singh/AndroidStudioProjects/LoveForJava/app/src/main/res/layout/activity_main.xml" value="0.24682971014492755" />
+        <entry key="..\:/Users/Roopdilawar Singh/AndroidStudioProjects/LoveForJava/app/src/main/res/layout/activity_other_user.xml" value="0.20108695652173914" />
+        <entry key="..\:/Users/Roopdilawar Singh/AndroidStudioProjects/LoveForJava/app/src/main/res/layout/activity_owner_login.xml" value="0.24682971014492755" />
+        <entry key="..\:/Users/Roopdilawar Singh/AndroidStudioProjects/LoveForJava/app/src/main/res/layout/activity_owner_page.xml" value="0.2" />
+        <entry key="..\:/Users/Roopdilawar Singh/AndroidStudioProjects/LoveForJava/app/src/main/res/layout/activity_owner_page_player.xml" value="0.24682971014492755" />
+        <entry key="..\:/Users/Roopdilawar Singh/AndroidStudioProjects/LoveForJava/app/src/main/res/layout/activity_profile.xml" value="0.24682971014492755" />
+        <entry key="..\:/Users/Roopdilawar Singh/AndroidStudioProjects/LoveForJava/app/src/main/res/layout/activity_rank.xml" value="0.24682971014492755" />
+        <entry key="..\:/Users/Roopdilawar Singh/AndroidStudioProjects/LoveForJava/app/src/main/res/layout/activity_ranking.xml" value="0.24682971014492755" />
+        <entry key="..\:/Users/Roopdilawar Singh/AndroidStudioProjects/LoveForJava/app/src/main/res/layout/all_users_list.xml" value="0.24682971014492755" />
+        <entry key="..\:/Users/Roopdilawar Singh/AndroidStudioProjects/LoveForJava/app/src/main/res/layout/list_of_qr.xml" value="0.24682971014492755" />
+        <entry key="..\:/Users/Roopdilawar Singh/AndroidStudioProjects/LoveForJava/app/src/main/res/layout/list_of_qr_flags.xml" value="0.24682971014492755" />
+        <entry key="..\:/Users/Roopdilawar Singh/AndroidStudioProjects/LoveForJava/app/src/main/res/layout/rank_list.xml" value="0.24682971014492755" />
       </map>
     </option>
   </component>

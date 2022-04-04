@@ -94,22 +94,13 @@ public class OwnerPageActivity extends AppCompatActivity {
     }
 
     private void deleteQRcode(int i){
-        Log.i("POS", i+"");
-        QRcode qr = qrCodes.get(i);
-        //String id = player.getQRcodeByName(name);
-        //Log.i("player", name+":"+id);
-//        APIserver.delQRCode((QRcode) qr, player, new ResponseCallback() {
-//            @Override
-//            public void onResponse(Map<String, Object> response) {
-//                if( (boolean) response.get("success")){
-//                    player = (Player) response.get("Player_obj");
-//                    qrName.remove(i);
-//                    qrAdapter.notifyDataSetChanged();
-//                }else{
-//                    Toast.makeText(getApplicationContext(), "Cannot delete QR code", Toast.LENGTH_SHORT).show();
-//                    }
-//            }
-//        });
+        String qrID = qrCodes.get(i).getCodeId();
+        APIserver.deletePlayerFromDB(qrID, new ResponseCallback() {
+            @Override
+            public void onResponse(Map<String, Object> response) {
+                if( (Boolean) response.get("success")) {
+                    Toast.makeText(getApplicationContext(), "Success", Toast.LENGTH_SHORT).show();
+                }}});
     }
 
 }
