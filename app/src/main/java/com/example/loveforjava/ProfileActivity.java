@@ -36,6 +36,9 @@ public class ProfileActivity extends AppCompatActivity {
         Intent i = getIntent();
         player = (Player) i.getSerializableExtra("PLAYER");
 
+        /**
+         * Add all the qr codes of the player into the list
+         */
         qrName = new ArrayList<String>();
         for(Map.Entry<String, String> entry: player.scannedCodes.entrySet()) {
             qrName.add(entry.getKey());
@@ -48,6 +51,10 @@ public class ProfileActivity extends AppCompatActivity {
         qrAdapter = new CustomList(this, qrName);
         qrList.setAdapter(qrAdapter);
         qrAdapter.notifyDataSetChanged();
+
+        /**
+         * set long press listener for qr codes deletion
+         */
         qrList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             @Override
@@ -76,6 +83,10 @@ public class ProfileActivity extends AppCompatActivity {
             }
         });
 
+
+        /**
+         * Generate Profile QR code for player
+         */
         generateProfileQR.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -99,6 +110,9 @@ public class ProfileActivity extends AppCompatActivity {
             lowest_box.setText(Integer.toString(player.getLowestCode()));
         }
 
+        /**
+         * Set on click listener for Scan friend button
+         */
         final ImageButton camera_button = findViewById(R.id.start_camera_btn);
         camera_button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -108,6 +122,9 @@ public class ProfileActivity extends AppCompatActivity {
             }
         });
 
+        /**
+         * Set on click listener for back button
+         */
         final ImageButton back_button = findViewById(R.id.back_button);
         back_button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -119,6 +136,9 @@ public class ProfileActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Ask user for confirmation
+     */
     public void deleteConfirmation(int i) {
         /*  WEBSITE : https://stackoverflow.com
          *  LINK TO SOLUTION : https://stackoverflow.com/a/36747528
@@ -146,6 +166,9 @@ public class ProfileActivity extends AppCompatActivity {
         dialog.show();
     }
 
+    /**
+     * Delete qr code
+     */
     private void deleteQRcode(int i){
         Log.i("POS", i+"");
         String name = qrName.get(i);

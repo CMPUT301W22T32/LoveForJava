@@ -18,6 +18,9 @@ public class OwnerLoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_owner_login);
 
+        /**
+         * Set on click listener for login button
+         */
         loginBtn = findViewById(R.id.login_button);
         loginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -28,6 +31,9 @@ public class OwnerLoginActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Validate credentials
+     */
     public void validate() {
         mEmail = findViewById(R.id.useremail);
         musername = findViewById(R.id.username);

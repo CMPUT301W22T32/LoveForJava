@@ -28,6 +28,9 @@ public class OwnerPagePlayerActivity extends AppCompatActivity {
 
         longPress = false;
 
+        /**
+         * Get all players from server
+         */
         APIserver.getAllUsers(new ResponseCallback() {
             @Override
             public void onResponse(Map<String, Object> response) {
@@ -35,6 +38,9 @@ public class OwnerPagePlayerActivity extends AppCompatActivity {
                     players = (ArrayList<Player>) response.get("data");         //Issue here!
                 }}});
 
+        /**
+         * Populate list
+         */
         for (int i=0; i<players.size(); i++) {                                  //Issue here!
             playerStrings.add(String.valueOf(players.get(i).getUserName()));
         }
@@ -44,6 +50,9 @@ public class OwnerPagePlayerActivity extends AppCompatActivity {
         playerList.setAdapter(playerAdapter);
         playerAdapter.notifyDataSetChanged();
 
+        /**
+         * Set long press listener
+         */
         playerList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -55,6 +64,9 @@ public class OwnerPagePlayerActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Ask for confirmation
+     */
     public void deleteConfirmationPl(int i) {
         /*  WEBSITE : https://stackoverflow.com
          *  LINK TO SOLUTION : https://stackoverflow.com/a/36747528
@@ -82,6 +94,9 @@ public class OwnerPagePlayerActivity extends AppCompatActivity {
         dialog.show();
     }
 
+    /**
+     * Delete player
+     */
     private void deletePlayer(int i){
         String playerID = players.get(i).getUserId();
         APIserver.deletePlayerFromDB(playerID, new ResponseCallback() {

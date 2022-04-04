@@ -31,6 +31,9 @@ public class OwnerPageActivity extends AppCompatActivity {
 
         longPress = false;
 
+        /**
+         * Get all qr codes from server
+         */
         APIserver.getAllCodes(new ResponseCallback() {
             @Override
             public void onResponse(Map<String, Object> response) {
@@ -42,11 +45,17 @@ public class OwnerPageActivity extends AppCompatActivity {
             qrCodesStrings.add(String.valueOf(qrCodes.get(i).getFlags()));
         }
 
+        /**
+         * Populate list with qr codes
+         */
         ListView qrList = findViewById(R.id.qr_code_list);
         ArrayAdapter qrAdapter = new CustomList(this, qrCodesStrings);
         qrList.setAdapter(qrAdapter);
         qrAdapter.notifyDataSetChanged();
 
+        /**
+         * Set long press listener
+         */
         qrList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -56,6 +65,9 @@ public class OwnerPageActivity extends AppCompatActivity {
             }
         });
 
+        /**
+         * Set on click listener for players list button
+         */
         final ImageButton player_btn = findViewById(R.id.players);
         player_btn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -66,6 +78,9 @@ public class OwnerPageActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Ask for confirmation
+     */
     public void deleteConfirmationQr(int i) {
         /*  WEBSITE : https://stackoverflow.com
          *  LINK TO SOLUTION : https://stackoverflow.com/a/36747528
@@ -93,6 +108,9 @@ public class OwnerPageActivity extends AppCompatActivity {
         dialog.show();
     }
 
+    /**
+     * Delete qr code
+     */
     private void deleteQRcode(int i){
         String qrID = qrCodes.get(i).getCodeId();
         APIserver.deletePlayerFromDB(qrID, new ResponseCallback() {

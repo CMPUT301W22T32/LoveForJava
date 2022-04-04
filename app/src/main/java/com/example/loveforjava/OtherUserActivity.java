@@ -24,6 +24,9 @@ public class OtherUserActivity extends AppCompatActivity {
         Intent i = getIntent();
         player = (Player) i.getSerializableExtra("PLAYER");
 
+        /**
+         * Add all qr codes of the player into the list
+         */
         ArrayList<String> qrName = new ArrayList<String>();
         for(Map.Entry<String, String> entry: player.scannedCodes.entrySet()) {
             qrName.add(entry.getKey());
@@ -33,6 +36,9 @@ public class OtherUserActivity extends AppCompatActivity {
         qrList.setAdapter(qrAdapter);
         qrAdapter.notifyDataSetChanged();
 
+        /**
+         * Set values of all stats
+         */
         TextView highest_box = (TextView)findViewById(R.id.highest_box2);
         highest_box.setText(Integer.toString(player.getHighestCode()));
         TextView total_box = (TextView)findViewById(R.id.total_box2);
@@ -51,6 +57,9 @@ public class OtherUserActivity extends AppCompatActivity {
             lowest_box.setText(Integer.toString(player.getLowestCode()));
         }
 
+        /**
+         * Set on click listener for back button
+         */
         final ImageButton back_button = findViewById(R.id.back_button2);
         back_button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
