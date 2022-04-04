@@ -71,6 +71,15 @@ public class AfterScanActivity extends AppCompatActivity {
     private Player p;
     private String hashedCode;
     private int score;
+    /**
+     * Set up a activity launcher, this is used for operate an intent and
+     * get result from it.
+     * <p>
+     * This launcher is only used for camera activity and get picture url
+     * as a result
+     *
+     * @param someActivityResultLauncher a launcher for camera activity
+     */
     ActivityResultLauncher<Intent> someActivityResultLauncher = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
             new ActivityResultCallback<ActivityResult>() {
@@ -129,6 +138,9 @@ public class AfterScanActivity extends AppCompatActivity {
         Permission();
         hashedCode = hashCode(rawCode);
         scoreCalc(hashedCode);
+        /**
+         * Set up two buttons for opening camera and saving QR codes
+         */
         camBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -143,7 +155,9 @@ public class AfterScanActivity extends AppCompatActivity {
             }
         });
     }
-
+    /**
+     * Check GPS status for future using
+     */
     private boolean displayGpsStatus() {
         ContentResolver contentResolver = getBaseContext()
                 .getContentResolver();
@@ -196,7 +210,13 @@ public class AfterScanActivity extends AppCompatActivity {
         intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
         someActivityResultLauncher.launch(intent);
     }
-
+    /**
+     * Check permission of camera, sd card and contacts, it usually prompt up
+     * a textbox to let the user allow the apps permission requiring.
+     * <p>
+     * The request is dynamic, it only ask user to allow if the permission is
+     * not acquired.
+     */
     public void Permission() {
         //Call Camera
         StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
@@ -206,8 +226,8 @@ public class AfterScanActivity extends AppCompatActivity {
         //Dynamic Permission Request
         if (Build.VERSION.SDK_INT >= 23) {
             int REQUEST_CODE_CONTACT = 101;
-            String[] permissions = {Manifest.permission.READ_CONTACTS, Manifest.permission.WRITE_CONTACTS,//联系人的权限
-                    Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE};//读写SD卡权限
+            String[] permissions = {Manifest.permission.READ_CONTACTS, Manifest.permission.WRITE_CONTACTS,//contacts
+                    Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE};//sdcard
             //Test if permitted
             for (String str : permissions) {
                 if (this.checkSelfPermission(str) != PackageManager.PERMISSION_GRANTED) {
@@ -217,7 +237,14 @@ public class AfterScanActivity extends AppCompatActivity {
             }
         }
     }
-
+    /**
+     * Hashing the raw QR code to get a hashed string
+     * <p>
+     * This method is used for score calculating.
+     *
+     * @param input raw qr code string
+     * @return hashed string from QR code
+     */
     public static String hashCode(String input){
         String hashedString = null;
         try {
@@ -231,7 +258,13 @@ public class AfterScanActivity extends AppCompatActivity {
         Log.i("HASHED", hashedString);
         return hashedString;
     }
-
+    /**
+     * This method is for calculating the score of a QR code
+     * based on its hashed string
+     *
+     * @param code a string from hashed QR code raw string
+     * @return score of QR code
+     */
     public int scoreCalc(String code) {
         String ints = "0123456789";
         String str;
@@ -254,7 +287,12 @@ public class AfterScanActivity extends AppCompatActivity {
         }
         return true;
     }
-
+    /**
+     * This method is used for save the QR code that user just scanned
+     * <p>
+     * Data will be saved for later use includes location(optional),
+     * score and picture of location
+     */
     private void saveCode(){
         editText = findViewById(R.id.nickname_of_QR);
         if(!validateFields()){
@@ -289,7 +327,9 @@ public class AfterScanActivity extends AppCompatActivity {
             saveImage();
         }
     }
-
+    /**
+     * This method is used for saving images after taking pictures of location
+     */
     private void saveImage(){
         signIn();
         APIServer.addImage(imageUri, hashedCode, new ResponseCallback() {
