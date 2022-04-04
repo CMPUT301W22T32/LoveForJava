@@ -262,6 +262,7 @@ public class AfterScanActivity extends AppCompatActivity {
         }
         QRcode code;
         if(location != null){
+            Log.i("HEre", "HERE");
             code = new QRcode(editText.getText()+"", hashedCode ,score,
                     Double.toString(location.getLongitude()), Double.toString(location.getLatitude()));
         }else{
