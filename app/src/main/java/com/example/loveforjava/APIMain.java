@@ -341,6 +341,9 @@ public class APIMain {
     }
 
     public void searchByUsername(String Username, ResponseCallback responseCallback){
+        if(Username.equals("")) {
+            return;
+        }
         Map<String, Object> res = new HashMap<>();
         ArrayList<Player> data = new ArrayList<>();
         char last = Username.charAt(Username.length() - 1);

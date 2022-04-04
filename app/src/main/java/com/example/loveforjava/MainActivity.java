@@ -24,9 +24,10 @@ import java.util.Map;
 public class MainActivity extends AppCompatActivity {
     private EditText name;
     private Player p;
-    EditText search_friends;
+    AutoCompleteTextView search_friends;
     Spinner friends;
-    ArrayList<String> usernames = new ArrayList<>();
+    ArrayList<Player> players = new ArrayList<Player>();
+    ArrayList<String> userNames = new ArrayList<String>();
     APIMain user;
 
     @Override
@@ -36,22 +37,26 @@ public class MainActivity extends AppCompatActivity {
         p = (Player) i.getSerializableExtra("PLAYER");
         setContentView(R.layout.activity_main);
 
-        APIMain APIserver = new APIMain();
-
         search_friends = findViewById(R.id.username);
         friends =  findViewById(R.id.friends);
 
-        usernames.add("uuuu");
-        usernames.add("uauaua");
-        usernames.add("she");
-        usernames.add("he");
-        usernames.add("fruit");
+        APIMain APIserver = new APIMain();
+        APIserver.searchByUsername(search_friends.getText().toString(), new ResponseCallback() {
+            @Override
+            public void onResponse(Map<String, Object> response) {
+                players = (ArrayList<Player>) response.get("data");
+                for(int i=0; i < players.size(); i++) {
+                    System.out.println("########"+players.get(i).getUserName());
+                    userNames.add(players.get(i).getUserName());
+                }
+            }
+        });
 
-        //ArrayAdapter<String> adapter = new ArrayAdapter<String>(MainActivity.this, android.R.layout.simple_spinner_dropdown_item,usernames);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(MainActivity.this, android.R.layout.simple_spinner_dropdown_item,userNames);
 
-        ArrayAdapter<String> adapter1 = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item,usernames);
+        ArrayAdapter<String> adapter1 = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item,userNames);
 
-        //search_friends.setAdapter(adapter);
+        search_friends.setAdapter(adapter);
         friends.setAdapter(adapter1);
 
         /**

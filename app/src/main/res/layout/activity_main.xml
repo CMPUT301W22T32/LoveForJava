@@ -10,8 +10,9 @@
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:layout_weight="1"
+        android:orientation="vertical"
         android:layout_marginTop="2dp">
-        <EditText
+        <AutoCompleteTextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/username"
@@ -22,7 +23,6 @@
             android:paddingLeft="10dp"
             android:layout_gravity="center_vertical"
             android:completionThreshold="1" />
-
         <Spinner
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
