@@ -46,6 +46,10 @@ public class Map_Activity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map);
 
+        Intent intent = getIntent();
+        String long_ = intent.getStringExtra("long");
+        String lat = intent.getStringExtra("lat");
+
         Context ctx = this.getApplicationContext();
         Configuration.getInstance().load(ctx, PreferenceManager.getDefaultSharedPreferences(ctx));
 
@@ -72,10 +76,17 @@ public class Map_Activity extends AppCompatActivity {
 
         Marker startMarker = new Marker(map);
         startMarker.setPosition(point);
+        startMarker.setTitle("You are here");
         startMarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_CENTER);
         map.getOverlays().add(startMarker);
         map.getController().setZoom(18.0);
-        map.getController().setCenter(point);
+        if(lat == null){
+            map.getController().setCenter(point);
+        }else{
+            GeoPoint center = new GeoPoint(Double.parseDouble(lat), Double.parseDouble(long_));
+            map.getController().setCenter(center);
+        }
+
 
         APIMain APIServer = new APIMain();
         APIServer.getAllCodes(new ResponseCallback() {

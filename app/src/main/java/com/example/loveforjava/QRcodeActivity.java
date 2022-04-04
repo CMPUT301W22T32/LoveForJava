@@ -78,14 +78,18 @@ public class QRcodeActivity extends AppCompatActivity {
         SeenByFragment fragment = new SeenByFragment();
         Bundle bundle = new Bundle();
         ArrayList<String> seenBy = code.getSeenBy();
-        //getSupportFragmentManager().beginTransaction().add(R.id.seen_by, fragment);
-        //ArrayAdapter adapter = new ArrayAdapter<>(this, R.layout.seen_by_list, seenBy);
-        //fragment.setListAdapter(adapter);
+    }
 
-
-        /*bundle.putStringArrayList("seen_by", seenBy);
-        fragment.setArguments(bundle);
-        fragment.show(getSupportFragmentManager(), "Seen By:");*/
+    public void gotoMap(View v){
+        if(code.getLoc().isEmpty()){
+            Toast.makeText(this, "Code has no location to go to", Toast.LENGTH_LONG).show();
+            return;
+        }else{
+            Intent intent = new Intent(this, Map_Activity.class);
+            intent.putExtra("long", code.getLoc().get(0));
+            intent.putExtra("lat", code.getLoc().get(1));
+            startActivity(intent);
+        }
     }
 
 

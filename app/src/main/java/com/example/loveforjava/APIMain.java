@@ -339,7 +339,7 @@ public class APIMain {
                 });
     }
 
-    public void searchByUsername(String Username, ResponseCallback responseCallback){
+    /*public void searchByUsername(String Username, ResponseCallback responseCallback){
         if(Username.equals("")) {
             return;
         }
@@ -360,6 +360,34 @@ public class APIMain {
                             }
                             res.put("success", true);
                             res.put("data", data); // type: ArrayList<Player>
+                        } else {
+                            Log.d(TAG, "Error getting documents: ", task.getException());
+                            res.put("success", false);
+                            res.put("err", "" + task.getException());
+                        }
+                        responseCallback.onResponse(res);
+                    }
+                });
+    }*/
+
+    public void searchByUsername(String Username, ResponseCallback responseCallback) {
+        if (Username.equals("")) {
+            return;
+        }
+        Map<String, Object> res = new HashMap<>();
+        players.whereEqualTo("userName", Username).get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            if(task.getResult().getDocuments().size() == 0){
+                                res.put("success", true);
+                                res.put("Player_obj", null); // type: player
+                            }else{
+                                Player p = task.getResult().getDocuments().get(0).toObject(Player.class);
+                                res.put("success", true);
+                                res.put("Player_obj", p); // type: Player
+                            }
                         } else {
                             Log.d(TAG, "Error getting documents: ", task.getException());
                             res.put("success", false);
