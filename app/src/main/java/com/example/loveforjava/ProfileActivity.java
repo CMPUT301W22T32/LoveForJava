@@ -164,6 +164,7 @@ public class ProfileActivity extends AppCompatActivity {
                                 qrName.remove(i);
                                 qrAdapter.notifyDataSetChanged();
                             }else{
+                                Log.i("ERROR", response.get("err")+"");
                                 Toast.makeText(getApplicationContext(), "Cannot delete QR code", Toast.LENGTH_SHORT).show();
                             }
                         }

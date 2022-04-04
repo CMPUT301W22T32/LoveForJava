@@ -42,7 +42,9 @@ public class MainActivity extends AppCompatActivity {
         searchUser.setOnKeyListener(new View.OnKeyListener() {
             @Override
             public boolean onKey(View view, int i, KeyEvent keyEvent) {
+                Log.i("KEY", i+"");
                 if(keyEvent.getAction() == KeyEvent.ACTION_DOWN && i == KeyEvent.KEYCODE_ENTER) {
+                    Log.i("HERE", searchUser.getText() + "");
                     APIMain APIServer = new APIMain();
                     APIServer.searchByUsername(searchUser.getText() + "", new ResponseCallback() {
                         @Override
