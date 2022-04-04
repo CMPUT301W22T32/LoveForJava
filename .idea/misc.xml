@@ -6,8 +6,23 @@
         <entry key="..\:/Users/jaspe/CMPUT_301/LoveForJava/app/src/main/res/layout/activity_rank.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/jaspe/CMPUT_301/LoveForJava/app/src/main/res/layout/activity_ranking.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/jaspe/CMPUT_301/LoveForJava/app/src/main/res/layout/rank_list.xml" value="0.20416666666666666" />
+        <entry key="app/src/main/res/drawable-anydpi/ic_action_location.xml" value="0.1765" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.3098958333333333" />
+        <entry key="app/src/main/res/layout/activity_owner_login.xml" value="0.2861111111111111" />
+        <entry key="app/src/main/res/layout/activity_owner_page.xml" value="0.2861111111111111" />
+        <entry key="app/src/main/res/layout/activity_rank.xml" value="0.3098958333333333" />
+        <entry key="app/src/main/res/layout/activity_ranking.xml" value="0.2861111111111111" />
+        <entry key="app/src/main/res/layout/comment_section.xml" value="0.3098958333333333" />
+        <entry key="app/src/main/res/layout/list_of_comments.xml" value="0.3098958333333333" />
+        <entry key="app/src/main/res/layout/list_of_friends.xml" value="0.2861111111111111" />
+        <entry key="app/src/main/res/layout/list_of_players.xml" value="0.3098958333333333" />
+        <entry key="app/src/main/res/layout/list_of_qr.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/list_of_qr_flags.xml" value="0.3098958333333333" />
       </map>
     </option>
+  </component>
+  <component name="JavadocGenerationManager">
+    <option name="OUTPUT_DIRECTORY" value="$PROJECT_DIR$/doc" />
   </component>
   <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="11" project-jdk-type="JavaSDK" />
 </project>

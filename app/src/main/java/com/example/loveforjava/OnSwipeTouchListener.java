@@ -7,11 +7,13 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
 
+/**
+ * This class deals with the swiping of the images
+ */
 /*  WEBSITE : https://stackoverflow.com/
  *   SOLUTION : https://stackoverflow.com/questions/4139288/android-how-to-handle-right-to-left-swipe-gestures
  *   AUTHOR : https://stackoverflow.com/users/177776/mirek-rusin
  * */
-
 public class OnSwipeTouchListener implements OnTouchListener {
 
     private final GestureDetector gestureDetector;

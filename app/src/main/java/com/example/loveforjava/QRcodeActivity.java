@@ -29,6 +29,9 @@ import androidx.fragment.app.ListFragment;
 import java.util.ArrayList;
 import java.util.Map;
 
+/**
+ * Displays the information of the selected QR code
+ */
 public class QRcodeActivity extends AppCompatActivity {
     private Player p;
     private String codeId;
@@ -43,6 +46,10 @@ public class QRcodeActivity extends AppCompatActivity {
     private ArrayList<String> commentsBody;
     private String prevActivity;
 
+    /**
+     * Allow user to add comment
+     * @param v
+     */
     public void submit(View v){
         APIserver.createComment(codeId, p.getUserName(), comment.getText()+"", new ResponseCallback() {
             @Override
@@ -62,12 +69,20 @@ public class QRcodeActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Allow user to see the pictures associated to the Qr code
+     * @param v
+     */
     public void openGallery(View v){
         Intent intent = new Intent(this, ViewImages.class);
         intent.putExtra("code_id", codeId);
         startActivity(intent);
     }
 
+    /**
+     * Allow users to see who have seen the QR code
+     * @param v
+     */
     public void seenByFrag(View v){
         Log.i("HERE", "HERE");
 
@@ -80,6 +95,10 @@ public class QRcodeActivity extends AppCompatActivity {
         ArrayList<String> seenBy = code.getSeenBy();
     }
 
+    /**
+     * Directs user to the location of the QR code on the map
+     * @param v
+     */
     public void gotoMap(View v){
         if(code.getLoc().isEmpty()){
             Toast.makeText(this, "Code has no location to go to", Toast.LENGTH_LONG).show();
@@ -91,7 +110,6 @@ public class QRcodeActivity extends AppCompatActivity {
             startActivity(intent);
         }
     }
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -123,6 +141,9 @@ public class QRcodeActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Get comments of the QR code from database
+     */
     private void runActivity(){
         score.setText(codeName +"\n Score:"+ code.getScore());
         APIserver.getComments(codeId, new ResponseCallback() {
@@ -143,6 +164,9 @@ public class QRcodeActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Populate the QR code with comments and display them
+     */
     public void populateCommentList() {
         ListView commentList = findViewById(R.id.comment_list);
         commentAdapter = new CustomList2(this, userNames, commentsBody);
@@ -150,6 +174,9 @@ public class QRcodeActivity extends AppCompatActivity {
         commentAdapter.notifyDataSetChanged();
     }
 
+    /**
+     * Go to the Main Menu
+     */
     @Override
     public void onDestroy(){
         Log.i("PREV", "AfterScanActivity".equals(prevActivity)+"");

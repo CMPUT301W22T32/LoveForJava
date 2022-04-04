@@ -9,6 +9,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 
+/**
+ * Allows admin of the app to login
+ */
 public class OwnerLoginActivity extends AppCompatActivity {
     private Button loginBtn;
     private EditText mEmail, musername;

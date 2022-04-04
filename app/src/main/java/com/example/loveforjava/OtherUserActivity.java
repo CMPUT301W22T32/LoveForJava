@@ -13,6 +13,9 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.Map;
 
+/**
+ * Displays the profile of other users
+ */
 public class OtherUserActivity extends AppCompatActivity {
     private Player player;
 

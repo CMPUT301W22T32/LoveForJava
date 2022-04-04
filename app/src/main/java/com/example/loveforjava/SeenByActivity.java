@@ -10,6 +10,9 @@ import android.widget.ListView;
 
 import java.util.ArrayList;
 
+/**
+ * Displays the users who have seen the QR code
+ */
 public class SeenByActivity extends AppCompatActivity {
     private ArrayList<String> userName;
 

@@ -33,6 +33,9 @@ import java.util.ArrayList;
 
 import io.grpc.Context;
 
+/**
+ * Displays the images of the QR code
+ */
 public class ViewImages extends AppCompatActivity {
     private ImageView imageView;
     private int index = 0;
@@ -78,6 +81,9 @@ public class ViewImages extends AppCompatActivity {
 
     }
 
+    /**
+     * Allow navigation between images
+     */
     @SuppressLint("ClickableViewAccessibility")
     private void setListener(){
         imageView.setOnTouchListener(new OnSwipeTouchListener(this) {
@@ -104,6 +110,10 @@ public class ViewImages extends AppCompatActivity {
         });
     }
 
+    /**
+     * Gets the image
+     * @param i
+     */
     private void getImage(int i){
         Log.i("Size", i+", "+imgBitmaps.size());
         if(i < imgBitmaps.size()){
@@ -113,6 +123,10 @@ public class ViewImages extends AppCompatActivity {
         }
     }
 
+    /**
+     * loads the image
+     * @param imgRef
+     */
     private void loadImg(StorageReference imgRef){
         try {
             final File localFile = File.createTempFile("Images", "bmp");

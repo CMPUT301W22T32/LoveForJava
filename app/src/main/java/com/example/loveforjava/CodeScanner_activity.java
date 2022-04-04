@@ -23,6 +23,9 @@ import com.google.zxing.Result;
 
 import java.util.Map;
 
+/**
+ * This class calls the Qr code scanner API
+ */
 public class CodeScanner_activity extends AppCompatActivity {
     private CodeScanner mCodeScanner;
     private boolean mPermissionGranted;
@@ -90,6 +93,11 @@ public class CodeScanner_activity extends AppCompatActivity {
 
     }
 
+    /**
+     * Save the user ID locally
+     * @param developerID
+     * @param userID
+     */
     public void saveUserID(String developerID, String userID) {
 
         if(developerID.equals("LOVEFORJAVA")){
@@ -123,6 +131,10 @@ public class CodeScanner_activity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Open the other user's profile page
+     * @param userID
+     */
     public void openOtherUserPage(String userID) {
         APIServer.getPlayerInfo(userID, new ResponseCallback() {
             @Override
@@ -137,6 +149,12 @@ public class CodeScanner_activity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Get the permission for the QR code scanner
+     * @param requestCode
+     * @param permissions
+     * @param grantResults
+     */
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
                                            @NonNull int[] grantResults) {
@@ -151,12 +169,18 @@ public class CodeScanner_activity extends AppCompatActivity {
         }
     }
 
+    /**
+     * When it resumes
+     */
     @Override
     protected void onResume() {
         super.onResume();
         mCodeScanner.startPreview();
     }
 
+    /**
+     * When it pauses
+     */
     @Override
     protected void onPause() {
         mCodeScanner.releaseResources();

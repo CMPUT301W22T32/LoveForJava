@@ -3,6 +3,9 @@ package com.example.loveforjava;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+/**
+ * Stores information of Qr code
+ */
 public class QRcode implements Serializable {
     private String codeId;  // this is just the hashed code string
     private String nickName;

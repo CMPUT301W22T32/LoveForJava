@@ -32,6 +32,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.Executor;
 
+/**
+ * This class deals with the Database
+ */
 public class APIMain {
     private String TAG = "API server";
     private FirebaseFirestore db;
@@ -40,6 +43,9 @@ public class APIMain {
     private CollectionReference comments;
     //private CollectionReference images;
 
+    /**
+     * Creates the instances
+     */
     public APIMain(){
         db = FirebaseFirestore.getInstance();
         Log.i("db", db+"");
@@ -49,6 +55,12 @@ public class APIMain {
         //images = db.collection("images");
     }
 
+    /**
+     * Get player object
+     * @param name
+     * @param email
+     * @param responseCallback
+     */
     public void createPlayer(String name, String email, ResponseCallback responseCallback){
         // NOTE: inside the db the userId will always be stored as null, that's because we store this locally
         Map<String, Object> res = new HashMap<>();
@@ -69,6 +81,11 @@ public class APIMain {
                 });
     }
 
+    /**
+     * Add player to database
+     * @param player
+     * @param responseCallback
+     */
     private void addPlayer(Player player, ResponseCallback responseCallback){
         Map<String, Object> res = new HashMap<>();
         players.add(player)
@@ -92,6 +109,11 @@ public class APIMain {
                 });
     }
 
+    /**
+     * Get player information
+     * @param user_id
+     * @param responseCallback
+     */
     public void getPlayerInfo(String user_id, ResponseCallback responseCallback){
         Map<String, Object> res = new HashMap<>();
         players.document(user_id).get()
@@ -122,6 +144,11 @@ public class APIMain {
                 });
     }
 
+    /**
+     * Send updated information about the user to the database
+     * @param player
+     * @param responseCallback
+     */
     public void updatePlayerInfo(Player player, ResponseCallback responseCallback){
         Map<String, Object> res = new HashMap<>();
         players.document(player.getUserId()).set(player)
@@ -144,6 +171,12 @@ public class APIMain {
                 });
     }
 
+    /**
+     * Add new QR code to the database
+     * @param qr_code
+     * @param player
+     * @param responseCallback
+     */
     public void addQRCode(QRcode qr_code, Player player, ResponseCallback responseCallback){
         Map<String, Object> res = new HashMap<>();
         String id = qr_code.getCodeId();
@@ -193,6 +226,13 @@ public class APIMain {
                 });
     }
 
+    /**
+     * Update QR code
+     * @param qr_code
+     * @param player
+     * @param res
+     * @param responseCallback
+     */
     private void addNewCode(QRcode qr_code, Player player, Map<String, Object> res, ResponseCallback responseCallback){
         codes.document(qr_code.getCodeId()).set(qr_code)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -216,6 +256,12 @@ public class APIMain {
                 });
     }
 
+    /**
+     * Delete QR code
+     * @param qr_code
+     * @param player
+     * @param responseCallback
+     */
     public void delQRCode(QRcode qr_code, Player player, ResponseCallback responseCallback){
         Map<String, Object> res = new HashMap<>();
         String id = qr_code.getCodeId();
@@ -259,6 +305,12 @@ public class APIMain {
                 });
     }
 
+    /**
+     * Get QR code from database
+     * @param code_id
+     * @param nickName
+     * @param responseCallback
+     */
     public void getQRcode(String code_id, String nickName, ResponseCallback responseCallback){
         Map<String, Object> res = new HashMap<>();
         codes.document(code_id).get()
@@ -289,6 +341,13 @@ public class APIMain {
                 });
     }
 
+    /**
+     * Create comment in database
+     * @param code_id
+     * @param userName
+     * @param body
+     * @param responseCallback
+     */
     public void createComment(String code_id, String userName, String body, ResponseCallback responseCallback){
         Map<String, Object> res = new HashMap<>();
         Map<String, String> data = new HashMap<>();
@@ -315,6 +374,11 @@ public class APIMain {
                 });
     }
 
+    /**
+     * Get all comments from the QR code from database
+     * @param code_id
+     * @param responseCallback
+     */
     public void getComments(String code_id, ResponseCallback responseCallback){
         Map<String, Object> res = new HashMap<>();
         ArrayList<Map<String, Object>> data = new ArrayList<>();
@@ -339,37 +403,11 @@ public class APIMain {
                 });
     }
 
-    /*public void searchByUsername(String Username, ResponseCallback responseCallback){
-        if(Username.equals("")) {
-            return;
-        }
-        Map<String, Object> res = new HashMap<>();
-        ArrayList<Player> data = new ArrayList<>();
-        char last = Username.charAt(Username.length() - 1);
-        char next = (char) (last+1);
-        StringBuilder end = new StringBuilder(Username);
-        end.setCharAt(Username.length() - 1, next);
-        players.orderBy("userName").startAt(Username).endAt(end+"").limit(5).get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if(task.isSuccessful()) {
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                Log.i(TAG, document.getId() + " => " + document.toObject(Player.class));
-                                data.add(document.toObject(Player.class));
-                            }
-                            res.put("success", true);
-                            res.put("data", data); // type: ArrayList<Player>
-                        } else {
-                            Log.d(TAG, "Error getting documents: ", task.getException());
-                            res.put("success", false);
-                            res.put("err", "" + task.getException());
-                        }
-                        responseCallback.onResponse(res);
-                    }
-                });
-    }*/
-
+    /**
+     * Search for username in database
+     * @param Username
+     * @param responseCallback
+     */
     public void searchByUsername(String Username, ResponseCallback responseCallback) {
         if (Username.equals("")) {
             return;
@@ -398,6 +436,12 @@ public class APIMain {
                 });
     }
 
+    /**
+     * Add image to database
+     * @param file
+     * @param codeId
+     * @param responseCallback
+     */
     public void addImage(Uri file, String codeId, ResponseCallback responseCallback){
         Map<String, Object> res = new HashMap<>();
         Date date = new Date();
@@ -426,7 +470,13 @@ public class APIMain {
                 });
 
     }
-    
+
+    /**
+     * Get rank of the player from the database
+     * @param p
+     * @param field
+     * @param responseCallback
+     */
     public void getRank(Player p, String field,ResponseCallback responseCallback){
         Map<String, Object> res = new HashMap<>();
         ArrayList<String> usernames = new ArrayList<>();
@@ -459,6 +509,10 @@ public class APIMain {
                 });
     }
 
+    /**
+     * Get all codes from the database
+     * @param responseCallback
+     */
     public void getAllCodes(ResponseCallback responseCallback){
         Map<String, Object> res = new HashMap<>();
         codes.get()
@@ -485,6 +539,10 @@ public class APIMain {
                 });
     }
 
+    /**
+     * Get all users from the database
+     * @param responseCallback
+     */
     public void getAllUsers(ResponseCallback responseCallback){
         // TODO: make a check to make sure user is owner
 
@@ -513,6 +571,11 @@ public class APIMain {
                 });
     }
 
+    /**
+     * Delete qr code from database
+     * @param code
+     * @param responseCallback
+     */
     public void deleteCodeFromDB(QRcode code, ResponseCallback responseCallback){
         String id = code.getCodeId();
         for(String i:code.getSeenBy()){
@@ -555,6 +618,11 @@ public class APIMain {
                 });
     }
 
+    /**
+     *  Delete player from database
+     * @param p
+     * @param responseCallback
+     */
     public void deletePlayerFromDB(Player p, ResponseCallback responseCallback){
         String id = p.getUserId();
         for(String i : p.getScannedCodes().values()){
@@ -583,6 +651,11 @@ public class APIMain {
         deleteComments("user_name", id);
     }
 
+    /**
+     * Get player object by the username
+     * @param username
+     * @param responseCallback
+     */
     public void getPlayerByUsername(String username, ResponseCallback responseCallback){
         Map<String, Object> res = new HashMap<>();
         players.whereEqualTo("userName", username).limit(1).get()
@@ -607,6 +680,11 @@ public class APIMain {
                 });
     }
 
+    /**
+     * delete comments from database
+     * @param field
+     * @param id
+     */
     private void deleteComments(String field, String id){
         comments.whereEqualTo(field, id).get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {

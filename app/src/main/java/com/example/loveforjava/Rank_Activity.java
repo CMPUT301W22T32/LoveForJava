@@ -21,6 +21,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import java.util.ArrayList;
 import java.util.Map;
 
+/**
+ *  This class displays the rank of three different ranking methods
+ */
 public class Rank_Activity extends AppCompatActivity {
     private Player player;
     private ArrayList<String> usernames = new ArrayList<>();
@@ -56,6 +59,9 @@ public class Rank_Activity extends AppCompatActivity {
         setListeners();
     }
 
+    /**
+     * Make changes to the list when different button are pressed
+     */
     private void setListeners(){
 
         // TODO: implement caching
@@ -100,6 +106,10 @@ public class Rank_Activity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Get data from the database
+     * @param field
+     */
     private void getData(String field){
         APIserver.getRank(player, field, new ResponseCallback() {
             @Override
@@ -119,6 +129,11 @@ public class Rank_Activity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Update the adapter so that new datas could be displayed
+     * @param names
+     * @param vals
+     */
     private void updateAdapter(ArrayList<String> names, ArrayList<String> vals){
         Log.i("BEFORE", usernames+"");
         Log.i("BEFORE", names+"");
@@ -129,37 +144,5 @@ public class Rank_Activity extends AppCompatActivity {
         Log.i("AFTER", usernames+"");
         Adapter.notifyDataSetChanged();
     }
-
-    /*private void onDataChange(){
-        usernames.addAll( (ArrayList<String>) response.get("usernames"));
-        Player p= (Player) i.getSerializableExtra("PLAYER");
-
-        username = new ArrayList<String>();
-        for(Map.Entry<String, String> entry: player.userName.entrySet()) {
-            username.add(entry.getKey());}
-
-        value = new ArrayList<String>();
-        for(Map.Entry<String, Integer> entry: player.value.entrySet()) {
-            value.add(entry.getKey());}
-
-        ListView rankList = findViewById(R.id.rank_list);
-        ArrayAdapter Adapter = new CustomList_rank(this, username,value);
-        rankList.setAdapter(Adapter);
-        Adapter.notifyDataSetChanged();
-
-
-        APIMain APIserver = new APIMain();
-        Log.i("player", p+"");
-        APIserver.getRank(p, "highestCode", new ResponseCallback() {
-            @Override
-            public void onResponse(Map<String, Object> response) {
-                if((Boolean) response.get("success")){
-                    Log.i("RANK", response.get("rank")+"");
-                    Log.i("RANK", response.get("usernames")+"");
-                    Log.i("RANK", response.get("values")+"");
-                }
-            }
-        });
-    }*/
 
 }

@@ -12,6 +12,9 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+/**
+ * Stores information of Player
+ */
 public class Player implements Serializable {
     String userId;
     String userName;

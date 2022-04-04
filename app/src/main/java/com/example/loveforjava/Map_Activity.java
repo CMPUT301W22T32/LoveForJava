@@ -35,6 +35,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * This class displays the map
+ */
 public class Map_Activity extends AppCompatActivity {
     private MapView map = null;
     ArrayList<QRcode> qRcodes = new ArrayList<QRcode>();
@@ -118,6 +121,12 @@ public class Map_Activity extends AppCompatActivity {
 
     }
 
+    /**
+     * Request for permission
+     * @param requestCode
+     * @param permissions
+     * @param grantResults
+     */
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
@@ -133,6 +142,10 @@ public class Map_Activity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Request for permission if necessary
+     * @param permissions
+     */
     private void requestPermissionsIfNecessary(String[] permissions) {
         ArrayList<String> permissionsToRequest = new ArrayList<>();
         for (String permission : permissions) {
@@ -149,6 +162,10 @@ public class Map_Activity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Get location
+     * @return location
+     */
     @SuppressLint("MissingPermission")
     private Location getLocation(){
         LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
@@ -169,6 +186,9 @@ public class Map_Activity extends AppCompatActivity {
         return location;
     }
 
+    /**
+     *  Request for location permission
+     */
     public void locPermission() {
         if (ActivityCompat.checkSelfPermission(this,
                 Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&

@@ -21,9 +21,6 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.LoveForJava">
         <activity
-            android:name=".OwnerPagePlayerActivity"
-            android:exported="false" />
-        <activity
             android:name=".Map_Activity"
             android:screenOrientation="nosensor" />
         <activity

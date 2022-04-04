@@ -20,6 +20,9 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.Map;
 
+/**
+ * Displays the user's profile
+ */
 public class ProfileActivity extends AppCompatActivity {
     private Player player;
     private ArrayList<String> qrName;
@@ -119,6 +122,10 @@ public class ProfileActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Prompts confirmation for deletion
+     * @param i
+     */
     public void deleteConfirmation(int i) {
         /*  WEBSITE : https://stackoverflow.com
          *  LINK TO SOLUTION : https://stackoverflow.com/a/36747528
@@ -146,6 +153,10 @@ public class ProfileActivity extends AppCompatActivity {
         dialog.show();
     }
 
+    /**
+     * Allows user to delete Qr code
+     * @param i
+     */
     private void deleteQRcode(int i){
         Log.i("POS", i+"");
         String name = qrName.get(i);

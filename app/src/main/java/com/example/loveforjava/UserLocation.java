@@ -13,6 +13,9 @@ import androidx.core.app.ActivityCompat;
 
 import java.util.List;
 
+/**
+ * Gets the user location
+ */
 public class UserLocation {
     Context cxt;
 
@@ -40,6 +43,9 @@ public class UserLocation {
         return location;
     }
 
+    /**
+     * Get permission before recording the location
+     */
     private void locPermission() {
         if (ActivityCompat.checkSelfPermission(cxt,
                 Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&

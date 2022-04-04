@@ -14,6 +14,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.zip.Inflater;
 
+/**
+ * Displays who have seen the QR code
+ */
 public class SeenByFragment extends ListFragment {
 
     private ArrayList<String> seenBy;

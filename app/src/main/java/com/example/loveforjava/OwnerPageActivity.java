@@ -20,6 +20,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * This class displays the qr codes and players of the app to the admin for deleting purposes
+ */
 public class OwnerPageActivity extends AppCompatActivity {
     APIMain APIserver = new APIMain();
     ListView qrList;
@@ -137,6 +140,11 @@ public class OwnerPageActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Prompts admin if he wants to delete
+     * @param i
+     * @param type
+     */
     public void deleteConfirmation(int i, String type) {
         /*  WEBSITE : https://stackoverflow.com
          *  LINK TO SOLUTION : https://stackoverflow.com/a/36747528
@@ -167,6 +175,10 @@ public class OwnerPageActivity extends AppCompatActivity {
         dialog.show();
     }
 
+    /**
+     * Allows admin to delete the QR code selected
+     * @param i
+     */
     private void deleteQRcode(int i){
         Log.i("POS", i+"");
         QRcode qr = qrCodes.get(i);
@@ -186,6 +198,10 @@ public class OwnerPageActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Allows admin to delete the player selected
+     * @param i
+     */
     private void deletePLayer(int i){
         Log.i("POS", i+"");
         Player p = players.get(i);
