@@ -246,8 +246,20 @@ public class AfterScanActivity extends AppCompatActivity {
         return score;
     }
 
+    private Boolean validateFields(){
+        String name = editText.getText()+"";
+        if(name.isEmpty()){
+            editText.setError("Empty Fields Are not Allowed");
+            return false;
+        }
+        return true;
+    }
+
     private void saveCode(){
         editText = findViewById(R.id.nickname_of_QR);
+        if(!validateFields()){
+            return;
+        }
         QRcode code;
         if(location != null){
             code = new QRcode(editText.getText()+"", hashedCode ,score,
@@ -256,9 +268,6 @@ public class AfterScanActivity extends AppCompatActivity {
             code = new QRcode(editText.getText()+"", hashedCode ,score);
         }
         Context context = this;
-        if(imageUri != null){
-            saveImage();
-        }
         APIServer.addQRCode(code, p, new ResponseCallback() {
             @Override
             public void onResponse(Map<String, Object> response) {
@@ -276,6 +285,9 @@ public class AfterScanActivity extends AppCompatActivity {
                 }
             }
         });
+        if(imageUri != null){
+            saveImage();
+        }
     }
 
     private void saveImage(){
