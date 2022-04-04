@@ -58,6 +58,9 @@ import java.security.MessageDigest;
 import java.util.ArrayList;
 import java.util.Map;
 
+/**
+ * This class allows the user to record location, take a picture and give the QR code a name to save it to the database
+ */
 public class AfterScanActivity extends AppCompatActivity {
     private final APIMain APIServer = new APIMain();
     Uri imageUri;
@@ -71,6 +74,16 @@ public class AfterScanActivity extends AppCompatActivity {
     private Player p;
     private String hashedCode;
     private int score;
+
+    /**
+     * Set up a activity launcher, this is used for operate an intent and
+     * get result from it.
+     * <p>
+     * This launcher is only used for camera activity and get picture url
+     * as a result
+     *
+     * @param someActivityResultLauncher a launcher for camera activity
+     */
     ActivityResultLauncher<Intent> someActivityResultLauncher = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
             new ActivityResultCallback<ActivityResult>() {

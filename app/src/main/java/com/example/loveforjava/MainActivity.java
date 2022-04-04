@@ -16,19 +16,18 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
 import java.util.Map;
 
+/**
+ * This class allows user to search for other players, open map, open rank, and open own profile
+ */
 public class MainActivity extends AppCompatActivity {
-    private EditText name;
-    private Player p;
-    AutoCompleteTextView search_friends;
-    Spinner friends;
-    ArrayList<Player> players = new ArrayList<Player>();
-    ArrayList<String> userNames = new ArrayList<String>();
-    APIMain user;
+    Player p;
+    EditText searchUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,42 +36,23 @@ public class MainActivity extends AppCompatActivity {
         p = (Player) i.getSerializableExtra("PLAYER");
         setContentView(R.layout.activity_main);
 
-        search_friends = findViewById(R.id.username);
-        friends =  findViewById(R.id.friends);
-
-        APIMain APIserver = new APIMain();
-        APIserver.searchByUsername(search_friends.getText().toString(), new ResponseCallback() {
+        searchUser = findViewById(R.id.username);
+        APIMain APIServer = new APIMain();
+        APIServer.searchByUsername(searchUser.getText() + "", new ResponseCallback() {
             @Override
             public void onResponse(Map<String, Object> response) {
-                players = (ArrayList<Player>) response.get("data");
-                for(int i=0; i < players.size(); i++) {
-                    System.out.println("########"+players.get(i).getUserName());
-                    userNames.add(players.get(i).getUserName());
+                if((Boolean) response.get("success")) {
+                    Player searchedPlayer = (Player) response.get("Player_obj");
+                    if(searchedPlayer == null){
+                        Toast.makeText(MainActivity.this, "No Player named found", Toast.LENGTH_LONG).show();
+                    }else{
+                        Intent intent = new Intent(MainActivity.this, OtherUserActivity.class);
+                        intent.putExtra("PLAYER", searchedPlayer);
+                        startActivity(intent);
+                    }
                 }
             }
         });
-
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(MainActivity.this, android.R.layout.simple_spinner_dropdown_item,userNames);
-
-        ArrayAdapter<String> adapter1 = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item,userNames);
-
-        search_friends.setAdapter(adapter);
-        friends.setAdapter(adapter1);
-
-        APIserver.searchByUsername("j", new ResponseCallback() {
-            @Override
-            public void onResponse(Map<String, Object> response) {
-                ArrayList<Player> players = (ArrayList<Player>) response.get("data");
-                ArrayList<String> newStringList = new ArrayList<>();
-                for(Player i: players){
-                    newStringList.add(i.getUserName());
-                }
-                ArrayAdapter dataAdapter = new ArrayAdapter<String>(MainActivity.this, android.R.layout.simple_spinner_item, newStringList);
-                dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                friends.setAdapter(dataAdapter);
-            }
-        });
-
 
 
         /**
