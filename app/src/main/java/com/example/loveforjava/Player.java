@@ -1,20 +1,26 @@
 package com.example.loveforjava;
 
 
+import android.os.Build;
 import android.util.Log;
+
+import androidx.annotation.RequiresApi;
+
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 public class Player implements Serializable {
     String userId;
     String userName;
     String email;
     Map<String, String> scannedCodes;  // stored as nickName:code_id
-    int highestCode;
-    int lowestCode;
-    int totScore;
-    int numScanned;
+    Integer highestCode;
+    Integer lowestCode;
+    Integer totScore;
+    Integer numScanned;
 
 
     // **empty constructor requried for firebase storage**
@@ -70,7 +76,7 @@ public class Player implements Serializable {
     }
     public Boolean remQR(QRcode code){
         String name = code.getNickName();
-        if(!scannedCodes.containsKey(name)){
+        if(!scannedCodes.containsValue(name)){
             return false;
         }
         // TODO: change highest/lowest score if this is that code
@@ -81,12 +87,25 @@ public class Player implements Serializable {
         return true;
     }
 
+    public void delQRcode(QRcode code){
+        for(String i : scannedCodes.keySet()){
+            if(scannedCodes.get(i).equals(code.getCodeId())){
+                scannedCodes.remove(i);
+                break;
+            }
+        }
+        // TODO: change highest/lowest score if this is that code
+        totScore -= code.getScore();
+        numScanned--;
+        Log.i("codes", scannedCodes+"");
+    }
+
     public String getQRcodeByName(String name){
         Log.i(name, scannedCodes.get(name));
         return scannedCodes.get(name);
     }
 
-    public int getTotScore() {
+    public Integer getTotScore() {
         return totScore;
     }
 
@@ -94,7 +113,7 @@ public class Player implements Serializable {
         return scannedCodes;
     }
 
-    public int getHighestCode() {
+    public Integer getHighestCode() {
         return highestCode;
     }
 
@@ -110,11 +129,11 @@ public class Player implements Serializable {
         return userName;
     }
 
-    public int getLowestCode() {
+    public Integer getLowestCode() {
         return lowestCode;
     }
 
-    public int getNumScanned(){
+    public Integer getNumScanned(){
         return numScanned;
     }
 }

@@ -46,7 +46,9 @@ public class OwnerPageActivity extends AppCompatActivity {
         qrList.setVisibility(View.VISIBLE);
         playerList.setVisibility(View.GONE);
 
+        playerAdapter = new CustomList(this, userNames);
         qrAdapter = new CustomList(this, qrCodesStrings);
+        playerList.setAdapter(playerAdapter);
         qrList.setAdapter(qrAdapter);
         qrAdapter.notifyDataSetChanged();
 
@@ -68,7 +70,7 @@ public class OwnerPageActivity extends AppCompatActivity {
         qrList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
-                deleteConfirmationQr(i);
+                deleteConfirmation(i, "qr");
                 return true;
             }
         });
@@ -76,7 +78,7 @@ public class OwnerPageActivity extends AppCompatActivity {
         playerList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
-                deleteConfirmationQr(i);
+                deleteConfirmation(i, "player");
                 return false;
             }
         });
@@ -85,30 +87,25 @@ public class OwnerPageActivity extends AppCompatActivity {
             public void onClick(View v) {
                 qrList.setVisibility(View.GONE);
                 playerList.setVisibility(View.VISIBLE);
-                APIserver.getAllUsers(new ResponseCallback() {
-                    @Override
-                    public void onResponse(Map<String, Object> response) {
-                        if(userNames.size() == 0) {
-                            APIserver.getAllUsers(new ResponseCallback() {
-                                @Override
-                                public void onResponse(Map<String, Object> response) {
-                                    if ((Boolean) response.get("success")) {
-                                        players = (ArrayList<Player>) response.get("data");         //Issue here!
-                                        for (int i = 0; i < players.size(); i++) {
-                                            userNames.add(players.get(i).getUserName());
-                                        }
-                                        qrAdapter.notifyDataSetChanged();
-                                    } else {
-                                        // err
-                                    }
+                if(userNames.size() == 0) {
+                    APIserver.getAllUsers(new ResponseCallback() {
+                        @Override
+                        public void onResponse(Map<String, Object> response) {
+                            if ((Boolean) response.get("success")) {
+                                players = (ArrayList<Player>) response.get("data");         //Issue here!
+                                for (int i = 0; i < players.size(); i++) {
+                                    userNames.add(players.get(i).getUserName());
                                 }
-                            });
+                                playerAdapter.notifyDataSetChanged();
+                            } else {
+                                // err
+                            }
                         }
-                    }
-                });
-                playerAdapter = new CustomList(getApplicationContext(), userNames);
+                    });
+                }
+                /*playerAdapter = new CustomList(getApplicationContext(), userNames);
                 playerList.setAdapter(playerAdapter);
-                playerAdapter.notifyDataSetChanged();
+                playerAdapter.notifyDataSetChanged();*/
             }
         });
 
@@ -140,7 +137,7 @@ public class OwnerPageActivity extends AppCompatActivity {
 
     }
 
-    public void deleteConfirmationQr(int i) {
+    public void deleteConfirmation(int i, String type) {
         /*  WEBSITE : https://stackoverflow.com
          *  LINK TO SOLUTION : https://stackoverflow.com/a/36747528
          *  AUTHOR : https://stackoverflow.com/users/5130239/dus
@@ -152,7 +149,11 @@ public class OwnerPageActivity extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialogInterface, int j) {
                 Log.i("LOC", i+"");
-                deleteQRcode(i);
+                if(type == "qr") {
+                    deleteQRcode(i);
+                }else{
+                    deletePLayer(i);
+                }
             }
         });
         builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
@@ -174,7 +175,27 @@ public class OwnerPageActivity extends AppCompatActivity {
             public void onResponse(Map<String, Object> response) {
                 if( (boolean) response.get("success")){
                     qrCodesStrings.remove(i);
+                    qrCodes.remove(i);
                     qrAdapter.notifyDataSetChanged();
+                    Toast.makeText(getApplicationContext(), "QR code deleted!", Toast.LENGTH_SHORT).show();
+                }else{
+                    Toast.makeText(getApplicationContext(), "Could not delete QR code at this time, please try again",
+                            Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
+
+    private void deletePLayer(int i){
+        Log.i("POS", i+"");
+        Player p = players.get(i);
+        APIserver.deletePlayerFromDB(p, new ResponseCallback() {
+            @Override
+            public void onResponse(Map<String, Object> response) {
+                if( (boolean) response.get("success")){
+                    userNames.remove(i);
+                    players.remove(i);
+                    playerAdapter.notifyDataSetChanged();
                     Toast.makeText(getApplicationContext(), "QR code deleted!", Toast.LENGTH_SHORT).show();
                 }else{
                     Toast.makeText(getApplicationContext(), "Could not delete QR code at this time, please try again",

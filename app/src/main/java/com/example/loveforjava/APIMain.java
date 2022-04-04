@@ -465,6 +465,7 @@ public class APIMain {
                         if (task.isSuccessful()) {
                             ArrayList<Player> data = new ArrayList<>();
                             for (QueryDocumentSnapshot document : task.getResult()) {
+                                Log.i("ID", document.getId());
                                 data.add(document.toObject(Player.class));
                             }
                             res.put("success", true);
@@ -489,7 +490,8 @@ public class APIMain {
                 public void onResponse(Map<String, Object> response) {
                     if((Boolean) response.get("success")){
                         Player p = (Player) response.get("Player_obj");
-                        p.remQR(code);
+                        Log.i("PLAYER", p.getUserName());
+                        p.delQRcode(code);
                         updatePlayerInfo(p, new ResponseCallback() {
                             @Override
                             public void onResponse(Map<String, Object> response) {}
