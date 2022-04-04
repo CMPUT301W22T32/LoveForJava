@@ -7,10 +7,9 @@
     android:padding="10dp"
     android:background="#FFFFFF"
     android:orientation="vertical"
-    tools:context=".LoginActivity">
+    tools:context=".OwnerLoginActivity">
 
     <ImageView
-        android:id="@+id/ownerLgnBtn"
         android:layout_width="wrap_content"
         android:layout_height="212dp"
         android:layout_margin="50dp"
@@ -44,28 +43,7 @@
         android:layout_height="60dp"
         android:layout_marginBottom="30dp"
         android:backgroundTint="#3772FF"
-        android:text="Sign Up"
+        android:text="Owner Sign In"
         android:textSize="20dp" />
 
-    <ImageButton
-        android:id="@+id/qr_button"
-        android:layout_width="wrap_content"
-        android:layout_height="88dp"
-        android:layout_gravity="center"
-        android:layout_marginLeft="3dp"
-        android:adjustViewBounds="true"
-        android:backgroundTint="@color/white"
-        android:maxWidth="100dp"
-        android:maxHeight="100dp"
-        android:scaleType="fitStart"
-        android:src="@drawable/ic_action_qr" />
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Login with QR code"
-        android:textColor="@color/blue_crayola"
-        android:textSize="15dp"
-        android:textStyle="bold"
-        android:gravity="center_horizontal" />
 </LinearLayout>
