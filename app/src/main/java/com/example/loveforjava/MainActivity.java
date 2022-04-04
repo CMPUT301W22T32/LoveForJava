@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -37,22 +38,32 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         searchUser = findViewById(R.id.username);
-        APIMain APIServer = new APIMain();
-        APIServer.searchByUsername(searchUser.getText() + "", new ResponseCallback() {
+        searchUser.setImeActionLabel("Custom Text", KeyEvent.KEYCODE_ENTER);
+        searchUser.setOnKeyListener(new View.OnKeyListener() {
             @Override
-            public void onResponse(Map<String, Object> response) {
-                if((Boolean) response.get("success")) {
-                    Player searchedPlayer = (Player) response.get("Player_obj");
-                    if(searchedPlayer == null){
-                        Toast.makeText(MainActivity.this, "No Player named found", Toast.LENGTH_LONG).show();
-                    }else{
-                        Intent intent = new Intent(MainActivity.this, OtherUserActivity.class);
-                        intent.putExtra("PLAYER", searchedPlayer);
-                        startActivity(intent);
-                    }
+            public boolean onKey(View view, int i, KeyEvent keyEvent) {
+                if(keyEvent.getAction() == KeyEvent.ACTION_DOWN && i == KeyEvent.KEYCODE_ENTER) {
+                    APIMain APIServer = new APIMain();
+                    APIServer.searchByUsername(searchUser.getText() + "", new ResponseCallback() {
+                        @Override
+                        public void onResponse(Map<String, Object> response) {
+                            if((Boolean) response.get("success")) {
+                                Player searchedPlayer = (Player) response.get("Player_obj");
+                                if(searchedPlayer == null){
+                                    Toast.makeText(MainActivity.this, "No Player named found", Toast.LENGTH_LONG).show();
+                                }else{
+                                    Intent intent = new Intent(MainActivity.this, OtherUserActivity.class);
+                                    intent.putExtra("PLAYER", searchedPlayer);
+                                    startActivity(intent);
+                                }
+                            }
+                        }
+                    });
                 }
+                return false;
             }
         });
+
 
 
         /**
