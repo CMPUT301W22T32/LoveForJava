@@ -65,6 +65,7 @@ public class Player implements Serializable {
         }
         totScore += score;
         scannedCodes.put(name, id);
+        numScanned++;
         return true;
     }
     public Boolean remQR(QRcode code){
@@ -75,6 +76,7 @@ public class Player implements Serializable {
         // TODO: change highest/lowest score if this is that code
         totScore -= code.getScore();
         scannedCodes.remove(name);
+        numScanned--;
         Log.i("codes", scannedCodes+"");
         return true;
     }
