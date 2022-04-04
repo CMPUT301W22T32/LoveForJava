@@ -437,7 +437,7 @@ public class APIMain {
                                 if(document.getId().equals(p.getUserId())){
                                     res.put("rank", i);
                                 }
-                                Log.i(TAG, document.getData().get("userName") + " => " + document.getData().get(field));
+                                //Log.i(TAG, document.getData().get("userName") + " => " + document.getData().get(field));
                                 usernames.add((String) document.getData().get("userName"));
                                 values.add(document.getData().get(field)+"");
                                 i++;

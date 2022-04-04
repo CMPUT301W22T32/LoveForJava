@@ -3,7 +3,9 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/Users/hp/Desktop/CMPUT301/QRHunter/LoveForJava/app/src/main/res/layout/activity_profile.xml" value="0.25" />
+        <entry key="..\:/Users/jaspe/CMPUT_301/LoveForJava/app/src/main/res/layout/activity_rank.xml" value="0.20416666666666666" />
+        <entry key="..\:/Users/jaspe/CMPUT_301/LoveForJava/app/src/main/res/layout/activity_ranking.xml" value="0.20416666666666666" />
+        <entry key="..\:/Users/jaspe/CMPUT_301/LoveForJava/app/src/main/res/layout/rank_list.xml" value="0.20416666666666666" />
       </map>
     </option>
   </component>
