@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -25,6 +26,7 @@ public class LoginActivity extends AppCompatActivity {
     private Button signUpBtn;
     private ImageButton loginBtn;
     private APIMain APIServer;
+    private ImageView ownerLgn;
 
     /**
      * This method checks whether a user ID is saved locally
@@ -67,6 +69,7 @@ public class LoginActivity extends AppCompatActivity {
             musername = findViewById(R.id.username);
             signUpBtn = findViewById(R.id.login_button);
             loginBtn = findViewById(R.id.qr_button);
+            ownerLgn = findViewById(R.id.ownerLgnBtn);
 
 
             signUpBtn.setOnClickListener(new View.OnClickListener() {
@@ -84,7 +87,22 @@ public class LoginActivity extends AppCompatActivity {
                     login();
                 }
             });
+
+            ownerLgn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    ownerLogin();
+                }
+            });
         }
+    }
+
+    /**
+     * This method directs the admin to the admin login page
+     */
+    private void ownerLogin() {
+        Intent intent = new Intent(this, OwnerLoginActivity.class);
+        startActivity(intent);
     }
 
     /**

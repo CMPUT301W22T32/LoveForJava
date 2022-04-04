@@ -47,7 +47,7 @@ public class GenerateQRCodeActivity extends AppCompatActivity {
         int dimen = width < height ? width : height;
         dimen = dimen * 3 / 4;
 
-        QRGEncoder qrgEncoder = new QRGEncoder("LOVERFORJAVA" + userID, null, QRGContents.Type.TEXT, dimen);
+        QRGEncoder qrgEncoder = new QRGEncoder("LOVEFORJAVA" + userID, null, QRGContents.Type.TEXT, dimen);
         try {
             // getting our qrcode in the form of bitmap.
             Bitmap bitmap = qrgEncoder.encodeAsBitmap();

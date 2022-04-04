@@ -13,7 +13,7 @@
         android:gravity="center_vertical">
 
         <ImageButton
-            android:id="@+id/back_button"
+            android:id="@+id/back_button2"
             android:layout_width="40sp"
             android:layout_height="40sp"
             android:layout_alignParentLeft="true"
@@ -48,18 +48,27 @@
                 android:textSize="30sp">
             </TextView>
 
-            <TextView
-                android:id="@+id/generate_qrcode"
-                android:layout_width="180dp"
-                android:layout_height="40dp"
-                android:text="Profile QR Code"
-                android:gravity="center"
-                android:textStyle="bold"
-                android:textColor="@color/blue_crayola"/>
         </LinearLayout>
 
     </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_marginTop="1dp">
 
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:padding="2sp"
+            android:textSize="14dp"
+            android:layout_weight="2"
+            android:gravity="center_horizontal"
+
+            android:textStyle="bold"
+            android:textColor="@color/gray"/>
+    </LinearLayout>
     <TableLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -132,7 +141,7 @@
             android:background="@drawable/edittablebackground2">
 
             <TextView
-                android:id="@+id/highest_box"
+                android:id="@+id/highest_box2"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
@@ -151,7 +160,7 @@
                 android:textColor="@color/black"/>
 
             <TextView
-                android:id="@+id/lowest_box"
+                android:id="@+id/lowest_box2"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
@@ -170,7 +179,7 @@
                 android:textColor="@color/black"/>
 
             <TextView
-                android:id="@+id/total_box"
+                android:id="@+id/total_box2"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
@@ -189,7 +198,7 @@
                 android:textColor="@color/black"/>
 
             <TextView
-                android:id="@+id/no_scans_box"
+                android:id="@+id/no_scans_box2"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
@@ -220,48 +229,10 @@
     </LinearLayout>
 
     <ListView
-        android:id="@+id/qr_list"
+        android:id="@+id/qr_list2"
+        android:layout_width="match_parent"
+        android:layout_height="470dp"
         android:layout_marginTop="10dp"
-        android:layout_width="match_parent"
-        android:layout_height="380dp"
-        tools:listitem="@layout/list_of_friends"/>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:background="@drawable/edittablebackground">
-
-        <ImageButton
-            android:id="@+id/start_camera_btn"
-            android:layout_width="40sp"
-            android:layout_height="40sp"
-            android:layout_gravity="center_vertical"
-            android:layout_marginStart="25dp"
-            android:background="@drawable/ic_baseline_camera_alt_24"
-            android:clickable="true"
-            android:focusable="true" />
-
-        <EditText
-            android:layout_width="310sp"
-            android:layout_height="30dp"
-            android:layout_marginStart="15dp"
-            android:id="@+id/username"
-            android:hint="Search Friends"
-            android:textSize="12dp"
-            android:background="@drawable/edittextbackground"
-            android:drawableLeft="@drawable/ic_action_search"
-            android:paddingLeft="10dp"
-            android:layout_gravity="center_vertical" />
-    </LinearLayout>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="scan a friend"
-        android:textColor="@color/blue_crayola"
-        android:textSize="10dp"
-        android:textStyle="bold"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="-20dp"/>
+        tools:listitem="@layout/list_of_friends" />
 
 </LinearLayout>

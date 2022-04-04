@@ -2,6 +2,7 @@ package com.example.loveforjava;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
@@ -111,7 +112,17 @@ public class MainActivity extends AppCompatActivity {
     public void profile_Activity(Player p) {
         Intent intent = new Intent(this, ProfileActivity.class);
         intent.putExtra("PLAYER", p);
-        startActivity(intent);
+        startActivityForResult(intent, 1);
+    }
+
+    protected void onActivityResult(int requestCode, int resultCode,
+                                    Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1) {
+            if (resultCode == Activity.RESULT_OK) {
+                p = (Player) data.getSerializableExtra("result");
+            }
+        }
     }
 
     /**

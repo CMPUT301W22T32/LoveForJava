@@ -3,6 +3,7 @@ package com.example.loveforjava;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -91,7 +92,12 @@ public class ProfileActivity extends AppCompatActivity {
         TextView no_scans_box = (TextView)findViewById(R.id.no_scans_box);
         no_scans_box.setText(Integer.toString(player.getScannedCodes().size()));
         TextView lowest_box = (TextView)findViewById(R.id.lowest_box);
-        lowest_box.setText(Integer.toString(player.getLowestCode()));
+        if (player.getLowestCode() == -1){
+            lowest_box.setText("N/A");
+        }
+        else {
+            lowest_box.setText(Integer.toString(player.getLowestCode()));
+        }
 
         final ImageButton camera_button = findViewById(R.id.start_camera_btn);
         camera_button.setOnClickListener(new View.OnClickListener() {
@@ -105,6 +111,9 @@ public class ProfileActivity extends AppCompatActivity {
         final ImageButton back_button = findViewById(R.id.back_button);
         back_button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+                Intent returnIntent = new Intent();
+                returnIntent.putExtra("result",player);
+                setResult(Activity.RESULT_OK,returnIntent);
                 finish();
             }
         });
