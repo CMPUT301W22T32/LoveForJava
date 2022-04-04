@@ -14,6 +14,7 @@
         android:layout_marginTop="20dp">
 
         <TextView
+            android:id="@+id/qr_codes"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:padding="2sp"
@@ -23,43 +24,31 @@
             android:text="Qr Codes"
             android:textStyle="bold"
             android:textColor="@color/blue_crayola"/>
+
+        <TextView
+            android:id="@+id/players"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:padding="2sp"
+            android:textSize="18dp"
+            android:layout_weight="2"
+            android:gravity="center_horizontal"
+            android:text="Players"
+            android:textStyle="bold"
+            android:textColor="@color/blue_crayola"/>
     </LinearLayout>
 
     <ListView
         android:id="@+id/qr_code_list"
         android:layout_width="match_parent"
-        android:layout_height="381dp"
+        android:layout_height="match_parent"
         android:layout_marginTop="35dp"
         tools:listitem="@layout/list_of_qr"/>
 
-    <LinearLayout
-        android:layout_gravity="bottom|center_horizontal"
+    <ListView
+        android:id="@+id/player_list"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="150dp"
-        android:layout_marginBottom="0sp">
-
-        <ImageButton
-            android:id="@+id/players"
-            android:layout_width="45sp"
-            android:layout_height="45sp"
-            android:layout_marginLeft="175sp"
-            android:layout_marginTop="5sp"
-            android:background="@drawable/ic_action_people"
-            android:clickable="true"
-            android:focusable="true" />
-
-    </LinearLayout>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="163sp"
-        android:layout_weight="2"
-        android:gravity="center_horizontal"
-        android:padding="2sp"
-        android:text="Players"
-        android:textColor="@color/blue_crayola"
-        android:textSize="18dp"
-        android:textStyle="bold" />
+        android:layout_height="match_parent"
+        android:layout_marginTop="35dp"
+        tools:listitem="@layout/list_of_players"/>
 </LinearLayout>
