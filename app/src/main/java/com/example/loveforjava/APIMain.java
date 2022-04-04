@@ -145,7 +145,6 @@ public class APIMain {
     }
 
     public void addQRCode(QRcode qr_code, Player player, ResponseCallback responseCallback){
-        // TODO: fix seen by feature
         Map<String, Object> res = new HashMap<>();
         String id = qr_code.getCodeId();
         // if code already scanned
@@ -482,7 +481,26 @@ public class APIMain {
                 });
     }
 
-    public void deleteCodeFromDB(String id, ResponseCallback responseCallback){
+    public void deleteCodeFromDB(QRcode code, ResponseCallback responseCallback){
+        String id = code.getCodeId();
+        for(String i:code.getSeenBy()){
+            getPlayerByUsername(i, new ResponseCallback() {
+                @Override
+                public void onResponse(Map<String, Object> response) {
+                    if((Boolean) response.get("success")){
+                        Player p = (Player) response.get("Player_obj");
+                        p.remQR(code);
+                        updatePlayerInfo(p, new ResponseCallback() {
+                            @Override
+                            public void onResponse(Map<String, Object> response) {}
+                        });
+                    }
+                }
+            });
+        }
+
+        deleteComments("code_id", id);
+
         Map<String, Object> res = new HashMap<>();
         codes.document(id).delete()
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -504,7 +522,12 @@ public class APIMain {
                 });
     }
 
-    public void deletePlayerFromDB(String id, ResponseCallback responseCallback){
+    public void deletePlayerFromDB(Player p, ResponseCallback responseCallback){
+        String id = p.getUserId();
+        for(String i : p.getScannedCodes().values()){
+            codes.document(i).update("seenBy", FieldValue.arrayRemove(p.getUserName()));
+        }
+
         Map<String, Object> res = new HashMap<>();
         players.document(id).delete()
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -524,6 +547,7 @@ public class APIMain {
                         responseCallback.onResponse(res);
                     }
                 });
+        deleteComments("user_name", id);
     }
 
     public void getPlayerByUsername(String username, ResponseCallback responseCallback){
@@ -550,5 +574,20 @@ public class APIMain {
                 });
     }
 
-
+    private void deleteComments(String field, String id){
+        comments.whereEqualTo(field, id).get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if(task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                Log.i(TAG, document.getId() + " => " + document.getData());
+                                document.getReference().delete();
+                            }
+                        } else {
+                            Log.d(TAG, "Error getting documents: ", task.getException());
+                        }
+                    }
+                });
+    }
 }

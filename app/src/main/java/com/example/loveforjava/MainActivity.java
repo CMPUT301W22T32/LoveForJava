@@ -54,6 +54,22 @@ public class MainActivity extends AppCompatActivity {
         //search_friends.setAdapter(adapter);
         friends.setAdapter(adapter1);
 
+        APIserver.searchByUsername("j", new ResponseCallback() {
+            @Override
+            public void onResponse(Map<String, Object> response) {
+                ArrayList<Player> players = (ArrayList<Player>) response.get("data");
+                ArrayList<String> newStringList = new ArrayList<>();
+                for(Player i: players){
+                    newStringList.add(i.getUserName());
+                }
+                ArrayAdapter dataAdapter = new ArrayAdapter<String>(MainActivity.this, android.R.layout.simple_spinner_item, newStringList);
+                dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                friends.setAdapter(dataAdapter);
+            }
+        });
+
+
+
         /**
          * set listener for profile_Button
          */

@@ -20,9 +20,10 @@ import java.util.Map;
 
 public class OwnerPageActivity extends AppCompatActivity {
     private boolean longPress;
-    APIMain APIserver = new APIMain();
+    private APIMain APIserver = new APIMain();
     private ArrayList<QRcode> qrCodes;
     private ArrayList<String> qrCodesStrings = new ArrayList<String>();
+    private ArrayAdapter qrAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,7 +33,7 @@ public class OwnerPageActivity extends AppCompatActivity {
         longPress = false;
 
         ListView qrList = findViewById(R.id.qr_code_list);
-        ArrayAdapter qrAdapter = new CustomList(this, qrCodesStrings);
+        qrAdapter = new CustomList(this, qrCodesStrings);
         qrList.setAdapter(qrAdapter);
         qrAdapter.notifyDataSetChanged();
 
@@ -100,10 +101,12 @@ public class OwnerPageActivity extends AppCompatActivity {
     private void deleteQRcode(int i){
         Log.i("POS", i+"");
         QRcode qr = qrCodes.get(i);
-        APIserver.deleteCodeFromDB(qr.getCodeId(), new ResponseCallback() {
+        APIserver.deleteCodeFromDB(qr, new ResponseCallback() {
             @Override
             public void onResponse(Map<String, Object> response) {
                 if( (boolean) response.get("success")){
+                    qrCodesStrings.remove(i);
+                    qrAdapter.notifyDataSetChanged();
                     Toast.makeText(getApplicationContext(), "QR code deleted!", Toast.LENGTH_SHORT).show();
                 }else{
                     Toast.makeText(getApplicationContext(), "Could not delete QR code at this time, please try again",
