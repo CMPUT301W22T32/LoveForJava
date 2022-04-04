@@ -27,6 +27,7 @@ public class Rank_Activity extends AppCompatActivity {
     private ArrayList<String> values = new ArrayList<>();
     private ArrayAdapter Adapter;
     private final APIMain APIserver = new APIMain();
+    private TextView rankView;
     // for caching data
     private ArrayList<String> usernamesSingle = new ArrayList<>();
     private ArrayList<String> usernamesTot = new ArrayList<>();
@@ -41,6 +42,8 @@ public class Rank_Activity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ranking);
 
+        rankView = findViewById(R.id.userRank);
+
         Intent i = getIntent();
         player = (Player) i.getSerializableExtra("player");
 
@@ -54,6 +57,8 @@ public class Rank_Activity extends AppCompatActivity {
     }
 
     private void setListeners(){
+
+        // TODO: implement caching
 
         final TextView single = findViewById(R.id.single);
         single.setOnClickListener(new View.OnClickListener() {
@@ -105,6 +110,8 @@ public class Rank_Activity extends AppCompatActivity {
                     usernames.addAll( (ArrayList<String>) response.get("usernames"));
                     values.addAll( (ArrayList<String>) response.get("values"));
                     Adapter.notifyDataSetChanged();
+                    String rank = response.get("rank")+"";
+                    rankView.setText("Your Rank: "+ rank);
                 }else{
                     //err
                 }

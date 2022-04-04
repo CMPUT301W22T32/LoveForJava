@@ -53,40 +53,6 @@ public class MainActivity extends AppCompatActivity {
         //search_friends.setAdapter(adapter);
         friends.setAdapter(adapter1);
 
-        search_friends.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                if(charSequence == ""){
-                    return;
-                }
-                APIserver.searchByUsername(charSequence + "", new ResponseCallback() {
-                    @Override
-                    public void onResponse(Map<String, Object> response) {
-                        //usernames.clear();
-                        ArrayList<Player> p = (ArrayList<Player>) response.get("data");
-                        for(int i=0;i<p.size();i++){
-                            usernames.set(i, p.get(i).getUserName());
-                        }
-
-                        //friends.setAdapter(adapter1);
-                        Log.i("NAMES", usernames+"");
-                        //adapter.notifyDataSetChanged();
-                        adapter1.notifyDataSetChanged();
-                    }
-                });
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-
-            }
-        });
-
         /**
          * set listener for profile_Button
          */
