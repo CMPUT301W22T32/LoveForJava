@@ -20,40 +20,56 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.LoveForJava">
-        <activity android:name=".Map_Activity"
-            android:screenOrientation="nosensor" />
-        <activity android:name=".Rank_Activity"
-            android:screenOrientation="nosensor" />
-        <activity android:name=".CodeScanner_activity"
-            android:screenOrientation="nosensor" />
-        <activity android:name=".AfterScanActivity"
-            android:screenOrientation="nosensor" />
-        <activity android:name=".ProfileActivity"
-            android:screenOrientation="nosensor" />
-        <activity android:name=".QRcodeActivity"
-            android:screenOrientation="nosensor" />
-        <activity android:name=".GenerateQRCodeActivity"
-            android:screenOrientation="nosensor" />
-        <activity android:name=".SeenByActivity"
-            android:screenOrientation="nosensor" />
-        <activity android:name=".OwnerLoginActivity"
-            android:screenOrientation="nosensor" />
-        <activity android:name=".OwnerPageActivity"
-            android:screenOrientation="nosensor" />
-        <activity android:name=".OtherUserActivity"
+        <activity
+            android:name=".OwnerPagePlayerActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Map_Activity"
             android:screenOrientation="nosensor" />
         <activity
-            android:screenOrientation="nosensor"
+            android:name=".Rank_Activity"
+            android:screenOrientation="nosensor" />
+        <activity
+            android:name=".CodeScanner_activity"
+            android:screenOrientation="nosensor" />
+        <activity
+            android:name=".AfterScanActivity"
+            android:screenOrientation="nosensor" />
+        <activity
+            android:name=".ProfileActivity"
+            android:screenOrientation="nosensor" />
+        <activity
+            android:name=".QRcodeActivity"
+            android:screenOrientation="nosensor" />
+        <activity
+            android:name=".GenerateQRCodeActivity"
+            android:screenOrientation="nosensor" />
+        <activity
+            android:name=".SeenByActivity"
+            android:screenOrientation="nosensor" />
+        <activity
+            android:name=".ViewImages"
+            android:screenOrientation="nosensor" />
+        <activity
+            android:name=".OwnerLoginActivity"
+            android:screenOrientation="nosensor" />
+        <activity
+            android:name=".OwnerPageActivity"
+            android:screenOrientation="nosensor" />
+        <activity android:name=".OtherUserActivity" />
+        <activity
             android:name=".LoginActivity"
-            android:exported="true">
+            android:exported="true"
+            android:screenOrientation="nosensor">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MainActivity"
-            android:screenOrientation="nosensor"/>
+        <activity
+            android:name=".MainActivity"
+            android:screenOrientation="nosensor" />
     </application>
 
 </manifest>
