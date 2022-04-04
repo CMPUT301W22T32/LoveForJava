@@ -39,7 +39,7 @@
             app:civ_border_width="4dp"
             android:layout_marginHorizontal="10dp"/>
         <ImageButton
-            android:onClick="submit"
+            android:onClick="gotoMap"
             android:id="@+id/submit_comment"
             android:layout_width="60dp"
             android:layout_height="60dp"
