@@ -79,7 +79,7 @@ public class Player implements Serializable {
     }
     public Boolean remQR(QRcode code){
         String name = code.getNickName();
-        if(!scannedCodes.containsValue(name)){
+        if(!scannedCodes.containsKey(name)){
             return false;
         }
         // TODO: change highest/lowest score if this is that code
