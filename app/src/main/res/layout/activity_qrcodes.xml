@@ -71,29 +71,6 @@
         android:textSize="15sp"
         android:textStyle="bold" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <ImageButton
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:src="@drawable/ic_baseline_thumb_up_alt_24"
-            android:background="@color/white"
-            android:layout_marginStart="35dp"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="100"
-            android:layout_marginStart="2dp"/>
-        <ImageButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_baseline_flag_24"
-            android:background="@color/white"
-            android:layout_marginStart="250dp"/>
-    </LinearLayout>
-
     <ListView
         android:id="@+id/comment_list"
         android:layout_width="match_parent"

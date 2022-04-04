@@ -33,10 +33,12 @@ import org.osmdroid.views.overlay.compass.CompassOverlay;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class Map_Activity extends AppCompatActivity {
     private MapView map = null;
-
+    ArrayList<QRcode> qRcodes = new ArrayList<QRcode>();
+    ArrayList<Marker> nearByQrCodes = new ArrayList<Marker>();
     private final int REQUEST_PERMISSIONS_REQUEST_CODE = 1;
 
     @Override
@@ -75,7 +77,33 @@ public class Map_Activity extends AppCompatActivity {
         map.getController().setZoom(18.0);
         map.getController().setCenter(point);
 
+        APIMain APIServer = new APIMain();
+        APIServer.getAllCodes(new ResponseCallback() {
+            @Override
+            public void onResponse(Map<String, Object> response) {
+                qRcodes = (ArrayList<QRcode>) response.get("data");
 
+                for(int i=0; i < qRcodes.size(); i++) {
+                    GeoPoint qrPoint;
+                    Marker qrMarker;
+                    try {
+                        if (!qRcodes.get(i).getLoc().isEmpty()) {
+                            Log.i("HERE", qRcodes.get(i).getLoc().get(0) + "," + qRcodes.get(i).getLoc().get(1));
+                            qrPoint = new GeoPoint(Double.parseDouble(qRcodes.get(i).getLoc().get(1)),
+                                    Double.parseDouble(qRcodes.get(i).getLoc().get(0)));
+                            qrMarker = new Marker(map);
+                            qrMarker.setPosition(qrPoint);
+                            qrMarker.setTitle(qRcodes.get(i).getScore() + "");
+                            qrMarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_CENTER);
+                            nearByQrCodes.add(qrMarker);
+                        }
+                    }catch(Exception e){
+                        System.out.println("Couldn't add nearby QR codes");
+                    }
+                }
+                map.getOverlays().addAll(nearByQrCodes);
+            }
+        });
 
     }
 
