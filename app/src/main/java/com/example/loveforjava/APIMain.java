@@ -382,11 +382,11 @@ public class APIMain {
                         if (task.isSuccessful()) {
                             if(task.getResult().getDocuments().size() == 0){
                                 res.put("success", true);
-                                res.put("PLayer_obj", null); // type: player
+                                res.put("Player_obj", null); // type: player
                             }else{
                                 Player p = task.getResult().getDocuments().get(0).toObject(Player.class);
                                 res.put("success", true);
-                                res.put("PLayer_obj", p); // type: Player
+                                res.put("Player_obj", p); // type: Player
                             }
                         } else {
                             Log.d(TAG, "Error getting documents: ", task.getException());
