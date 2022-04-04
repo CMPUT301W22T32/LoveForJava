@@ -31,21 +31,25 @@ public class OwnerPageActivity extends AppCompatActivity {
 
         longPress = false;
 
+        ListView qrList = findViewById(R.id.qr_code_list);
+        ArrayAdapter qrAdapter = new CustomList(this, qrCodesStrings);
+        qrList.setAdapter(qrAdapter);
+        qrAdapter.notifyDataSetChanged();
+
         APIserver.getAllCodes(new ResponseCallback() {
             @Override
             public void onResponse(Map<String, Object> response) {
                 if( (Boolean) response.get("success")) {
                     qrCodes = (ArrayList<QRcode>) response.get("data");         //Issue here!
-        }}});
-
-        for (int i=0; i<qrCodes.size(); i++) {                                  //Issue here!
-            qrCodesStrings.add(String.valueOf(qrCodes.get(i).getFlags()));
-        }
-
-        ListView qrList = findViewById(R.id.qr_code_list);
-        ArrayAdapter qrAdapter = new CustomList(this, qrCodesStrings);
-        qrList.setAdapter(qrAdapter);
-        qrAdapter.notifyDataSetChanged();
+                    for (int i=0; i<qrCodes.size(); i++) {
+                        qrCodesStrings.add(qrCodes.get(i).getCodeId());
+                    }
+                    qrAdapter.notifyDataSetChanged();
+                }else{
+                    // err
+                }
+            }
+        });
 
         qrList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
@@ -96,20 +100,17 @@ public class OwnerPageActivity extends AppCompatActivity {
     private void deleteQRcode(int i){
         Log.i("POS", i+"");
         QRcode qr = qrCodes.get(i);
-        //String id = player.getQRcodeByName(name);
-        //Log.i("player", name+":"+id);
-//        APIserver.delQRCode((QRcode) qr, player, new ResponseCallback() {
-//            @Override
-//            public void onResponse(Map<String, Object> response) {
-//                if( (boolean) response.get("success")){
-//                    player = (Player) response.get("Player_obj");
-//                    qrName.remove(i);
-//                    qrAdapter.notifyDataSetChanged();
-//                }else{
-//                    Toast.makeText(getApplicationContext(), "Cannot delete QR code", Toast.LENGTH_SHORT).show();
-//                    }
-//            }
-//        });
+        APIserver.deleteCodeFromDB(qr.getCodeId(), new ResponseCallback() {
+            @Override
+            public void onResponse(Map<String, Object> response) {
+                if( (boolean) response.get("success")){
+                    Toast.makeText(getApplicationContext(), "QR code deleted!", Toast.LENGTH_SHORT).show();
+                }else{
+                    Toast.makeText(getApplicationContext(), "Could not delete QR code at this time, please try again",
+                            Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
     }
 
 }

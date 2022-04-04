@@ -526,5 +526,29 @@ public class APIMain {
                 });
     }
 
+    public void getPlayerByUsername(String username, ResponseCallback responseCallback){
+        Map<String, Object> res = new HashMap<>();
+        players.whereEqualTo("userName", username).limit(1).get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if(task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                Log.i(TAG, document.getId() + " => " + document.getData());
+                                res.put("success", true);
+                                Player player = document.toObject(Player.class);
+                                player.setUserId(document.getId());
+                                res.put("Player_obj", player); // type: Player
+                            }
+                        } else {
+                            Log.d(TAG, "Error getting documents: ", task.getException());
+                            res.put("success", false);
+                            res.put("err", "" + task.getException());
+                        }
+                        responseCallback.onResponse(res);
+                    }
+                });
+    }
+
 
 }
