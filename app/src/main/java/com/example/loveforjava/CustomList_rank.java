@@ -14,10 +14,10 @@ import java.util.ArrayList;
 
 public class CustomList_rank extends ArrayAdapter<String> {
     private ArrayList<String> userNames;
-    private ArrayList<Integer> value;
+    private ArrayList<String> value;
     private Context context;
 
-    public CustomList_rank(Context context, ArrayList<String> userNames, ArrayList<Integer> value) {
+    public CustomList_rank(Context context, ArrayList<String> userNames, ArrayList<String> value) {
         super(context, 0, userNames);
         this.userNames = userNames;
         this.value = value;
@@ -34,7 +34,7 @@ public class CustomList_rank extends ArrayAdapter<String> {
         }
 
         String name = userNames.get(position);
-        Integer Value = value.get(position);
+        String Value = value.get(position);
 
         TextView personText = view.findViewById(R.id.personName);
         TextView valueText = view.findViewById(R.id.value);
