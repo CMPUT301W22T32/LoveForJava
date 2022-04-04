@@ -13,26 +13,40 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 public class OwnerPageActivity extends AppCompatActivity {
-    private boolean longPress;
     APIMain APIserver = new APIMain();
-    private ArrayList<QRcode> qrCodes;
-    private ArrayList<String> qrCodesStrings = new ArrayList<String>();
+    ListView qrList;
+    ListView playerList;
+    ArrayAdapter qrAdapter;
+    ArrayAdapter playerAdapter;
+    ArrayList<QRcode> qrCodes;
+    ArrayList<Player> players;
+    ArrayList<String> qrCodesStrings = new ArrayList<String>();
+    ArrayList<String> userNames = new ArrayList<String>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_owner_page);
 
-        longPress = false;
+        qrList = findViewById(R.id.qr_code_list);
+        playerList = findViewById(R.id.player_list);
 
-        ListView qrList = findViewById(R.id.qr_code_list);
-        ArrayAdapter qrAdapter = new CustomList(this, qrCodesStrings);
+        final TextView qr_btn = findViewById(R.id.qr_codes);
+        final TextView player_btn = findViewById(R.id.players);
+
+        // Display qrList first and hide playerList
+        qrList.setVisibility(View.VISIBLE);
+        playerList.setVisibility(View.GONE);
+
+        qrAdapter = new CustomList(this, qrCodesStrings);
         qrList.setAdapter(qrAdapter);
         qrAdapter.notifyDataSetChanged();
 
@@ -54,17 +68,48 @@ public class OwnerPageActivity extends AppCompatActivity {
         qrList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
-                longPress = true;
                 deleteConfirmationQr(i);
                 return true;
             }
         });
 
-        final ImageButton player_btn = findViewById(R.id.players);
+        playerList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
+                deleteConfirmationQr(i);
+                return false;
+            }
+        });
+
         player_btn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), OwnerPagePlayerActivity.class);
-                startActivity(intent);
+                qrList.setVisibility(View.GONE);
+                playerList.setVisibility(View.VISIBLE);
+                APIserver.getAllUsers(new ResponseCallback() {
+                    @Override
+                    public void onResponse(Map<String, Object> response) {
+
+                    }
+                });
+                playerAdapter = new CustomList(getApplicationContext(), userNames);
+                playerList.setAdapter(playerAdapter);
+                playerAdapter.notifyDataSetChanged();
+            }
+        });
+
+        qr_btn.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                qrList.setVisibility(View.VISIBLE);
+                playerList.setVisibility(View.GONE);
+                APIserver.getAllCodes(new ResponseCallback() {
+                    @Override
+                    public void onResponse(Map<String, Object> response) {
+
+                    }
+                });
+                qrAdapter = new CustomList(getApplicationContext(), qrCodesStrings);
+                qrList.setAdapter(qrAdapter);
+                playerAdapter.notifyDataSetChanged();
             }
         });
 
@@ -83,13 +128,12 @@ public class OwnerPageActivity extends AppCompatActivity {
             public void onClick(DialogInterface dialogInterface, int j) {
                 Log.i("LOC", i+"");
                 deleteQRcode(i);
-                longPress = false;
             }
         });
         builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int j) {
-                longPress = false;
+
             }
         });
 

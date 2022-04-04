@@ -27,15 +27,15 @@
         android:paddingLeft="20dp"/>
 
     <EditText
+        android:id="@+id/useremail"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:id="@+id/useremail"
-        android:hint="Email"
-        android:textSize="16dp"
-        android:background="@drawable/edittextbackground"
-        android:drawableLeft="@drawable/ic_action_email"
         android:layout_marginBottom="10dp"
-        android:paddingLeft="20dp"/>
+        android:background="@drawable/edittextbackground"
+        android:drawableLeft="@drawable/ic_action_username"
+        android:hint="Password"
+        android:paddingLeft="20dp"
+        android:textSize="16dp" />
 
     <Button
         android:id="@+id/login_button"
