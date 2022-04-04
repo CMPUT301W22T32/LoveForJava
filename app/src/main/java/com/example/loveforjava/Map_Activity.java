@@ -62,30 +62,9 @@ public class Map_Activity extends AppCompatActivity {
         compassOverlay.enableCompass();
         map.getOverlays().add(compassOverlay);
 
-        /*LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-        locPermission();
-        Location location;
-        LocationListener locationListener = new MyLocationListener();
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000, 10, locationListener);
-        List<String> providers = locationManager.getProviders(true);
-        for(String provider : providers){
-            location = locationManager.getLastKnownLocation(provider);
-            if (location == null) {
-                continue;
-            }
-            Log.i("MAP", location.getLongitude()+", "+location.getLatitude());
-
-            GeoPoint point = new GeoPoint(location.getLatitude(), location.getLongitude());
-
-            Marker startMarker = new Marker(map);
-            startMarker.setPosition(point);
-            startMarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_CENTER);
-            map.getOverlays().add(startMarker);
-            map.getController().setZoom(18.0);
-            map.getController().setCenter(point);
-            break;
-        }*/
-        Location location = getLocation();
+        //Location location = getLocation();
+        UserLocation userLocation = new UserLocation(this);
+        Location location = userLocation.getLocation();
         Log.i("MAP2", location.getLongitude()+", "+location.getLatitude());
         GeoPoint point = new GeoPoint(location.getLatitude(), location.getLongitude());
 
