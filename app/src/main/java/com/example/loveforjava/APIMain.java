@@ -396,33 +396,7 @@ public class APIMain {
                 });
 
     }
-
-    public void getAllCodes(ResponseCallback responseCallback){
-        Map<String, Object> res = new HashMap<>();
-        codes.get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            ArrayList<QRcode> data = new ArrayList<>();
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                Log.d(TAG, document.getId() + " => " + document.toObject(QRcode.class));
-                                data.add(document.toObject(QRcode.class));
-                            }
-                            res.put("success", false);
-                            res.put("data", data);  // type: ArrayList<QRcode>
-                            responseCallback.onResponse(res);
-                        } else {
-                            Exception e =task.getException();
-                            Log.i(TAG, "Data could not be fetched!" + e);
-                            res.put("success", false);
-                            res.put("err", "" + e);
-                            responseCallback.onResponse(res);
-                        }
-                    }
-                });
-    }
-
+    
     public void getRank(Player p, String field,ResponseCallback responseCallback){
         Map<String, Object> res = new HashMap<>();
         ArrayList<String> usernames = new ArrayList<>();
@@ -437,7 +411,7 @@ public class APIMain {
                                 if(document.getId().equals(p.getUserId())){
                                     res.put("rank", i);
                                 }
-                                //Log.i(TAG, document.getData().get("userName") + " => " + document.getData().get(field));
+                                Log.i(TAG, document.getData().get("userName") + " => " + document.getData().get(field));
                                 usernames.add((String) document.getData().get("userName"));
                                 values.add(document.getData().get(field)+"");
                                 i++;
@@ -450,6 +424,103 @@ public class APIMain {
                             res.put("success", false);
                             res.put("err", "" + task.getException());
                         }
+                        responseCallback.onResponse(res);
+                    }
+                });
+    }
+
+    public void getAllCodes(ResponseCallback responseCallback){
+        Map<String, Object> res = new HashMap<>();
+        codes.get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            ArrayList<QRcode> data = new ArrayList<>();
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                Log.d(TAG, document.getId() + " => " + document.toObject(QRcode.class));
+                                data.add(document.toObject(QRcode.class));
+                            }
+                            res.put("success", true);
+                            res.put("data", data);  // type: ArrayList<QRcode>
+                            responseCallback.onResponse(res);
+                        } else {
+                            Exception e =task.getException();
+                            Log.i(TAG, "Data could not be fetched!" + e);
+                            res.put("success", false);
+                            res.put("err", "" + e);
+                            responseCallback.onResponse(res);
+                        }
+                    }
+                });
+    }
+
+    public void getAllUsers(ResponseCallback responseCallback){
+        // TODO: make a check to make sure user is owner
+
+        Map<String, Object> res = new HashMap<>();
+        players.get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            ArrayList<Player> data = new ArrayList<>();
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                data.add(document.toObject(Player.class));
+                            }
+                            res.put("success", true);
+                            res.put("data", data);  // type: ArrayList<Player>
+                            responseCallback.onResponse(res);
+                        } else {
+                            Exception e =task.getException();
+                            Log.i(TAG, "Data could not be fetched!" + e);
+                            res.put("success", false);
+                            res.put("err", "" + e);
+                            responseCallback.onResponse(res);
+                        }
+                    }
+                });
+    }
+
+    public void deleteCodeFromDB(String id, ResponseCallback responseCallback){
+        Map<String, Object> res = new HashMap<>();
+        codes.document(id).delete()
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d(TAG, "DocumentSnapshot successfully deleted!");
+                        res.put("success", true);
+                        responseCallback.onResponse(res);
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w(TAG, "Error deleting document", e);
+                        res.put("success", false);
+                        res.put("err", "" + e);
+                        responseCallback.onResponse(res);
+                    }
+                });
+    }
+
+    public void deletePlayerFromDB(String id, ResponseCallback responseCallback){
+        Map<String, Object> res = new HashMap<>();
+        players.document(id).delete()
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d(TAG, "DocumentSnapshot successfully deleted!");
+                        res.put("success", true);
+                        responseCallback.onResponse(res);
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w(TAG, "Error deleting document", e);
+                        res.put("success", false);
+                        res.put("err", "" + e);
                         responseCallback.onResponse(res);
                     }
                 });
